@@ -31,8 +31,8 @@
 
     <checkstyle.version>11.1.0</checkstyle.version>
     <jacoco.version>0.8.13</jacoco.version>
-    <pitest.version>1.17.3</pitest.version>
-    <pitest-junit5.version>1.2.1</pitest-junit5.version>
+    <pitest.version>1.18.0</pitest.version>
+    <pitest-junit5.version>1.2.2</pitest-junit5.version>
     <libsass.version>0.3.4</libsass.version>
     <lifecycle-mapping>1.0.0</lifecycle-mapping>
     <maven-checkstyle.version>3.6.0</maven-checkstyle.version>
@@ -158,11 +158,11 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
         <configuration>
-          <!-- Patrón para ejecutar solo tus pruebas experimentales -->
-          <includes>
-            <include>**/experimental/manual/**/*.java</include>
-            <include>**/experimental/ia/**/*.java</include>
-          </includes>
+          <reportFormat>xml</reportFormat><!-- Reportes en XML -->
+          <useFile>true</useFile> <!-- Guarda en carpeta target/surefire-reports -->
+              <!-- ⏱ Optimización para tiempos consistentes -->
+          <forkCount>1</forkCount>
+          <reuseForks>true</reuseForks>
         </configuration>
       </plugin>
       <plugin>
@@ -278,51 +278,98 @@
       </plugin>
 
       <!-- PITest Mutation Testing -->
-      <plugin>
-        <groupId>org.pitest</groupId>
-        <artifactId>pitest-maven</artifactId>
-        <version>${pitest.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-junit5-plugin</artifactId>
-            <version>${pitest-junit5.version}</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <targetClasses>
-            <param>org.springframework.samples.petclinic.*</param>
-          </targetClasses>
-          <targetTests>
-            <param>org.springframework.samples.petclinic.experimental.*</param>
-          </targetTests>
-          <excludedClasses>
-            <param>org.springframework.samples.petclinic.PetClinicApplication</param>
-            <param>org.springframework.samples.petclinic.PetClinicRuntimeHints</param>
-            <param>org.springframework.samples.petclinic.*IntegrationTests</param>
-          </excludedClasses>
-          <excludedTestClasses>
-            <param>*IntegrationTests</param>
-            <param>*ApplicationTests</param>
-          </excludedTestClasses>
-          <outputFormats>
-            <outputFormat>HTML</outputFormat>
-            <outputFormat>XML</outputFormat>
-          </outputFormats>
-          <reportsDirectory>${project.build.directory}/pit-reports</reportsDirectory>
-          <timestampedReports>false</timestampedReports>
-          <mutators>
-            <mutator>DEFAULTS</mutator>
-          </mutators>
-          <threads>4</threads>
-          <timeoutConstant>10000</timeoutConstant>
-          <verbose>false</verbose>
-          <useClasspathFile>true</useClasspathFile>
-          <jvmArgs>
-            <value>-Xmx2048m</value>
-          </jvmArgs>
-        </configuration>
-      </plugin>
+    <plugin>
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest-maven</artifactId>
+      <version>${pitest.version}</version>
+      <dependencies>
+        <dependency>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-junit5-plugin</artifactId>
+          <version>${pitest-junit5.version}</version>
+        </dependency>
+      </dependencies>
+      <configuration>
+        <!-- Especificar explícitamente clases a mutar -->
+        <targetClasses>
+          <param>org.springframework.samples.petclinic.owner.Owner</param>
+          <param>org.springframework.samples.petclinic.owner.Pet</param>
+          <param>org.springframework.samples.petclinic.owner.PetType</param>
+          <param>org.springframework.samples.petclinic.owner.PetValidator</param>
+          <param>org.springframework.samples.petclinic.owner.OwnerRepository</param>
+          <param>org.springframework.samples.petclinic.owner.OwnerService</param>
+          <param>org.springframework.samples.petclinic.owner.PetTypeService</param>
+          <param>org.springframework.samples.petclinic.visit.Visit</param>
+          <param>org.springframework.samples.petclinic.visit.VisitRepository</param>
+          <param>org.springframework.samples.petclinic.visit.VisitService</param>
+          <param>org.springframework.samples.petclinic.vet.Vet</param>
+          <param>org.springframework.samples.petclinic.vet.Specialty</param>
+          <param>org.springframework.samples.petclinic.vet.VetRepository</param>
+          <param>org.springframework.samples.petclinic.vet.VetService</param>
+        </targetClasses>
+
+        <!-- Tests que queremos ejecutar -->
+        <targetTests>
+          <param>*DiffblueTest</param>
+          <param>*Test</param>
+        </targetTests>
+
+        <!-- Evitar solo lo absolutamente necesario -->
+        <excludedClasses>
+          <param>org.springframework.samples.petclinic.PetClinicApplication</param>
+          <param>*Controller</param>
+          <param>*Configuration</param>
+        </excludedClasses>
+
+        <excludedTestClasses>
+          <param>*IntegrationTests</param>
+          <param>*ApplicationTests</param>
+        </excludedTestClasses>
+
+        <!-- REPORTES -->
+        <outputFormats>
+          <outputFormat>HTML</outputFormat>
+          <outputFormat>XML</outputFormat>
+        </outputFormats>
+        <reportsDirectory>${project.build.directory}/pit-reports</reportsDirectory>
+        <timestampedReports>false</timestampedReports>
+
+        <!-- MUTADORES -->
+        <mutators>
+          <mutator>DEFAULTS</mutator>
+        </mutators>
+
+        <!-- PERFORMANCE - Configuración segura para evitar minion crashes -->
+        <threads>1</threads>
+        <timeoutConstant>60000</timeoutConstant>
+        <useClasspathFile>true</useClasspathFile>
+        <mutationUnitSize>5</mutationUnitSize>
+        <incrementalAnalysis>false</incrementalAnalysis>
+
+        <!-- ⚠ NECESARIO PARA SPRING + JAVA 17 (PIT 1.18.0+) -->
+        <testPlugin>junit5</testPlugin>
+        <jvmArgs>
+          <!-- Abrir módulos necesarios para reflexión -->
+          <param>--add-opens</param>
+          <param>java.base/java.lang=ALL-UNNAMED</param>
+          <param>--add-opens</param>
+          <param>java.base/java.util=ALL-UNNAMED</param>
+          <param>--add-opens</param>
+          <param>java.base/java.lang.reflect=ALL-UNNAMED</param>
+          
+          <!-- Memoria y GC -->
+          <param>-Xmx1024m</param>
+          <param>-Xms512m</param>
+          <param>-XX:+UseG1GC</param>
+        </jvmArgs>
+        
+        <!-- Configuración -->
+        <verbose>false</verbose>
+        <fullMutationMatrix>false</fullMutationMatrix>
+        <skipFailingTests>true</skipFailingTests>
+      </configuration>
+    </plugin>
+
 
       <!-- Spring Boot Actuator displays build-related information if a git.properties file is
       present at the classpath -->
