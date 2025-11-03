@@ -225,7 +225,7 @@
               <configLocation>src/checkstyle/nohttp-checkstyle.xml</configLocation>
               <sourceDirectories>${basedir}</sourceDirectories>
               <includes>**/*</includes>
-              <excludes>**/.git/**/*,**/.idea/**/*,**/target/**/,**/.flattened-pom.xml,**/*.class</excludes>
+              <excludes>**/.git/**/*,**/.idea/**/*,**/target/**/,**/.flattened-pom.xml,**/*.class,**/*.md,**/*.csv,**/pitest_reports_isolated/**/*</excludes>
               <propertyExpansion>config_loc=${basedir}/src/checkstyle/</propertyExpansion>
             </configuration>
           </execution>
@@ -553,5 +553,300 @@
         </pluginManagement>
       </build>
     </profile>
+
+    <!-- ====================================
+         PERFILES AISLADOS PARA PITEST
+         ==================================== -->
+    
+    <!-- PERFIL: Análisis aislado de tests IA (Diffblue) -->
+    <profile>
+      <id>pitest-ia</id>
+      <activation>
+        <property>
+          <name>pitest.profile</name>
+          <value>ia</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>${pitest.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>${pitest-junit5.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <!-- SOLO clases Owner y Pet para IA -->
+              <targetClasses>
+                <param>org.springframework.samples.petclinic.owner.Owner</param>
+                <param>org.springframework.samples.petclinic.owner.Pet</param>
+              </targetClasses>
+
+              <!-- SOLO tests generados por Diffblue -->
+              <targetTests>
+                <param>*Diffblue*</param>
+              </targetTests>
+
+              <!-- Evitar lo innecesario -->
+              <excludedClasses>
+                <param>org.springframework.samples.petclinic.PetClinicApplication</param>
+                <param>*Controller</param>
+                <param>*Configuration</param>
+              </excludedClasses>
+
+              <excludedTestClasses>
+                <param>*IntegrationTests</param>
+                <param>*ApplicationTests</param>
+              </excludedTestClasses>
+
+              <!-- Reportes -->
+              <outputFormats>
+                <format>XML</format>
+                <format>HTML</format>
+              </outputFormats>
+
+              <!-- Optimizaciones -->
+              <mutators>
+                <mutator>DEFAULTS</mutator>
+              </mutators>
+              <threads>4</threads>
+              <timeoutFactor>1.25</timeoutFactor>
+              <maxSurvivingConstaints>3</maxSurvivingConstaints>
+              <failWhenNoMutations>false</failWhenNoMutations>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- PERFIL: Análisis aislado de tests Manual -->
+    <profile>
+      <id>pitest-manual</id>
+      <activation>
+        <property>
+          <name>pitest.profile</name>
+          <value>manual</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>${pitest.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>${pitest-junit5.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <!-- SOLO clases Owner y Pet para Manual -->
+              <targetClasses>
+                <param>org.springframework.samples.petclinic.owner.Owner</param>
+                <param>org.springframework.samples.petclinic.owner.Pet</param>
+              </targetClasses>
+
+              <!-- SOLO tests manuales -->
+              <targetTests>
+                <param>*UnitManualTest</param>
+              </targetTests>
+
+              <!-- Evitar lo innecesario -->
+              <excludedClasses>
+                <param>org.springframework.samples.petclinic.PetClinicApplication</param>
+                <param>*Controller</param>
+                <param>*Configuration</param>
+              </excludedClasses>
+
+              <excludedTestClasses>
+                <param>*IntegrationTests</param>
+                <param>*ApplicationTests</param>
+              </excludedTestClasses>
+
+              <!-- Reportes -->
+              <outputFormats>
+                <format>XML</format>
+                <format>HTML</format>
+              </outputFormats>
+
+              <!-- Optimizaciones -->
+              <mutators>
+                <mutator>DEFAULTS</mutator>
+              </mutators>
+              <threads>4</threads>
+              <timeoutFactor>1.25</timeoutFactor>
+              <maxSurvivingConstaints>3</maxSurvivingConstaints>
+              <failWhenNoMutations>false</failWhenNoMutations>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- PERFIL: Análisis aislado de tests PetValidator IA -->
+    <profile>
+      <id>pitest-validator-ia</id>
+      <activation>
+        <property>
+          <name>pitest.profile</name>
+          <value>validator-ia</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>${pitest.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>${pitest-junit5.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <!-- SOLO PetValidator para IA -->
+              <targetClasses>
+                <param>org.springframework.samples.petclinic.owner.PetValidator</param>
+              </targetClasses>
+
+              <!-- SOLO tests PetValidator IA -->
+              <targetTests>
+                <param>*PetValidator*DiffblueTest</param>
+              </targetTests>
+
+              <!-- Evitar lo innecesario -->
+              <excludedClasses>
+                <param>org.springframework.samples.petclinic.PetClinicApplication</param>
+                <param>*Controller</param>
+                <param>*Configuration</param>
+              </excludedClasses>
+
+              <excludedTestClasses>
+                <param>*IntegrationTests</param>
+                <param>*ApplicationTests</param>
+              </excludedTestClasses>
+
+              <!-- Reportes -->
+              <outputFormats>
+                <format>XML</format>
+                <format>HTML</format>
+              </outputFormats>
+
+              <!-- Optimizaciones -->
+              <mutators>
+                <mutator>DEFAULTS</mutator>
+              </mutators>
+              <threads>4</threads>
+              <timeoutFactor>1.25</timeoutFactor>
+              <maxSurvivingConstaints>3</maxSurvivingConstaints>
+              <failWhenNoMutations>false</failWhenNoMutations>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- PERFIL: Análisis aislado de tests PetValidator Manual -->
+    <profile>
+      <id>pitest-validator-manual</id>
+      <activation>
+        <property>
+          <name>pitest.profile</name>
+          <value>validator-manual</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>${pitest.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>${pitest-junit5.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <!-- SOLO PetValidator para Manual -->
+              <targetClasses>
+                <param>org.springframework.samples.petclinic.owner.PetValidator</param>
+              </targetClasses>
+
+              <!-- SOLO tests PetValidator Manual -->
+              <targetTests>
+                <param>*PetValidator*UnitManualTest</param>
+              </targetTests>
+
+              <!-- Evitar lo innecesario -->
+              <excludedClasses>
+                <param>org.springframework.samples.petclinic.PetClinicApplication</param>
+                <param>*Controller</param>
+                <param>*Configuration</param>
+              </excludedClasses>
+
+              <excludedTestClasses>
+                <param>*IntegrationTests</param>
+                <param>*ApplicationTests</param>
+              </excludedTestClasses>
+
+              <!-- Reportes -->
+              <outputFormats>
+                <format>XML</format>
+                <format>HTML</format>
+              </outputFormats>
+
+              <!-- Optimizaciones -->
+              <mutators>
+                <mutator>DEFAULTS</mutator>
+              </mutators>
+              <threads>4</threads>
+              <timeoutFactor>1.25</timeoutFactor>
+              <maxSurvivingConstaints>3</maxSurvivingConstaints>
+              <failWhenNoMutations>false</failWhenNoMutations>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
 </project>
