@@ -6,8 +6,9 @@
 # ================================
 # CONFIGURACIÓN
 # ================================
-$Iteraciones = 2  # 10 iteraciones por clase de prueba
+$Iteraciones = 10  # 10 iteraciones por clase de prueba
 $OutputDir = "functional_tests_metrics"  # Directorio para guardar CSVs
+$CoverageDir = "coverage_reports_functional"  # Directorio para guardar reportes JaCoCo individuales
 
 # Rutas donde buscar pruebas funcionales
 $TestPaths = @(
@@ -18,8 +19,17 @@ $TestPaths = @(
 Write-Host ""
 Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
 Write-Host "║  🧪 AUTOMATIZACIÓN: PRUEBAS FUNCIONALES (IA + Manual)         ║" -ForegroundColor Cyan
-Write-Host "║  Tiempo de ejecución + Cobertura JaCoCo (10 iteraciones)      ║" -ForegroundColor Cyan
+Write-Host "║  Tiempo de ejecución + Cobertura JaCoCo (por test individual) ║" -ForegroundColor Cyan
 Write-Host "╚════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+
+# Crear carpetas para almacenar reportes
+if (-not (Test-Path $OutputDir)) {
+    New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
+}
+
+if (-not (Test-Path $CoverageDir)) {
+    New-Item -ItemType Directory -Path $CoverageDir -Force | Out-Null
+}
 
 # ================================
 # FUNCIÓN: Extraer nombre de clase Java desde archivo .java
@@ -53,18 +63,30 @@ function Get-JaCoCoMetrics {
         return @{ instrPct = 0; branchPct = 0 }
     }
     
-    $xml = [xml](Get-Content $JaCoCoFile)
-    
-    $instr = $xml.report.counter | Where-Object { $_.type -eq "INSTRUCTION" }
-    $branch = $xml.report.counter | Where-Object { $_.type -eq "BRANCH" }
-    
-    $instrTotal = [int]$instr.covered + [int]$instr.missed
-    $branchTotal = [int]$branch.covered + [int]$branch.missed
-    
-    $instrPct = if ($instrTotal -gt 0) { [math]::Round(100 * [int]$instr.covered / $instrTotal, 2) } else { 0 }
-    $branchPct = if ($branchTotal -gt 0) { [math]::Round(100 * [int]$branch.covered / $branchTotal, 2) } else { 0 }
-    
-    return @{ instrPct = $instrPct; branchPct = $branchPct }
+    try {
+        $xml = [xml](Get-Content $JaCoCoFile -ErrorAction SilentlyContinue)
+        
+        if (-not $xml -or -not $xml.report) {
+            return @{ instrPct = 0; branchPct = 0 }
+        }
+        
+        $instr = $xml.report.counter | Where-Object { $_.type -eq "INSTRUCTION" } | Select-Object -First 1
+        $branch = $xml.report.counter | Where-Object { $_.type -eq "BRANCH" } | Select-Object -First 1
+        
+        if (-not $instr -or -not $branch) {
+            return @{ instrPct = 0; branchPct = 0 }
+        }
+        
+        $instrTotal = [int]$instr.covered + [int]$instr.missed
+        $branchTotal = [int]$branch.covered + [int]$branch.missed
+        
+        $instrPct = if ($instrTotal -gt 0) { [math]::Round(100 * [int]$instr.covered / $instrTotal, 2) } else { 0 }
+        $branchPct = if ($branchTotal -gt 0) { [math]::Round(100 * [int]$branch.covered / $branchTotal, 2) } else { 0 }
+        
+        return @{ instrPct = $instrPct; branchPct = $branchPct }
+    } catch {
+        return @{ instrPct = 0; branchPct = 0 }
+    }
 }
 
 # ================================
@@ -169,6 +191,15 @@ foreach ($testClass in $testClasses) {
         $testCounter++
         Write-Host "   Iteración $iter/$Iteraciones..." -NoNewline -ForegroundColor Gray
         
+        # IMPORTANTE: Limpiar archivos JaCoCo antes de la ejecución para capturar cobertura individual
+        if (Test-Path "target/site/jacoco") {
+            Remove-Item -Path "target/site/jacoco" -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+        }
+        $execFiles = Get-ChildItem "target" -Filter "*.exec" -ErrorAction SilentlyContinue
+        if ($execFiles) {
+            $execFiles | Remove-Item -Force -ErrorAction SilentlyContinue | Out-Null
+        }
+        
         # Ejecutar test
         ./mvnw -q test -Dtest="$className" 2>&1 | Out-Null
         
@@ -179,6 +210,12 @@ foreach ($testClass in $testClasses) {
         $jacocoMetrics = Get-JaCoCoMetrics "target/site/jacoco/jacoco.xml"
         $instrPct = $jacocoMetrics.instrPct
         $branchPct = $jacocoMetrics.branchPct
+        
+        # NUEVO: Guardar reporte JaCoCo individual con nombre único
+        $jacocoFileName = "$CoverageDir/$($group)_$classSimpleName-iter$iter-jacoco.xml"
+        if (Test-Path "target/site/jacoco/jacoco.xml") {
+            Copy-Item -Path "target/site/jacoco/jacoco.xml" -Destination $jacocoFileName -Force | Out-Null
+        }
         
         # Buscar tiempos de prueba desde Surefire
         $surefireFile = "target/surefire-reports/TEST-$className.xml"
@@ -212,6 +249,12 @@ Write-Host ""
 Write-Host "📊 RESULTADOS:" -ForegroundColor Green
 Write-Host "   Total iteraciones completadas: $testCounter" -ForegroundColor Cyan
 Write-Host "   Directorio de salida: $OutputDir" -ForegroundColor Cyan
+Write-Host "   Directorio de cobertura (JaCoCo): $CoverageDir" -ForegroundColor Cyan
+
+# Contar archivos XML de cobertura generados
+$jacocoXmlFiles = Get-ChildItem -Path $CoverageDir -Filter "*.xml" -ErrorAction SilentlyContinue
+$jacocoXmlCount = if ($jacocoXmlFiles) { @($jacocoXmlFiles).Count } else { 0 }
+Write-Host "   Reportes JaCoCo individuales: $jacocoXmlCount archivos XML" -ForegroundColor Cyan
 
 Write-Host ""
 Write-Host "📁 ARCHIVOS CSV GENERADOS:" -ForegroundColor Green

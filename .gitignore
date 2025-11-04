@@ -51,3 +51,6 @@ _site/
 !petclinic.css
 
 .diffblue/
+unit_tests_metrics/
+functional_tests_metrics/
+coverage_reports/

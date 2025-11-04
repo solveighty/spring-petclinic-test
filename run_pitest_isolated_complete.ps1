@@ -14,8 +14,9 @@ Write-Host "╚═════════════════════�
 # ================================
 # CONFIGURACIÓN
 # ================================
-$Iteraciones = 1  # 10 iteraciones por clase de prueba
+$Iteraciones = 10  # 10 iteraciones por clase de prueba
 $OutputDir = "unit_tests_metrics"  # Directorio para guardar CSVs
+$CoverageDir = "coverage_reports"  # Directorio para guardar reportes JaCoCo individuales
 
 # Rutas donde buscar pruebas unitarias
 $TestPaths = @(
@@ -24,12 +25,16 @@ $TestPaths = @(
 )
 
 Write-Host ""
-Write-Host "⚠️  NOTA: Este proceso recopila tiempo + cobertura JaCoCo" -ForegroundColor Yellow
+Write-Host "⚠️  NOTA: Este proceso recopila tiempo + cobertura JaCoCo (por test individual)" -ForegroundColor Yellow
 
-# Crear carpeta para almacenar reportes
+# Crear carpetas para almacenar reportes
 $reportDir = $OutputDir
 if (-not (Test-Path $reportDir)) {
     New-Item -ItemType Directory -Path $reportDir -Force | Out-Null
+}
+
+if (-not (Test-Path $CoverageDir)) {
+    New-Item -ItemType Directory -Path $CoverageDir -Force | Out-Null
 }
 
 # ================================
@@ -65,18 +70,30 @@ function Get-JaCoCoMetrics {
         return @{ instrPct = 0; branchPct = 0 }
     }
     
-    $xml = [xml](Get-Content $JaCoCoFile)
-    
-    $instr = $xml.report.counter | Where-Object { $_.type -eq "INSTRUCTION" }
-    $branch = $xml.report.counter | Where-Object { $_.type -eq "BRANCH" }
-    
-    $instrTotal = [int]$instr.covered + [int]$instr.missed
-    $branchTotal = [int]$branch.covered + [int]$branch.missed
-    
-    $instrPct = if ($instrTotal -gt 0) { [math]::Round(100 * [int]$instr.covered / $instrTotal, 2) } else { 0 }
-    $branchPct = if ($branchTotal -gt 0) { [math]::Round(100 * [int]$branch.covered / $branchTotal, 2) } else { 0 }
-    
-    return @{ instrPct = $instrPct; branchPct = $branchPct }
+    try {
+        $xml = [xml](Get-Content $JaCoCoFile -ErrorAction SilentlyContinue)
+        
+        if (-not $xml -or -not $xml.report) {
+            return @{ instrPct = 0; branchPct = 0 }
+        }
+        
+        $instr = $xml.report.counter | Where-Object { $_.type -eq "INSTRUCTION" } | Select-Object -First 1
+        $branch = $xml.report.counter | Where-Object { $_.type -eq "BRANCH" } | Select-Object -First 1
+        
+        if (-not $instr -or -not $branch) {
+            return @{ instrPct = 0; branchPct = 0 }
+        }
+        
+        $instrTotal = [int]$instr.covered + [int]$instr.missed
+        $branchTotal = [int]$branch.covered + [int]$branch.missed
+        
+        $instrPct = if ($instrTotal -gt 0) { [math]::Round(100 * [int]$instr.covered / $instrTotal, 2) } else { 0 }
+        $branchPct = if ($branchTotal -gt 0) { [math]::Round(100 * [int]$branch.covered / $branchTotal, 2) } else { 0 }
+        
+        return @{ instrPct = $instrPct; branchPct = $branchPct }
+    } catch {
+        return @{ instrPct = 0; branchPct = 0 }
+    }
 }
 
 # ================================
@@ -263,6 +280,18 @@ foreach ($testClass in $testClasses) {
         $testCounter++
         Write-Host "   Iteración $iter/$Iteraciones..." -NoNewline -ForegroundColor Gray
         
+        # ✅ PASO CRÍTICO: Limpiar JaCoCo antes de cada ejecución
+        # Eliminar cobertura previa para obtener datos LIMPIOS de este test
+        if (Test-Path "target/site/jacoco") {
+            Remove-Item -Path "target/site/jacoco" -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+        }
+        
+        # Eliminar archivos .exec de JaCoCo
+        $execFiles = Get-ChildItem "target" -Filter "*.exec" -ErrorAction SilentlyContinue
+        if ($execFiles) {
+            $execFiles | Remove-Item -Force -ErrorAction SilentlyContinue | Out-Null
+        }
+        
         # Ejecutar test
         ./mvnw -q test -Dtest="$className" 2>&1 | Out-Null
         
@@ -273,6 +302,12 @@ foreach ($testClass in $testClasses) {
         $jacocoMetrics = Get-JaCoCoMetrics "target/site/jacoco/jacoco.xml"
         $instrPct = $jacocoMetrics.instrPct
         $branchPct = $jacocoMetrics.branchPct
+        
+        # ✅ Guardar reporte JaCoCo individual con nombre único
+        $jacocoFileName = "$CoverageDir/$($group)_$classSimpleName-iter$iter-jacoco.xml"
+        if (Test-Path "target/site/jacoco/jacoco.xml") {
+            Copy-Item -Path "target/site/jacoco/jacoco.xml" -Destination $jacocoFileName -Force | Out-Null
+        }
         
         # Extraer mutation metrics (del reporte generado en PASO 3)
         $mutationMetrics = Get-MutationMetrics -FullClassName $className -SimpleClassName $classSimpleName -Group $group
@@ -300,7 +335,6 @@ foreach ($testClass in $testClasses) {
                     Out-File -Encoding UTF8 -Append $csvFile
             }
         }
-        
         Write-Host " ✅ (Instr: $instrPct% | Branch: $branchPct% | Mutations: $mutationScore%)" -ForegroundColor Green
     }
     
@@ -318,7 +352,8 @@ Write-Host "╚═════════════════════�
 Write-Host ""
 Write-Host "📊 RESULTADOS:" -ForegroundColor Green
 Write-Host "   Total iteraciones completadas: $testCounter" -ForegroundColor Cyan
-Write-Host "   Directorio de salida: $OutputDir" -ForegroundColor Cyan
+Write-Host "   Directorio de salida (CSVs): $OutputDir" -ForegroundColor Cyan
+Write-Host "   Directorio de reportes JaCoCo: $CoverageDir" -ForegroundColor Cyan
 
 Write-Host ""
 Write-Host "📁 ARCHIVOS CSV GENERADOS:" -ForegroundColor Green
@@ -346,11 +381,25 @@ $csvFiles.GetEnumerator() | ForEach-Object {
 }
 
 Write-Host ""
-Write-Host "💡 PRÓXIMOS PASOS:" -ForegroundColor Yellow
+Write-Host "� REPORTES JACOCO INDIVIDUALES:" -ForegroundColor Green
+Write-Host "   ✅ Archivos de cobertura guardados en: $CoverageDir/" -ForegroundColor Cyan
+Write-Host "   ✅ Cada clase de prueba tiene su reporte JaCoCo independiente" -ForegroundColor Cyan
+Write-Host "   ✅ Formato: {Group}_{ClassName}-iter{N}-jacoco.xml" -ForegroundColor Cyan
+
+if (Test-Path $CoverageDir) {
+    $coverageCount = @(Get-ChildItem -Path $CoverageDir -Filter "*.xml" -ErrorAction SilentlyContinue).Count
+    Write-Host "   📁 Total reportes generados: $coverageCount" -ForegroundColor Cyan
+}
+
+Write-Host ""
+Write-Host "�💡 PRÓXIMOS PASOS:" -ForegroundColor Yellow
 Write-Host "   1. Abre los archivos CSV en Excel o Python para análisis" -ForegroundColor Gray
 Write-Host "   2. Compara tiempo_ejecución entre IA y Manual" -ForegroundColor Gray
-Write-Host "   3. Compara cobertura (instr_pct, branch_pct)" -ForegroundColor Gray
-Write-Host "   4. Los archivos están organizados en: $OutputDir/" -ForegroundColor Gray
+Write-Host "   3. Compara cobertura (instr_pct, branch_pct) - AHORA POR TEST INDIVIDUAL" -ForegroundColor Gray
+Write-Host "   4. Analiza mutation_score (robustez de tests)" -ForegroundColor Gray
+Write-Host "   5. Los archivos están organizados en:" -ForegroundColor Gray
+Write-Host "      - CSVs: $OutputDir/" -ForegroundColor Gray
+Write-Host "      - JaCoCo: $CoverageDir/" -ForegroundColor Gray
 
 Write-Host ""
 
