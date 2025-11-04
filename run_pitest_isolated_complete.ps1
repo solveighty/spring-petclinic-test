@@ -14,7 +14,7 @@ Write-Host "╚═════════════════════�
 # ================================
 # CONFIGURACIÓN
 # ================================
-$Iteraciones = 10  # 10 iteraciones por clase de prueba
+$Iteraciones = 1  # 10 iteraciones por clase de prueba
 $OutputDir = "unit_tests_metrics"  # Directorio para guardar CSVs
 $CoverageDir = "coverage_reports"  # Directorio para guardar reportes JaCoCo individuales
 
@@ -202,26 +202,10 @@ foreach ($testClass in $testClasses) {
 }
 
 # ================================
-# PASO 3: GENERAR MUTACIONES CON PITEST
+# PASO 3: WARM-UP GLOBAL (3 ejecuciones)
 # ================================
 Write-Host ""
-Write-Host "🧬 PASO 3: Generando mutaciones con PITest para TODAS las pruebas..." -ForegroundColor Yellow
-
-# Ejecutar PITest UNA SOLA VEZ para todas las pruebas unitarias
-# Esto genera mutations.xml con las mutaciones detectadas por IA y Manual
-./mvnw test-compile pitest:mutationCoverage `
-    -DtargetClasses="org.springframework.samples.petclinic.owner.*" `
-    -DtargetTests="*Test,*Diffblue*" `
-    -DoutputFormats=XML `
-    -q 2>&1 | Out-Null
-
-Write-Host "   ✅ Mutaciones generadas" -ForegroundColor Green
-
-# ================================
-# PASO 4: WARM-UP GLOBAL (3 ejecuciones)
-# ================================
-Write-Host ""
-Write-Host "🔥 PASO 4: Warm-up global (3 ejecuciones de todas las pruebas)..." -ForegroundColor Yellow
+Write-Host "🔥 PASO 3: Warm-up global (3 ejecuciones de todas las pruebas)..." -ForegroundColor Yellow
 for ($w = 1; $w -le 3; $w++) {
     Write-Host "   Warm-up $w/3..." -NoNewline -ForegroundColor Gray
     foreach ($testClass in $testClasses) {
@@ -231,10 +215,10 @@ for ($w = 1; $w -le 3; $w++) {
 }
 
 # ================================
-# PASO 5: CREAR DIRECTORIO Y ARCHIVOS CSV
+# PASO 4: CREAR DIRECTORIO Y ARCHIVOS CSV
 # ================================
 Write-Host ""
-Write-Host "📝 PASO 5: Preparando archivos CSV..." -ForegroundColor Yellow
+Write-Host "📝 PASO 4: Preparando archivos CSV..." -ForegroundColor Yellow
 
 # Crear directorio de salida
 if (-not (Test-Path $OutputDir)) {
@@ -259,10 +243,10 @@ foreach ($testClass in $testClasses) {
 }
 
 # ================================
-# PASO 6: EJECUCIONES MEDIDAS CON RECOLECCIÓN DE MÉTRICAS
+# PASO 5: EJECUCIONES MEDIDAS CON RECOLECCIÓN DE MÉTRICAS
 # ================================
 Write-Host ""
-Write-Host "⏱️  PASO 6: Ejecutando mediciones ($Iteraciones iteraciones por clase)..." -ForegroundColor Yellow
+Write-Host "⏱️  PASO 5: Ejecutando mediciones ($Iteraciones iteraciones por clase)..." -ForegroundColor Yellow
 Write-Host ""
 
 $totalTests = $testClasses.Count * $Iteraciones
@@ -309,7 +293,20 @@ foreach ($testClass in $testClasses) {
             Copy-Item -Path "target/site/jacoco/jacoco.xml" -Destination $jacocoFileName -Force | Out-Null
         }
         
-        # Extraer mutation metrics (del reporte generado en PASO 3)
+        # ✅ NUEVO: Ejecutar PITest POR CADA TEST INDIVIDUAL para obtener mutaciones granulares
+        # Limpiar pit-reports anterior
+        if (Test-Path "target/pit-reports") {
+            Remove-Item -Path "target/pit-reports" -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+        }
+        
+        # Ejecutar PITest para esta clase
+        ./mvnw test-compile pitest:mutationCoverage `
+            -DtargetClasses="org.springframework.samples.petclinic.owner.*" `
+            -DtargetTests="$className" `
+            -DoutputFormats=XML `
+            -q 2>&1 | Out-Null
+        
+        # Extraer mutation metrics (del reporte individual de PITest)
         $mutationMetrics = Get-MutationMetrics -FullClassName $className -SimpleClassName $classSimpleName -Group $group
         $totalMutations = $mutationMetrics.totalMutations
         $killedMutations = $mutationMetrics.killedMutations
@@ -342,7 +339,7 @@ foreach ($testClass in $testClasses) {
 }
 
 # ================================
-# PASO 7: RESUMEN FINAL
+# PASO 6: RESUMEN FINAL
 # ================================
 Write-Host ""
 Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Green

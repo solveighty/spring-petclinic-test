@@ -6,7 +6,7 @@
 # ================================
 # CONFIGURACIÓN
 # ================================
-$Iteraciones = 10  # 10 iteraciones por clase de prueba
+$Iteraciones = 1  # 10 iteraciones por clase de prueba
 $OutputDir = "functional_tests_metrics"  # Directorio para guardar CSVs
 $CoverageDir = "coverage_reports_functional"  # Directorio para guardar reportes JaCoCo individuales
 
@@ -90,6 +90,65 @@ function Get-JaCoCoMetrics {
 }
 
 # ================================
+# FUNCIÓN: Extraer mutation score de PITest
+# ================================
+function Get-MutationMetrics {
+    param([string]$FullClassName, [string]$SimpleClassName, [string]$Group)
+    
+    # Buscar archivo mutations.xml más reciente de PITest
+    $mutationsFile = Get-ChildItem "target/pit-reports" -Filter "mutations.xml" -Recurse -ErrorAction SilentlyContinue | 
+        Sort-Object -Property LastWriteTime -Descending | 
+        Select-Object -First 1 -ExpandProperty FullName
+    
+    if (-not $mutationsFile -or -not (Test-Path $mutationsFile)) {
+        return @{ totalMutations = 0; killedMutations = 0; mutationScore = 0 }
+    }
+    
+    try {
+        $xml = [xml](Get-Content $mutationsFile)
+        $allMutations = $xml.mutations.mutation
+        
+        if (-not $allMutations) {
+            return @{ totalMutations = 0; killedMutations = 0; mutationScore = 0 }
+        }
+        
+        # Convertir a array si es necesario
+        if (-not ($allMutations -is [array])) {
+            $allMutations = @($allMutations)
+        }
+        
+        # Filtrar mutaciones por si fueron ejecutadas por este test
+        $mutations = $allMutations | 
+            Where-Object { 
+                $killingTest = $_.killingTest
+                ($killingTest -like "*$SimpleClassName*") -or 
+                ($killingTest -eq "")
+            }
+        
+        if (-not $mutations) {
+            return @{ totalMutations = 0; killedMutations = 0; mutationScore = 0 }
+        }
+        
+        # Asegurar que es array
+        if (-not ($mutations -is [array])) {
+            $mutations = @($mutations)
+        }
+        
+        $totalMutations = $mutations.Count
+        $killedMutations = @($mutations | Where-Object { $_.detected -eq "true" -and $_.killingTest -like "*$SimpleClassName*" }).Count
+        $mutationScore = if ($totalMutations -gt 0) { [math]::Round(100 * $killedMutations / $totalMutations, 2) } else { 0 }
+        
+        return @{ 
+            totalMutations = $totalMutations
+            killedMutations = $killedMutations
+            mutationScore = $mutationScore 
+        }
+    } catch {
+        return @{ totalMutations = 0; killedMutations = 0; mutationScore = 0 }
+    }
+}
+
+# ================================
 # PASO 1: CLEAN + COMPILACIÓN
 # ================================
 Write-Host ""
@@ -161,8 +220,8 @@ foreach ($testClass in $testClasses) {
     $group = $testClass.Group
     $csvFile = "$OutputDir/$($group)_$classSimpleName.csv"
     
-    # Crear cabecera del CSV
-    "test_class,group,test_name,iteration,time_seconds,instr_pct,branch_pct" | 
+    # Crear cabecera del CSV con columnas de mutation score
+    "test_class,group,test_name,iteration,time_seconds,instr_pct,branch_pct,total_mutations,mutations_killed,mutation_score" | 
         Out-File -Encoding UTF8 $csvFile
     
     $csvFiles[$className] = $csvFile
@@ -206,6 +265,19 @@ foreach ($testClass in $testClasses) {
         # Generar reporte JaCoCo
         ./mvnw -q jacoco:report 2>&1 | Out-Null
         
+        # ✅ ACTUALIZADO: Ejecutar PIT para mutation testing CON FILTRO POR CLASE
+        # Limpiar pit-reports anterior para obtener datos individuales
+        if (Test-Path "target/pit-reports") {
+            Remove-Item -Path "target/pit-reports" -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+        }
+        
+        # Ejecutar PITest para esta clase de prueba específica
+        ./mvnw test-compile pitest:mutationCoverage `
+            -DtargetClasses="org.springframework.samples.petclinic.owner.*,org.springframework.samples.petclinic.owner.*Controller*" `
+            -DtargetTests="$className" `
+            -DoutputFormats=XML `
+            -q 2>&1 | Out-Null
+        
         # Extraer cobertura
         $jacocoMetrics = Get-JaCoCoMetrics "target/site/jacoco/jacoco.xml"
         $instrPct = $jacocoMetrics.instrPct
@@ -217,6 +289,12 @@ foreach ($testClass in $testClasses) {
             Copy-Item -Path "target/site/jacoco/jacoco.xml" -Destination $jacocoFileName -Force | Out-Null
         }
         
+        # Extraer mutation metrics
+        $mutationMetrics = Get-MutationMetrics -FullClassName $className -SimpleClassName $classSimpleName -Group $group
+        $totalMutations = $mutationMetrics.totalMutations
+        $killedMutations = $mutationMetrics.killedMutations
+        $mutationScore = $mutationMetrics.mutationScore
+        
         # Buscar tiempos de prueba desde Surefire
         $surefireFile = "target/surefire-reports/TEST-$className.xml"
         if (Test-Path $surefireFile) {
@@ -226,12 +304,12 @@ foreach ($testClass in $testClasses) {
                 $testName = $testcase.name
                 $time = $testcase.time
                 
-                "$classSimpleName,$group,$testName,$iter,$time,$instrPct,$branchPct" |
+                "$classSimpleName,$group,$testName,$iter,$time,$instrPct,$branchPct,$totalMutations,$killedMutations,$mutationScore" |
                     Out-File -Encoding UTF8 -Append $csvFile
             }
         }
         
-        Write-Host " ✅ (Jac: $instrPct% | Branch: $branchPct%)" -ForegroundColor Green
+        Write-Host " ✅ (Instr: $instrPct% | Branch: $branchPct% | Mutations: $mutationScore%)" -ForegroundColor Green
     }
     
     Write-Host ""
@@ -286,6 +364,7 @@ Write-Host "💡 PRÓXIMOS PASOS:" -ForegroundColor Yellow
 Write-Host "   1. Abre los archivos CSV en Excel o Python para análisis" -ForegroundColor Gray
 Write-Host "   2. Compara tiempo_ejecución entre IA y Manual" -ForegroundColor Gray
 Write-Host "   3. Compara cobertura (instr_pct, branch_pct)" -ForegroundColor Gray
-Write-Host "   4. Los archivos están organizados en: $OutputDir/" -ForegroundColor Gray
+Write-Host "   4. Compara mutation_score entre IA y Manual (NUEVO)" -ForegroundColor Gray
+Write-Host "   5. Los archivos están organizados en: $OutputDir/" -ForegroundColor Gray
 
 Write-Host ""
