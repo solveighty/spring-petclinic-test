@@ -54,3 +54,4 @@ _site/
 unit_tests_metrics/
 functional_tests_metrics/
 coverage_reports/
+coverage_reports_functional/
