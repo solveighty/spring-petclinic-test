@@ -6,7 +6,7 @@
 # ================================
 # CONFIGURACIÓN
 # ================================
-$Iteraciones = 1  # 10 iteraciones por clase de prueba
+$Iteraciones = 40 # 10 iteraciones por clase de prueba
 $OutputDir = "functional_tests_metrics"  # Directorio para guardar CSVs
 $CoverageDir = "coverage_reports_functional"  # Directorio para guardar reportes JaCoCo individuales
 
@@ -153,7 +153,7 @@ function Get-MutationMetrics {
 # ================================
 Write-Host ""
 Write-Host "🛠️  PASO 1: Compilando proyecto..." -ForegroundColor Yellow
-./mvnw clean compile -DskipTests -q
+./mvnw clean compile -DskipTests -B -q 2>&1 | Out-Null
 
 # ================================
 # PASO 2: DESCUBRIR CLASES DE PRUEBA
@@ -195,7 +195,7 @@ Write-Host "🔥 PASO 3: Warm-up (3 ejecuciones)..." -ForegroundColor Yellow
 for ($w = 1; $w -le 3; $w++) {
     Write-Host "   Warm-up $w/3..." -NoNewline -ForegroundColor Gray
     foreach ($testClass in $testClasses) {
-        ./mvnw -q test -Dtest="$($testClass.ClassName)" 2>&1 | Out-Null
+        ./mvnw -B -q test -Dtest="$($testClass.ClassName)" 2>&1 | Out-Null
     }
     Write-Host " ✅" -ForegroundColor Green
 }
@@ -259,11 +259,11 @@ foreach ($testClass in $testClasses) {
             $execFiles | Remove-Item -Force -ErrorAction SilentlyContinue | Out-Null
         }
         
-        # Ejecutar test
-        ./mvnw -q test -Dtest="$className" 2>&1 | Out-Null
+        # Ejecutar test (suprimiendo TODOS los logs)
+        ./mvnw -B -q test -Dtest="$className" 2>&1 | Out-Null
         
         # Generar reporte JaCoCo
-        ./mvnw -q jacoco:report 2>&1 | Out-Null
+        ./mvnw -B -q jacoco:report 2>&1 | Out-Null
         
         # ✅ ACTUALIZADO: Ejecutar PIT para mutation testing CON FILTRO POR CLASE
         # Limpiar pit-reports anterior para obtener datos individuales
@@ -271,8 +271,8 @@ foreach ($testClass in $testClasses) {
             Remove-Item -Path "target/pit-reports" -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
         }
         
-        # Ejecutar PITest para esta clase de prueba específica
-        ./mvnw test-compile pitest:mutationCoverage `
+        # Ejecutar PITest para esta clase de prueba específica (suprimiendo TODOS los logs)
+        ./mvnw -B test-compile pitest:mutationCoverage `
             -DtargetClasses="org.springframework.samples.petclinic.owner.*,org.springframework.samples.petclinic.owner.*Controller*" `
             -DtargetTests="$className" `
             -DoutputFormats=XML `
