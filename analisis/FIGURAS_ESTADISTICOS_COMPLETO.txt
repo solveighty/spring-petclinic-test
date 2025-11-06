@@ -1,0 +1,241 @@
+"""
+FIGURAS ADICIONALES - TEST ESTADÍSTICOS
+======================================
+Visualizaciones de Shapiro-Wilk, Levene, Mann-Whitney y t-Student
+"""
+
+print("=" * 100)
+print("FIGURAS ADICIONALES - VISUALIZACIÓN DE TEST ESTADÍSTICOS")
+print("=" * 100)
+
+print("""
+OPCIÓN COMPLETA: 6-7 FIGURAS PARA ARTÍCULO COMPLETO
+════════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FIGURA 1: DISTRIBUCIONES - HISTOGRAMAS (N=2,480)                           │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ [YA EXPLICADA ANTES]                                                        │
+│ 4 subplots - Histogramas con líneas de media/mediana                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FIGURA 2: BOX PLOTS COMPARATIVOS (N=2,480)                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ [YA EXPLICADA ANTES]                                                        │
+│ 4 subplots - Box plots Manual vs IA                                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FIGURA 3: VALIDACIÓN DE NORMALIDAD (N=12) ← NUEVA                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ Layout OPCIÓN A: 8 subplots (2x4) - Q-Q PLOTS                             │
+│ ├─ Mostra normalidad visualmente                                           │
+│ ├─ Puntos que siguen línea diagonal = normal                              │
+│ ├─ Cada subplot: p-value de Shapiro-Wilk en título                        │
+│ └─ Muy usado en papers estadísticos                                        │
+│                                                                             │
+│ Layout OPCIÓN B: 1 gráfico - RESUMEN SHAPIRO-WILK (bar plot)              │
+│ ├─ Eje Y: p-values de Shapiro-Wilk                                        │
+│ ├─ Eje X: 4 métricas × 2 grupos = 8 barras                                │
+│ ├─ Línea roja horizontal en p=0.05 (significancia)                        │
+│ ├─ Barras ARRIBA de línea = ✓ Normal                                      │
+│ ├─ Barras ABAJO de línea = ✗ NO normal                                    │
+│ └─ Propósito: Resumen visual de normalidad en N=12                         │
+│                                                                             │
+│ RECOMENDACIÓN: OPCIÓN A (Q-Q plots) es más estándar en papers            │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FIGURA 4: HOMOGENEIDAD DE VARIANZAS - LEVENE (N=12) ← NUEVA                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ Layout: 1 gráfico - BAR PLOT con p-values de Levene                        │
+│                                                                             │
+│ Eje X: 4 métricas (instr_pct, branch_pct, mutation_score, time_seconds)  │
+│ Eje Y: p-values de Levene (0 a 1)                                         │
+│                                                                             │
+│ Para cada métrica:                                                          │
+│ ├─ Barra AZUL si p >= 0.05 (✓ Varianzas IGUALES → t-Student)            │
+│ ├─ Barra ROJA si p < 0.05 (✗ Varianzas DESIGUALES → t-Welch)            │
+│ ├─ Línea horizontal en p=0.05 (umbral significancia)                     │
+│ ├─ Valor p-value anotado en cada barra                                   │
+│ └─ Etiqueta en barra: "Iguales" o "Desiguales"                           │
+│                                                                             │
+│ Ejemplo esperado:                                                           │
+│ ├─ instr_pct: p=0.758 (AZUL) → Iguales                                   │
+│ ├─ branch_pct: p=0.730 (AZUL) → Iguales                                  │
+│ ├─ mutation_score: p=0.545 (AZUL) → Iguales                              │
+│ └─ time_seconds: p=0.030 (ROJO) → Desiguales                             │
+│                                                                             │
+│ Propósito: Justificar por qué usamos t-Student o t-Welch                 │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FIGURA 5: RESULTADOS DE HIPÓTESIS - t-STUDENT (N=12) ← NUEVA               │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ Layout: 2 subplots (1x2) - Dos visualizaciones diferentes                 │
+│                                                                             │
+│ SUBPLOT 5A: BAR PLOT - p-values de t-Student                              │
+│ ├─ Eje X: 4 métricas                                                      │
+│ ├─ Eje Y: p-values (0 a 1)                                               │
+│ ├─ Barra VERDE si p >= 0.05 (✗ NO significativo)                         │
+│ ├─ Barra ROJA si p < 0.05 (✓ Significativo)                              │
+│ ├─ Línea horizontal en p=0.05                                            │
+│ └─ Valor p-value en cada barra                                           │
+│                                                                             │
+│ SUBPLOT 5B: BAR PLOT - DIFERENCIA DE MEDIAS (%)                           │
+│ ├─ Eje X: 4 métricas                                                      │
+│ ├─ Eje Y: Diferencia (%)                                                 │
+│ ├─ Barra positiva (arriba) = Manual > IA                                 │
+│ ├─ Barra negativa (abajo) = Manual < IA                                  │
+│ ├─ Colores: Azul si diferencia pequeña, Naranja si grande                │
+│ └─ Etiqueta: valor % en cada barra                                       │
+│                                                                             │
+│ Ejemplo esperado:                                                           │
+│ ├─ instr_pct: p=0.935 (verde), +3.26%                                    │
+│ ├─ branch_pct: p=0.702 (verde), +21.05%                                  │
+│ ├─ mutation_score: p=0.673 (verde), +25.50%                              │
+│ └─ time_seconds: p=0.229 (verde), -57.55%                                │
+│                                                                             │
+│ Propósito: Resumen de resultados de hipótesis                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FIGURA 6: BAR PLOTS CON IC 95% (N=12) ← NUEVA                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ Layout: 4 subplots (2x2) - Uno por métrica                                │
+│                                                                             │
+│ Subplot 1: instr_pct (%)                                                   │
+│ ├─ Eje X: Manual | IA                                                     │
+│ ├─ Eje Y: Media (%)                                                       │
+│ ├─ Barra Manual (AZUL) con IC 95%                                        │
+│ ├─ Barra IA (ROJO) con IC 95%                                            │
+│ ├─ Líneas de error: intervalo confianza                                  │
+│ ├─ Título incluye: t-stat, p-value, Cohen's d                            │
+│ └─ Opcional: Conectar barras si solapan (no significativo)               │
+│                                                                             │
+│ Subplots 2-4: Similar para branch_pct, mutation_score, time_seconds      │
+│                                                                             │
+│ Propósito: Mostrar diferencias con IC (muy informativo)                   │
+│ Información: Si IC se solapan → no significativo visualmente              │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FIGURA 7: TAMAÑO DE EFECTO - COHEN'S D (N=12) ← NUEVA                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ Layout: 1 gráfico - BAR PLOT horizontal                                    │
+│                                                                             │
+│ Eje X: Cohen's d (rango: -1 a +1)                                        │
+│ Eje Y: 4 métricas                                                          │
+│                                                                             │
+│ Para cada métrica:                                                          │
+│ ├─ Barra extiende desde 0 hasta valor Cohen's d                          │
+│ ├─ Color según magnitud:                                                  │
+│ │  ├─ GRIS si |d| < 0.2 (negligible)                                    │
+│ │  ├─ VERDE si 0.2 <= |d| < 0.5 (pequeño)                              │
+│ │  ├─ AMARILLO si 0.5 <= |d| < 0.8 (mediano)                           │
+│ │  └─ ROJO si |d| >= 0.8 (grande)                                       │
+│ ├─ Líneas verticales en ±0.2, ±0.5, ±0.8                                │
+│ ├─ Valor Cohen's d anotado en cada barra                                 │
+│ └─ Barra a la izquierda = IA mejor, derecha = Manual mejor               │
+│                                                                             │
+│ Ejemplo esperado:                                                           │
+│ ├─ instr_pct: d=0.048 (GRIS) → negligible                               │
+│ ├─ branch_pct: d=0.227 (VERDE) → pequeño                                │
+│ ├─ mutation_score: d=0.251 (VERDE) → pequeño                            │
+│ └─ time_seconds: d=-0.769 (AMARILLO) → mediano                          │
+│                                                                             │
+│ Propósito: Resumen visual de magnitud de diferencias                      │
+│ Información: Qué métrica tiene mayor efecto práctico                      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════════════════════════
+
+ESTRUCTURA RECOMENDADA PARA ARTÍCULO/TESIS
+═══════════════════════════════════════════════════════════════════════════════════
+
+Capítulo 4: RESULTADOS
+
+4.1 Estadística Descriptiva
+├─ Tabla 4.1: Descriptivas N=2,480 (media, mediana, desv.est, min, max)
+└─ Tabla 4.2: Descriptivas N=12 (para justificar N=12 en análisis)
+
+4.2 Validación de Supuestos
+├─ 4.2.1 Normalidad (Shapiro-Wilk)
+│  ├─ Tabla: Resultados Shapiro-Wilk (N=12)
+│  └─ Figura 3: Q-Q plots (8 subplots)
+│
+└─ 4.2.2 Homogeneidad de Varianzas (Levene)
+   ├─ Tabla: Resultados Levene (N=12)
+   └─ Figura 4: Bar plot p-values Levene
+
+4.3 Análisis Descriptivo
+├─ Figura 1: Histogramas (N=2,480)
+└─ Figura 2: Box plots (N=2,480)
+
+4.4 Pruebas de Hipótesis
+├─ Tabla: Resultados t-Student/Mann-Whitney (N=12)
+├─ Figura 5: Resumen p-values y diferencias
+└─ Figura 6: Bar plots con IC 95%
+
+4.5 Tamaño de Efecto
+├─ Tabla: Cohen's d para cada métrica
+└─ Figura 7: Bar plot Cohen's d
+
+4.6 Interpretación y Conclusiones
+└─ Texto: Síntesis de hallazgos
+
+════════════════════════════════════════════════════════════════════════════════════
+
+TOTAL DE FIGURAS: 7
+TOTAL DE TABLAS: 5
+
+Esto es COMPRENSIVO y cubre TODOS los aspectos estadísticos
+
+════════════════════════════════════════════════════════════════════════════════════
+""")
+
+print("\n" + "=" * 100)
+print("¿CUÁL ES TU PREFERENCIA?")
+print("=" * 100)
+print("""
+OPCIONES:
+
+OPCIÓN MÍNIMA (4 figuras):
+├─ Figura 1: Histogramas
+├─ Figura 2: Box plots
+├─ Figura 3: Q-Q plots
+└─ Figura 6: Bar plots con IC 95%
+(Solo lo esencial, rápido de hacer)
+
+OPCIÓN ESTÁNDAR (6 figuras) ← RECOMENDADA
+├─ Figura 1: Histogramas
+├─ Figura 2: Box plots
+├─ Figura 3: Q-Q plots
+├─ Figura 4: Levene
+├─ Figura 6: Bar plots IC 95%
+└─ Figura 7: Cohen's d
+(Cubre todo sin excesos)
+
+OPCIÓN COMPLETA (7 figuras):
+├─ Figura 1: Histogramas
+├─ Figura 2: Box plots
+├─ Figura 3: Q-Q plots
+├─ Figura 4: Levene
+├─ Figura 5: Resumen t-Student
+├─ Figura 6: Bar plots IC 95%
+└─ Figura 7: Cohen's d
+(Todo, pero puede ser mucho para un paper)
+
+¿Cuál prefieres?
+""")
