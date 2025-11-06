@@ -1,0 +1,346 @@
+════════════════════════════════════════════════════════════════════════════════
+GUÍA RÁPIDA: CÓMO INSERTAR TABLAS Y FIGURAS EN LA TESIS
+════════════════════════════════════════════════════════════════════════════════
+
+RESUMEN EJECUTIVO:
+  Tienes 2 archivos principales para tu tesis:
+  ✓ 05_PASO5_CONSOLIDADO_CAPITULO4.xlsx    (7 tablas)
+  ✓ Carpeta de Figuras_*.png               (6 figuras PNG a 300 DPI)
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 1: CÓMO INSERTAR LAS 7 TABLAS
+════════════════════════════════════════════════════════════════════════════════
+
+ARCHIVO: 05_PASO5_CONSOLIDADO_CAPITULO4.xlsx
+
+El archivo tiene 7 pestañas (tabs):
+  1. Tabla 4.1 - Desc 2480     (Descriptivos N=2,480)
+  2. Tabla 4.2 - Desc 12       (Descriptivos N=12)
+  3. Tabla 4.3 - Shapiro       (Shapiro-Wilk)
+  4. Tabla 4.4 - Levene        (Levene)
+  5. Tabla 4.5 - t-Student     (t-Student/Welch)
+  6. Tabla 4.6 - Cohen's d     (Cohen's d)
+  7. Tabla 4.7 - Supuestos     (Resumen de Supuestos)
+
+INSTRUCCIONES PASO A PASO:
+
+1. ABRIR EL ARCHIVO:
+   - Navegar a: C:\Users\doleh\Downloads\development\spring-petclinic\analisis\
+   - Abrir: 05_PASO5_CONSOLIDADO_CAPITULO4.xlsx
+
+2. COPIAR TABLA 4.1 (para insertar en el capítulo):
+   a) Click en la pestaña "Tabla 4.1 - Desc 2480"
+   b) Seleccionar toda la tabla:
+      - Click en la esquina superior izquierda (selector de todas las celdas)
+      - O presionar: Ctrl+A
+   c) Copiar: Ctrl+C
+   d) En Word/Google Docs:
+      - Posicionar cursor donde debe ir la tabla
+      - Pegar: Ctrl+V
+      - La tabla se formatea automáticamente
+
+3. REPETIR PARA CADA TABLA:
+   - Cambiar a la pestaña correspondiente (ej: "Tabla 4.2 - Desc 12")
+   - Repetir pasos 2b, 2c, 2d
+   - Las 7 tablas seguirán el formato correcto
+
+NOTAS:
+  ✓ Las tablas tienen encabezados azules con letras blancas
+  ✓ Todas las celdas tienen bordes
+  ✓ Números formateados a 4 decimales (p-values) o 2 (porcentajes)
+  ✓ Toda la tabla está centrada
+  ✓ El formato se conserva al copiar/pegar
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 2: CÓMO INSERTAR LAS 6 FIGURAS
+════════════════════════════════════════════════════════════════════════════════
+
+ARCHIVOS: Figura_1_Histogramas.png hasta Figura_7_CohenD.png
+(Nota: Se numeraron como 1, 2, 3, 4, 6, 7 según el documento)
+
+UBICACIÓN:
+  C:\Users\doleh\Downloads\development\spring-petclinic\analisis\
+
+FIGURAS DISPONIBLES:
+  • Figura_1_Histogramas.png      (Distribuciones - N=2,480)
+  • Figura_2_BoxPlots.png          (Box plots - N=2,480)
+  • Figura_3_QQPlots.png           (Q-Q plots - N=12)
+  • Figura_4_Levene.png            (Levene - N=12)
+  • Figura_6_BarplotsIC95.png      (Bar plots - N=12)
+  • Figura_7_CohenD.png            (Cohen's d - N=12)
+
+RESOLUCIÓN: 300 DPI (listas para impresión)
+
+INSTRUCCIONES PASO A PASO:
+
+1. EN MICROSOFT WORD:
+   a) Posicionar cursor donde debe ir la figura
+   b) Click en "Insertar" (menu superior)
+   c) Click en "Imágenes"
+   d) Seleccionar archivo PNG (ej: Figura_1_Histogramas.png)
+   e) Click en "Insertar"
+   f) Redimensionar:
+      - Right-click en la figura
+      - "Tamaño y posición"
+      - Ajustar ancho a ~15-17 cm
+      - La altura se ajusta automáticamente
+   g) Centrar:
+      - Right-click en figura
+      - "Alineación"
+      - Seleccionar "Centrado"
+   h) Agregar número de figura:
+      - Click debajo de la figura
+      - Presionar Enter
+      - Escribir: "Figura 1: [caption]"
+      - Seleccionar este texto
+      - Formato: Itálico, centrado, tamaño 10pt
+
+2. EN GOOGLE DOCS:
+   a) Click donde debe ir la figura
+   b) Click en "Insertar" (menu superior)
+   c) Click en "Imagen"
+   d) Click en "Subir desde tu computadora"
+   e) Seleccionar archivo PNG
+   f) Esperar a que se cargue
+   g) Right-click en imagen > "Opciones de imagen"
+      - Ajustar ancho a 15-17 cm
+   h) Click en imagen, luego click en "Alineación" > "Centrado"
+   i) Debajo agregar caption:
+      - Figura 1: [texto]
+      - Formato: Itálica, centrada, tamaño 10pt
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 3: CAPTIONS PARA CADA FIGURA
+════════════════════════════════════════════════════════════════════════════════
+
+Copiar y pegar estos captions bajo cada figura:
+
+FIGURA 1:
+Figura 1: Histogramas con distribuciones de métricas Manual (azul) versus AI 
+(rojo) en N=2,480 registros. Las líneas discontinuas indican la media de cada 
+grupo. Patrón de "escalones" refleja la estructura iterativa de los datos.
+
+FIGURA 2:
+Figura 2: Box plots comparativos de Manual versus AI. Los diamantes rojos 
+representan la media de cada distribución. Permite identificar outliers, simetría 
+y asimetría de distribuciones.
+
+FIGURA 3:
+Figura 3: Q-Q plots de validación de normalidad (N=12). Fila superior = Manual, 
+fila inferior = AI. Puntos cerca de la línea diagonal indican distribución normal. 
+Títulos incluyen p-values de Shapiro-Wilk.
+
+FIGURA 4:
+Figura 4: Bar plot de p-values de Levene. Barras azules = varianzas iguales 
+(p≥0.05), barras rojas = varianzas desiguales (p<0.05). Línea roja punteada = 
+α=0.05.
+
+FIGURA 6:
+Figura 6: Bar plots con intervalos de confianza 95%. Manual (azul) versus AI 
+(rojo). Si los intervalos se solapan, la diferencia no es estadísticamente 
+significativa. Títulos incluyen t-estadístico, p-value y Cohen's d.
+
+FIGURA 7:
+Figura 7: Cohen's d (tamaño de efecto) visualizado horizontalmente. Colores 
+indican magnitud: gris=negligible, verde=pequeño, amarillo=mediano, rojo=grande. 
+Línea vertical en cero = sin efecto.
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 4: ESTRUCTURA RECOMENDADA EN LA TESIS
+════════════════════════════════════════════════════════════════════════════════
+
+Capítulo 4: RESULTADOS
+│
+├─ 4.1 ESTADÍSTICA DESCRIPTIVA
+│  ├─ Texto introductorio
+│  ├─ [INSERTAR TABLA 4.1 AQUÍ]
+│  ├─ Párrafo explicativo
+│  ├─ [INSERTAR TABLA 4.2 AQUÍ]
+│  ├─ Más texto
+│  ├─ [INSERTAR FIGURA 1 AQUÍ]
+│  └─ [INSERTAR FIGURA 2 AQUÍ]
+│
+├─ 4.2 VALIDACIÓN DE SUPUESTOS
+│  ├─ Texto introductorio
+│  ├─ [INSERTAR TABLA 4.3 AQUÍ]
+│  ├─ [INSERTAR FIGURA 3 AQUÍ]
+│  ├─ Más texto
+│  ├─ [INSERTAR TABLA 4.4 AQUÍ]
+│  └─ [INSERTAR FIGURA 4 AQUÍ]
+│
+├─ 4.3 PRUEBAS DE HIPÓTESIS
+│  ├─ Texto introductorio
+│  ├─ [INSERTAR TABLA 4.5 AQUÍ]
+│  └─ [INSERTAR FIGURA 6 AQUÍ]
+│
+├─ 4.4 TAMAÑO DE EFECTO
+│  ├─ Texto introductorio
+│  ├─ [INSERTAR TABLA 4.6 AQUÍ]
+│  └─ [INSERTAR FIGURA 7 AQUÍ]
+│
+├─ 4.5 DISCUSIÓN
+│  ├─ Interpretación de resultados
+│  ├─ Comparación con literatura
+│  └─ Implicaciones prácticas
+│
+└─ 4.6 LIMITACIONES
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 5: REVISAR CHECKLIST ANTES DE ENVIAR
+════════════════════════════════════════════════════════════════════════════════
+
+□ Todas las 7 tablas han sido insertadas
+  □ Tabla 4.1 - Descriptivos N=2,480
+  □ Tabla 4.2 - Descriptivos N=12
+  □ Tabla 4.3 - Shapiro-Wilk
+  □ Tabla 4.4 - Levene
+  □ Tabla 4.5 - t-Student/Welch
+  □ Tabla 4.6 - Cohen's d
+  □ Tabla 4.7 - Supuestos
+
+□ Todas las 6 figuras han sido insertadas
+  □ Figura 1 - Histogramas
+  □ Figura 2 - Box plots
+  □ Figura 3 - Q-Q plots
+  □ Figura 4 - Levene
+  □ Figura 6 - Bar plots IC95%
+  □ Figura 7 - Cohen's d
+
+□ Formato de tablas
+  □ Encabezados en azul (o similar a tu plantilla)
+  □ Bordes visibles
+  □ Centradas
+  □ Números con formato correcto
+
+□ Formato de figuras
+  □ Tamaño: 15-17 cm de ancho
+  □ Centradas
+  □ Captions completos
+  □ Numeración consistente
+
+□ Referencias en texto
+  □ Mencionar "Tabla 4.X" cuando corresponda
+  □ Mencionar "Figura X" cuando corresponda
+  □ Redacción clara de interpretaciones
+
+□ Verificación final
+  □ No hay referencias a "Figura 5" (fue descartada)
+  □ Numeración de figuras es: 1, 2, 3, 4, 6, 7
+  □ Todos los captions están en itálica
+  □ Revisar ortografía y coherencia
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 6: SOLUCIÓN DE PROBLEMAS
+════════════════════════════════════════════════════════════════════════════════
+
+PROBLEMA: La tabla no se ve bien cuando la pego en Word
+SOLUCIÓN:
+  1. Borrar la tabla que pegaste
+  2. En Excel, verificar que seleccionaste toda la tabla
+  3. Copiar nuevamente (Ctrl+C)
+  4. En Word, hacer click en "Pegar especial" (Ctrl+Shift+V)
+  5. Seleccionar "HTML" o "Formato de tabla"
+  6. Hacer click en "Aceptar"
+
+PROBLEMA: Las figuras se ven pixeladas
+SOLUCIÓN:
+  1. Verificar que estés usando archivos .PNG (no .JPG)
+  2. No redimensionar por más de 150% del tamaño original
+  3. Usar archivos de 300 DPI (los nuestros ya tienen esta resolución)
+  4. En la final, exportar a PDF con "compresión alta"
+
+PROBLEMA: No encuentro la carpeta de figuras
+SOLUCIÓN:
+  Ruta completa: C:\Users\doleh\Downloads\development\spring-petclinic\analisis\
+  Buscar archivos que comiencen con "Figura_"
+
+PROBLEMA: Excel no se abre
+SOLUCIÓN:
+  1. Verificar que tengas Microsoft Excel, LibreOffice o Google Sheets
+  2. Si usas Google Sheets, subir el archivo a Google Drive
+  3. Si el archivo está corrupto, ejecutar nuevamente el script:
+     python 05_PASO5_CONSOLIDADO_EXCEL.py
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 7: ALTERNATIVAS Y OPCIONES
+════════════════════════════════════════════════════════════════════════════════
+
+OPCIÓN A: Usar Google Sheets en lugar de Excel
+  1. Subir archivo a Google Drive
+  2. Abrir en Google Sheets
+  3. Copiar tabla directamente desde el navegador
+  4. Pegar en Google Docs
+  5. Transferir a Word si es necesario
+
+OPCIÓN B: Convertir tablas a imagen
+  Si necesitas una versión inmutable:
+  1. Seleccionar tabla en Excel
+  2. Click derecho > "Copiar como imagen"
+  3. Pegar en Word como imagen
+
+OPCIÓN C: Usar formato de tabla automático de Word
+  1. Pegar tabla en Word (Ctrl+V)
+  2. Click en tabla
+  3. "Herramientas de tabla" > "Diseño"
+  4. Seleccionar estilo de tabla predefinido
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 8: ARCHIVOS DE REFERENCIA ADICIONALES
+════════════════════════════════════════════════════════════════════════════════
+
+Si necesitas más información o referencia:
+
+• 06_PASO6_CAPITULO4_RESULTADOS.txt
+  Contiene el texto completo del Capítulo 4 interpretativo
+  Copia y pega este contenido como base para tu redacción
+
+• PASO4_EXPLICACION_FIGURAS.txt
+  Explicación detallada de cada figura
+  Incluye elementos visuales, interpretación y propósito
+
+• ANALISIS_ESTADISTICO_RESUMEN.txt
+  Resumen ejecutivo de todo el análisis
+  Incluye hallazgos clave, p-values, y conclusiones
+
+════════════════════════════════════════════════════════════════════════════════
+PARTE 9: PREGUNTAS FRECUENTES
+════════════════════════════════════════════════════════════════════════════════
+
+P: ¿Qué significan los colores en las tablas?
+R: Encabezados azules = fila de títulos
+   Texto negro = datos
+   Esto es solo formato, no tiene significado estadístico
+
+P: ¿Por qué falta la Figura 5?
+R: Fue descartada intencionalmente (redundancia)
+   El documento tiene: Figura 1, 2, 3, 4, 6, 7
+
+P: ¿Puedo modificar las tablas?
+R: Sí, puedes agregar/quitar filas en Word si lo necesitas
+   Los números ya están calculados
+
+P: ¿Las figuras tienen marca de agua?
+R: No, son figuras limpias listas para publicar
+
+P: ¿Qué resolución tienen las figuras?
+R: 300 DPI, estándar para impresión profesional
+
+P: ¿Puedo usar las figuras en presentaciones?
+R: Sí, los .PNG se pueden insertar en PowerPoint/Google Slides
+   Para presentación, considera redimensionar a 20-25 cm ancho
+
+P: ¿Son edibles los archivos PNG?
+R: No, son imágenes finales. Si necesitas editarlas, usar Matplotlib directamente
+
+════════════════════════════════════════════════════════════════════════════════
+LISTO PARA ENVIAR ✅
+════════════════════════════════════════════════════════════════════════════════
+
+Todos los archivos están optimizados y listos para:
+  ✅ Insertar en la tesis
+  ✅ Presentar en seminarios
+  ✅ Publicar en artículos científicos
+
+Siguiente paso: Revisar el Capítulo 4 completo e integrar en la tesis.
+
+════════════════════════════════════════════════════════════════════════════════

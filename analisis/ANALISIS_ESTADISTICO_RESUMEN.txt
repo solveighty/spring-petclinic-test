@@ -1,0 +1,312 @@
+ ════════════════════════════════════════════════════════════════════════════════
+ANÁLISIS ESTADÍSTICO COMPLETO - RESUMEN EJECUTIVO
+════════════════════════════════════════════════════════════════════════════════
+
+PROYECTO: Comparación de Pruebas Unitarias: Manual vs Generadas con IA
+ESTADO: ✅ COMPLETADO (100%)
+
+════════════════════════════════════════════════════════════════════════════════
+1. RESUMEN DE TRABAJO REALIZADO
+════════════════════════════════════════════════════════════════════════════════
+
+✅ PASO 1: NORMALIDAD (Shapiro-Wilk)
+   - Ejecutado en N=2,480 (exploratorio) y N=12 (riguroso)
+   - Resultado: Todas las distribuciones son normales en N=12 (todos p > 0.05)
+   - Archivo: 01_PASO1_NORMALIDAD_SHAPIRO_WILK.xlsx
+   - Estado: VALIDADO ✓
+
+✅ PASO 2: HOMOGENEIDAD DE VARIANZAS (Levene)
+   - Ejecutado en N=12 (nivel riguroso)
+   - Resultado: 3 métricas con varianzas iguales, 1 desigual (time_seconds)
+   - Archivo: 02_PASO2_LEVENE_HOMOGENEIDAD_VARIANZAS.xlsx
+   - Decisión: Usar t-Student estándar y t-Welch según corresponda
+   - Estado: VALIDADO ✓
+
+✅ PASO 3: HIPÓTESIS (t-Student / Welch)
+   - Ejecutado en N=12
+   - Resultado: NO hay diferencias significativas (todos p > 0.05)
+   - Archivo: 03_PASO3_HIPOTESIS_T_STUDENT.xlsx
+   - Valores p: instr_pct=0.935, branch_pct=0.702, mutation_score=0.673, time=0.229
+   - Estado: VALIDADO ✓
+
+✅ PASO 4: GRÁFICOS PARA PUBLICACIÓN
+   - 6 figuras generadas (300 DPI PNG + PDF)
+   - Figura 1: Histogramas (N=2,480) ✓
+   - Figura 2: Box plots (N=2,480) ✓
+   - Figura 3: Q-Q plots (N=12) - mejorada con nombres de métricas ✓
+   - Figura 4: Levene (N=12) ✓
+   - Figura 6: Bar plots IC 95% (N=12) ✓
+   - Figura 7: Cohen's d (N=12) ✓
+   - Documentación: PASO4_EXPLICACION_FIGURAS.txt ✓
+   - Estado: COMPLETADO ✓
+
+✅ PASO 5: CONSOLIDADO EXCEL
+   - 7 tablas en un único archivo
+   - Tabla 4.1: Descriptivos N=2,480 ✓
+   - Tabla 4.2: Descriptivos N=12 ✓
+   - Tabla 4.3: Shapiro-Wilk ✓
+   - Tabla 4.4: Levene ✓
+   - Tabla 4.5: t-Student/Welch ✓
+   - Tabla 4.6: Cohen's d ✓
+   - Tabla 4.7: Resumen de Supuestos ✓
+   - Archivo: 05_PASO5_CONSOLIDADO_CAPITULO4.xlsx
+   - Formato: Encabezados azules, bordes, centrado, números formateados
+   - Estado: LISTO PARA COPIAR/PEGAR ✓
+
+✅ PASO 6: REDACCIÓN CAPÍTULO 4
+   - Documento completo con estructura interpretativa
+   - Secciones: 4.1 Descriptiva, 4.2 Supuestos, 4.3 Hipótesis, 4.4 Efecto, 4.5 Discusión
+   - Incluye instrucciones para insertar tablas y figuras
+   - Captions para todas las figuras
+   - Archivo: 06_PASO6_CAPITULO4_RESULTADOS.txt
+   - Estado: LISTO PARA COPIAR/PEGAR ✓
+
+════════════════════════════════════════════════════════════════════════════════
+2. RESULTADOS CLAVE
+════════════════════════════════════════════════════════════════════════════════
+
+HALLAZGO PRINCIPAL:
+  No hay diferencias estadísticamente significativas entre pruebas Manual e IA
+  en ninguna de las 4 métricas evaluadas (α = 0.05).
+
+MÉTRICAS Y RESULTADOS:
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║ INSTRUCTION COVERAGE (%)                                                       ║
+║ Manual: 18.25% (±2.14) | AI: 17.71% (±2.12) | Diferencia: +3.26%              ║
+║ t(10)=0.0836, p=0.9350 (NO significativo) | Cohen's d=0.0483 (Negligible)     ║
+║ Conclusión: Diferencia prácticamente irrelevante                               ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║ BRANCH COVERAGE (%)                                                            ║
+║ Manual: 14.58% (±2.18) | AI: 11.98% (±2.09) | Diferencia: +21.05%             ║
+║ t(10)=0.3935, p=0.7022 (NO significativo) | Cohen's d=0.2272 (Small)          ║
+║ Conclusión: Manual mejor pero diferencia no significativa estadísticamente    ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║ MUTATION SCORE                                                                 ║
+║ Manual: 18.52% (±5.19) | AI: 14.75% (±5.29) | Diferencia: +25.50%             ║
+║ t(10)=0.4352, p=0.6727 (NO significativo) | Cohen's d=0.2512 (Small)          ║
+║ Conclusión: Manual con pequeña ventaja, pero no significativa                  ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║ TIME (segundos)                                                                ║
+║ Manual: 0.082s (±0.010) | AI: 0.133s (±0.047) | Diferencia: -57.55%           ║
+║ t(8.84)=-1.3324, p=0.2293 (NO significativo) | Cohen's d=-0.7693 (Medium)     ║
+║ Conclusión: AI más lento (mediano efecto, pero no sig. estad.)                 ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+RESUMEN DE SUPUESTOS:
+  ✓ Normalidad: 100% (8/8 tests Shapiro-Wilk, p > 0.05)
+  ✓ Levene: 75% (3/4 métricas iguales)
+  ✓ Decisión: t-Student estándar para 3 métricas, t-Welch para time_seconds
+
+════════════════════════════════════════════════════════════════════════════════
+3. ARCHIVOS GENERADOS
+════════════════════════════════════════════════════════════════════════════════
+
+SCRIPTS PYTHON:
+  ✓ 01_PASO1_NORMALIDAD_SHAPIRO_WILK.py              [Ejecutado]
+  ✓ 02_PASO2_LEVENE_HOMOGENEIDAD_VARIANZAS.py        [Ejecutado]
+  ✓ 03_PASO3_HIPOTESIS_T_STUDENT.py                  [Ejecutado]
+  ✓ VERIFICACION_RIGUROSA_PASO_1_2_3.py              [Ejecutado - 100% validado]
+  ✓ 04_PASO4_GRAFICOS_PUBLICACION.py                 [Ejecutado]
+  ✓ 05_PASO5_CONSOLIDADO_EXCEL.py                    [Ejecutado]
+
+ARCHIVOS EXCEL:
+  ✓ 01_PASO1_NORMALIDAD_SHAPIRO_WILK.xlsx            [Datos Shapiro-Wilk]
+  ✓ 02_PASO2_LEVENE_HOMOGENEIDAD_VARIANZAS.xlsx      [Datos Levene]
+  ✓ 03_PASO3_HIPOTESIS_T_STUDENT.xlsx                [Datos t-Student/Welch + Cohen's d]
+  ✓ ESTADISTICA_DESCRIPTIVA.xlsx                     [Descriptivos iniciales]
+  ✓ 05_PASO5_CONSOLIDADO_CAPITULO4.xlsx              [7 TABLAS LISTAS PARA COPIAR/PEGAR]
+
+FIGURAS (PNG 300 DPI + PDF):
+  ✓ Figura_1_Histogramas.png / .pdf                  [269 KB / 32 KB]
+  ✓ Figura_2_BoxPlots.png / .pdf                     [229 KB / 28 KB]
+  ✓ Figura_3_QQPlots.png / .pdf                      [501 KB / 34 KB]
+  ✓ Figura_4_Levene.png / .pdf                       [117 KB / 24 KB]
+  ✓ Figura_6_BarplotsIC95.png / .pdf                 [266 KB / 24 KB]
+  ✓ Figura_7_CohenD.png / .pdf                       [172 KB / 28 KB]
+
+DOCUMENTACIÓN:
+  ✓ FIGURAS_ESTADISTICOS_COMPLETO.txt                [Propuesta de figuras]
+  ✓ PASO4_EXPLICACION_FIGURAS.txt                    [Explicación detallada de cada figura]
+  ✓ 06_PASO6_CAPITULO4_RESULTADOS.txt                [Capítulo 4 completo - listo para copiar]
+  ✓ ANALISIS_ESTADISTICO_RESUMEN.txt                 [Este archivo]
+
+DATOS:
+  ✓ datos_consolidados.csv                           [2,480 registros consolidados]
+
+════════════════════════════════════════════════════════════════════════════════
+4. CÓMO USAR LOS ARCHIVOS EN LA TESIS
+════════════════════════════════════════════════════════════════════════════════
+
+PASO A PASO:
+
+1. INSERTAR TABLAS EN CAPÍTULO 4:
+   - Abrir: 05_PASO5_CONSOLIDADO_CAPITULO4.xlsx
+   - Para cada tabla (4.1, 4.2, ... 4.7):
+     a) Click en la pestaña correspondiente
+     b) Seleccionar todo: Ctrl+A
+     c) Copiar: Ctrl+C
+     d) En Word: Ctrl+V en el lugar donde va la tabla
+     e) Tabla se formatea automáticamente
+
+2. INSERTAR FIGURAS EN CAPÍTULO 4:
+   - En Word/Google Docs: Insertar > Imagen
+   - Seleccionar archivo PNG (ej: Figura_1_Histogramas.png)
+   - Redimensionar a ~15-17 cm ancho
+   - Centrar
+   - Agregar caption desde PASO6_CAPITULO4_RESULTADOS.txt
+
+3. ESCRIBIR SECCIONES DEL CAPÍTULO:
+   - Abrir: 06_PASO6_CAPITULO4_RESULTADOS.txt
+   - Copiar texto completo (Ctrl+A, Ctrl+C)
+   - Pegar en Word (Ctrl+V)
+   - Adaptar formato a la tesis según necesario
+   - Insertar tablas y figuras en lugares indicados
+
+════════════════════════════════════════════════════════════════════════════════
+5. ESTRUCTURA FINAL DEL CAPÍTULO 4
+════════════════════════════════════════════════════════════════════════════════
+
+4.1 ESTADÍSTICA DESCRIPTIVA
+    ├─ 4.1.1 Descripción de la muestra
+    │  └─ Tabla 4.1 (N=2,480)
+    ├─ 4.1.2 Estadística por test
+    │  └─ Tabla 4.2 (N=12)
+    └─ 4.1.3 Visualización exploradora
+       ├─ Figura 1: Histogramas
+       └─ Figura 2: Box plots
+
+4.2 VALIDACIÓN DE SUPUESTOS
+    ├─ 4.2.1 Prueba de Normalidad (Shapiro-Wilk)
+    │  ├─ Tabla 4.3
+    │  └─ Figura 3: Q-Q Plots
+    ├─ 4.2.2 Homogeneidad de Varianzas (Levene)
+    │  ├─ Tabla 4.4
+    │  └─ Figura 4: Levene
+    └─ 4.2.3 Resumen de Supuestos
+       └─ Tabla 4.7
+
+4.3 PRUEBAS DE HIPÓTESIS
+    ├─ 4.3.1 Resultados de t-Student
+    │  ├─ Tabla 4.5
+    │  └─ Figura 6: Bar plots IC 95%
+    └─ 4.3.2 Conclusiones
+
+4.4 ANÁLISIS DE TAMAÑO DE EFECTO
+    ├─ 4.4.1 Cohen's d
+    ├─ Tabla 4.6
+    └─ Figura 7: Cohen's d
+
+4.5 DISCUSIÓN DE RESULTADOS
+    ├─ 4.5.1 Comparación de cobertura
+    ├─ 4.5.2 Mutation score
+    ├─ 4.5.3 Tiempo de ejecución
+    └─ 4.5.4 Implicaciones
+
+4.6 LIMITACIONES
+
+════════════════════════════════════════════════════════════════════════════════
+6. VALIDACIÓN ESTADÍSTICA
+════════════════════════════════════════════════════════════════════════════════
+
+✅ VERIFICACIÓN RIGUROSA COMPLETADA
+
+El script VERIFICACION_RIGUROSA_PASO_1_2_3.py validó que:
+
+  ✓ Todos los p-values de Shapiro-Wilk son correctos (< 0.0001 tolerancia)
+  ✓ Todos los p-values de Levene son correctos (< 0.0001 tolerancia)
+  ✓ Todos los p-values de t-Student son correctos (< 0.0001 tolerancia)
+  ✓ Conformidad: 16/16 valores validados = 100%
+
+Conclusión: Los resultados estadísticos son RIGUROSOS y confiables.
+
+════════════════════════════════════════════════════════════════════════════════
+7. PRÓXIMAS ACCIONES (OPCIONAL)
+════════════════════════════════════════════════════════════════════════════════
+
+Si deseas ir más allá del Capítulo 4, considera:
+
+□ PASO 7: Análisis adicional
+  - Pruebas no-paramétricas (Mann-Whitney U) como confirmación
+  - Análisis por categoría (Unitarias vs Funcionales)
+  - Correlación entre métricas
+
+□ PASO 8: Visualizaciones avanzadas
+  - Gráficos de correlación (heatmap)
+  - Análisis de interacciones
+  - Perfiles de grupos
+
+□ PASO 9: Resumen para presentación
+  - Tabla resumen (1-2 páginas)
+  - Gráficos simplificados para slides
+  - Conclusiones ejecutivas
+
+════════════════════════════════════════════════════════════════════════════════
+8. NOTAS IMPORTANTES
+════════════════════════════════════════════════════════════════════════════════
+
+INTERPRETACIÓN ESTADÍSTICA:
+
+1. p-value > 0.05 = NO rechazar H0 = "No hay diferencia significativa"
+   - Esto NO significa que sean iguales, solo que no hay evidencia de diferencia
+
+2. Cohen's d = medida de magnitud práctica
+   - Independiente de p-value
+   - Útil para interpretar diferencias no significativas
+
+3. N=12 vs N=2,480
+   - N=12 es el nivel correcto para inferencias (cada test = unidad independiente)
+   - N=2,480 es exploración (datos correlacionados por test)
+
+4. Todas las pruebas son bilaterales (two-tailed)
+   - Buscan diferencias en ambas direcciones
+   - Adecuado cuando no hay hipótesis direccional previa
+
+════════════════════════════════════════════════════════════════════════════════
+9. REFERENCIAS Y JUSTIFICACIÓN METODOLÓGICA
+════════════════════════════════════════════════════════════════════════════════
+
+Basado en Sección 3.7 de la tesis:
+
+✓ Prueba de Normalidad: Shapiro-Wilk (muestra pequeña, N=12)
+✓ Prueba de Homogeneidad: Levene (robusto a no-normalidad)
+✓ Prueba de Hipótesis: t-Student/Welch (según Levene)
+✓ Tamaño de Efecto: Cohen's d (interpretable, independiente de N)
+✓ Nivel de significancia: α = 0.05 (estándar en ingeniería software)
+✓ Análisis bilateral: Apropiado para comparación de métodos
+
+════════════════════════════════════════════════════════════════════════════════
+10. CONTACTO / PREGUNTAS
+════════════════════════════════════════════════════════════════════════════════
+
+En caso de dudas sobre:
+- Interpretación de resultados
+- Cómo insertar tablas/figuras
+- Significado de valores p
+- Uso de Cohen's d
+
+Referirse a:
+- 06_PASO6_CAPITULO4_RESULTADOS.txt (explicaciones completas)
+- PASO4_EXPLICACION_FIGURAS.txt (detalles de cada gráfico)
+- Excel: cada tabla tiene valores etiquetados claramente
+
+════════════════════════════════════════════════════════════════════════════════
+ANÁLISIS COMPLETADO CON ÉXITO ✅
+════════════════════════════════════════════════════════════════════════════════
+
+Archivos listos para:
+  ✅ Capítulo 4 de la tesis
+  ✅ Presentación en seminarios
+  ✅ Publicación en artículos científicos (300 DPI figuras)
+  ✅ Defensa de tesis
+
+Fecha de generación: 2025-11-06
+Versión: OPCIÓN ESTÁNDAR (6 figuras, 7 tablas)
+
+════════════════════════════════════════════════════════════════════════════════
