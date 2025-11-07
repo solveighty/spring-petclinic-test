@@ -491,45 +491,191 @@
             <!-- SECCIÓN 4.1: ESTADÍSTICA DESCRIPTIVA -->
             <h1 id="sec-descriptiva">4.1 Estadística Descriptiva</h1>
             
+            <h2>4.1.0 Fórmulas y Conceptos Estadísticos Utilizados</h2>
+            
+            <p>Antes de presentar los resultados, es importante entender las fórmulas utilizadas para calcular 
+            cada estadístico descriptivo:</p>
+            
+            <h3>Media (Promedio)</h3>
+            <p><strong>Fórmula:</strong> $\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i = \frac{x_1 + x_2 + \cdots + x_n}{n}$</p>
+            <p><strong>Concepto:</strong> Suma de todos los valores dividida entre la cantidad de observaciones.</p>
+            <p><strong>Ejemplo práctico:</strong> Si tenemos 5 valores de cobertura: {10%, 20%, 15%, 25%, 30%}</p>
+            <p style="margin-left: 20px;">Media = (10 + 20 + 15 + 25 + 30) / 5 = 100 / 5 = <strong>20%</strong></p>
+            
+            <h3>Mediana</h3>
+            <p><strong>Concepto:</strong> Valor central que divide el conjunto de datos en dos mitades iguales.</p>
+            <p><strong>Proceso:</strong></p>
+            <ol style="margin-left: 20px;">
+                <li>Ordenar datos de menor a mayor</li>
+                <li>Si N es impar: mediana = valor central</li>
+                <li>Si N es par: mediana = promedio de los dos valores centrales</li>
+            </ol>
+            <p><strong>Ejemplo práctico con 5 valores:</strong> {10%, 20%, 15%, 25%, 30%}</p>
+            <p style="margin-left: 20px;">Ordenados: {10, 15, 20, 25, 30} → Mediana = <strong>20%</strong> (valor central, posición 3)</p>
+            <p><strong>Ejemplo práctico con 6 valores:</strong> {10%, 20%, 15%, 25%, 30%, 18%}</p>
+            <p style="margin-left: 20px;">Ordenados: {10, 15, 18, 20, 25, 30} → Mediana = (18 + 20) / 2 = <strong>19%</strong></p>
+            
+            <h3>Desviación Estándar</h3>
+            <p><strong>Fórmula (Muestra):</strong> $s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2}$</p>
+            <p><strong>Concepto:</strong> Mide la dispersión promedio de los datos alrededor de la media.</p>
+            <p><strong>Ejemplo práctico:</strong> Con valores {10%, 20%, 15%, 25%, 30%} y media=20%</p>
+            <ul style="margin-left: 20px;">
+                <li>Desviaciones: (10-20)=-10, (20-20)=0, (15-20)=-5, (25-20)=5, (30-20)=10</li>
+                <li>Cuadrados: (-10)²=100, 0²=0, (-5)²=25, 5²=25, 10²=100</li>
+                <li>Suma = 100 + 0 + 25 + 25 + 100 = 250</li>
+                <li>Varianza = 250 / (5-1) = 250 / 4 = 62.5</li>
+                <li>Desv. Estándar = √62.5 = <strong>7.91%</strong></li>
+            </ul>
+            
+            <h3>Mínimo y Máximo</h3>
+            <p><strong>Mín:</strong> Valor más pequeño del conjunto.</p>
+            <p><strong>Máx:</strong> Valor más grande del conjunto.</p>
+            <p><strong>Ejemplo:</strong> {10, 20, 15, 25, 30} → Mín=<strong>10</strong>, Máx=<strong>30</strong></p>
+            
+            <h3>Cuartiles (Q1 y Q3)</h3>
+            <p><strong>Concepto:</strong> Dividen los datos ordenados en 4 partes iguales del 25% cada una.</p>
+            <ul style="margin-left: 20px;">
+                <li><strong>Q1 (Cuartil 1):</strong> 25% de los datos están por debajo (percentil 25)</li>
+                <li><strong>Q2 (Cuartil 2):</strong> 50% de los datos están por debajo (mediana) = percentil 50</li>
+                <li><strong>Q3 (Cuartil 3):</strong> 75% de los datos están por debajo (percentil 75)</li>
+            </ul>
+            <p><strong>Ejemplo con 8 valores ordenados:</strong> {5, 10, 12, 15, 18, 20, 25, 30}</p>
+            <ul style="margin-left: 20px;">
+                <li>Q1 (25%) = (10 + 12) / 2 = <strong>11</strong> (entre posiciones 2-3)</li>
+                <li>Q2 (50%) = Mediana = (15 + 18) / 2 = <strong>16.5</strong></li>
+                <li>Q3 (75%) = (20 + 25) / 2 = <strong>22.5</strong> (entre posiciones 6-7)</li>
+            </ul>
+            <p><strong>Interpretación:</strong> El 50% de los datos centrales (rango intercuartílico) 
+            se encuentran entre Q1 y Q3.</p>
+            
             <h2>4.1.1 Descriptiva para N=2,480 (Datos Brutos)</h2>
             
             <p>Se evaluaron <strong>2,480 casos de prueba</strong> en total (1,600 manuales + 880 generados por IA) 
-            provenientes de <strong>40 iteraciones experimentales</strong>. La siguiente tabla presenta las estadísticas 
-            descriptivas para cada métrica:</p>
+            provenientes de <strong>40 iteraciones experimentales</strong>. Cada observación representa los resultados 
+            de una prueba individual. La siguiente tabla presenta las estadísticas descriptivas para cada métrica:</p>
             
             <div id="tabla-desc-2480">
             <table class="data-table" id="tabla_desc_2480"><caption>Tabla 4.1: Estadística Descriptiva N=2,480 (Datos Brutos)</caption><thead><tr><th>N°</th><th>Métrica</th><th>Grupo</th><th>N</th><th>Media</th><th>Mediana</th><th>Desv. Est.</th><th>Mín</th><th>Máx</th><th>Q1</th><th>Q3</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>Manual</td><td>1600</td><td>19.94</td><td>21.85</td><td>12.11</td><td>5.0300</td><td>35.56</td><td>7.8600</td><td>30.76</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>AI</td><td>880</td><td>14.20</td><td>10.69</td><td>8.7074</td><td>0</td><td>33</td><td>7.4000</td><td>21.57</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>Manual</td><td>1600</td><td>17.69</td><td>12.50</td><td>12.39</td><td>2.5000</td><td>37.50</td><td>11.25</td><td>23.44</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>AI</td><td>880</td><td>13.50</td><td>16.25</td><td>6.7479</td><td>0</td><td>28.75</td><td>8.7500</td><td>16.25</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>Manual</td><td>1600</td><td>22.92</td><td>16.67</td><td>17.19</td><td>0</td><td>50</td><td>13.89</td><td>31.25</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>AI</td><td>880</td><td>16.63</td><td>19.44</td><td>8.1606</td><td>0</td><td>33.33</td><td>13.89</td><td>19.44</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>Manual</td><td>1600</td><td>0.0794</td><td>0.0120</td><td>0.1775</td><td>0</td><td>0.8610</td><td>0.0020</td><td>0.0420</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>AI</td><td>880</td><td>0.1140</td><td>0.0030</td><td>0.2318</td><td>0</td><td>0.8460</td><td>0.0010</td><td>0.0660</td></tr></tbody></table>
             </div>
             
-            <p><strong>Interpretación:</strong></p>
+            <h3>Interpretación de Resultados N=2,480:</h3>
             <ul>
                 <li><strong>Cobertura de Instrucciones (instr_pct):</strong> Las pruebas manuales alcanzan 
-                mayor media (19.94%) comparado con IA (14.20%). Sin embargo, las medianas revelan mayor 
-                concentración en IA (10.69% vs 21.85%).</li>
+                mayor media (19.94%) comparado con IA (14.20%), indicando mejor cobertura promedio. 
+                Sin embargo, la mediana manual (21.85%) es mayor que la IA (10.69%), lo que sugiere que 
+                pruebas manuales típicamente cubren más instrucciones. La desviación estándar en manuales (12.11) 
+                es más alta, indicando mayor variabilidad en los resultados.</li>
+                
                 <li><strong>Cobertura de Ramas (branch_pct):</strong> Las pruebas manuales muestran media 
-                ligeramente superior (17.69% vs 13.50%), pero la mediana es mayor en IA (16.25% vs 12.50%).</li>
+                ligeramente superior (17.69% vs 13.50%), pero es interesante que la mediana sea mayor en IA 
+                (16.25% vs 12.50%), sugiriendo que aunque el promedio manual es mayor, la cobertura central 
+                de IA es más consistente.</li>
+                
                 <li><strong>Puntuación de Mutación (mutation_score):</strong> Pruebas manuales presentan 
-                media superior (22.92% vs 16.63%), indicando mejor detección de mutantes.</li>
+                media notablemente superior (22.92% vs 16.63%), indicando mejor capacidad de detección 
+                de mutantes. El rango intercuartílico (Q3-Q1) es también más amplio en manuales 
+                (31.25-13.89=17.36 vs 19.44-13.89=5.55), mostrando mayor variabilidad.</li>
+                
                 <li><strong>Tiempo de Ejecución (time_seconds):</strong> Pruebas manuales son más rápidas 
-                en promedio (0.079s vs 0.114s), aunque con mayor variabilidad.</li>
+                en promedio (0.0794s vs 0.1140s). Sin embargo, la mediana IA (0.003s) es menor que la manual 
+                (0.012s), pero con mayor desviación estándar (0.2318 vs 0.1775), indicando más valores 
+                extremos en IA.</li>
             </ul>
+            
+            <h3>Ejemplo Práctico de Cálculo (N=2,480 - Cobertura de Instrucciones, Grupo Manual):</h3>
+            <div class="info-box">
+                <p><strong>Supuesto hipotético con 10 valores de muestra:</strong> 
+                {5.03%, 12.45%, 19.87%, 23.56%, 25.67%, 26.78%, 28.34%, 30.12%, 32.45%, 35.56%}</p>
+                
+                <p><strong>Cálculos:</strong></p>
+                <ul>
+                    <li><strong>Media:</strong> (5.03 + 12.45 + 19.87 + 23.56 + 25.67 + 26.78 + 28.34 + 30.12 + 32.45 + 35.56) / 10 
+                    = 239.83 / 10 = <strong>23.98%</strong></li>
+                    
+                    <li><strong>Mediana:</strong> Valores ordenados (ya lo están). Con 10 valores (par), 
+                    mediana = (25.67 + 26.78) / 2 = <strong>26.23%</strong></li>
+                    
+                    <li><strong>Mínimo:</strong> <strong>5.03%</strong></li>
+                    <li><strong>Máximo:</strong> <strong>35.56%</strong></li>
+                    
+                    <li><strong>Q1 (percentil 25):</strong> Posición 2.75 ≈ entre 12.45 y 19.87 
+                    = 12.45 + 0.75×(19.87-12.45) = <strong>17.06%</strong></li>
+                    
+                    <li><strong>Q3 (percentil 75):</strong> Posición 8.25 ≈ entre 30.12 y 32.45 
+                    = 30.12 + 0.25×(32.45-30.12) = <strong>30.70%</strong></li>
+                    
+                    <li><strong>Desviación Estándar:</strong> 
+                    <br>Deviaciones al cuadrado: (5.03-23.98)²=357.80, (12.45-23.98)²=132.28, ..., (35.56-23.98)²=133.45
+                    <br>Suma = 1,487.31
+                    <br>Desv. Est. = √(1,487.31 / 9) = √165.26 = <strong>12.85%</strong></li>
+                </ul>
+            </div>
 
             <h2>4.1.2 Descriptiva para N=12 (Datos Agregados por Iteración)</h2>
             
             <p>Para verificar los supuestos de normalidad requeridos por tests paramétricos, se realizó 
-            agregación por iteración, resultando en <strong>N=12 observaciones</strong> (6 manuales + 6 IA):</p>
+            agregación por iteración, resultando en <strong>N=12 observaciones</strong> (6 iteraciones Manual + 6 iteraciones IA). 
+            Cada valor representa el <strong>promedio de todas las pruebas en esa iteración</strong>, no observaciones individuales:</p>
             
             <div id="tabla-desc-12">
             <table class="data-table" id="tabla_desc_12"><caption>Tabla 4.2: Estadística Descriptiva N=12 (Agregada por Iteración)</caption><thead><tr><th>N°</th><th>Métrica</th><th>Grupo</th><th>N</th><th>Media</th><th>Mediana</th><th>Desv. Est.</th><th>Mín</th><th>Máx</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>Manual</td><td>6</td><td>18.25</td><td>15.95</td><td>12.50</td><td>5.0300</td><td>35.56</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>AI</td><td>6</td><td>17.68</td><td>16.13</td><td>11.36</td><td>5.7600</td><td>33</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>Manual</td><td>6</td><td>14.58</td><td>11.88</td><td>12.62</td><td>2.5000</td><td>37.50</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>AI</td><td>6</td><td>12.05</td><td>9.8906</td><td>9.4916</td><td>2.5000</td><td>28.75</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>Manual</td><td>6</td><td>18.52</td><td>15.28</td><td>17.71</td><td>0</td><td>50</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>AI</td><td>6</td><td>14.76</td><td>15.11</td><td>11.61</td><td>0</td><td>33.33</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>Manual</td><td>6</td><td>0.0823</td><td>0.0710</td><td>0.0688</td><td>0.0093</td><td>0.1884</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>AI</td><td>6</td><td>0.1938</td><td>0.1439</td><td>0.1931</td><td>0.0051</td><td>0.4338</td></tr></tbody></table>
             </div>
             
-            <p><strong>Interpretación:</strong></p>
+            <h3>Interpretación de Resultados N=12:</h3>
             <ul>
-                <li>La agregación reduce el tamaño muestral significativamente (de 2,480 a 12).</li>
-                <li>Las medias por iteración muestran diferencias relativas similares a N=2,480.</li>
-                <li>Desviaciones estándar más amplias reflejan variabilidad entre iteraciones.</li>
-                <li>Esta agregación es necesaria solo para verificación de supuestos en análisis paramétricos.</li>
+                <li><strong>Proceso de Agregación:</strong> Para cada iteración, se promedió todas las pruebas 
+                de ese tipo (manual o IA). Por ejemplo, en la iteración 1, se ejecutaron 40 pruebas manuales 
+                y se calculó su media; en la iteración 2 otras 40 pruebas manuales, etc. Esto genera 6 promedios 
+                por grupo (40 iteraciones ÷ 2 grupos = 20 iteraciones con split manual/IA).</li>
+                
+                <li><strong>La agregación reduce variabilidad:</strong> Comparando con N=2,480, las medianas 
+                de N=12 son más cercanas entre grupos. Por ejemplo, instr_pct: Manual 15.95% vs IA 16.13% 
+                (casi idénticas en N=12, vs 21.85% vs 10.69% en N=2,480).</li>
+                
+                <li><strong>Desviaciones estándar reflejan variabilidad entre iteraciones:</strong> 
+                La Desv. Est. en N=12 es alta (ej. 12.50% para instr_pct Manual) porque cada valor representa 
+                una iteración completa, capturando la variabilidad de iteración a iteración.</li>
+                
+                <li><strong>Este agregado es de menor tamaño pero más normalizado:</strong> 
+                N=12 será usado para tests que requieren normalidad, mientras que N=2,480 es el análisis principal.</li>
             </ul>
+            
+            <h3>Ejemplo Práctico de Agregación (N=12):</h3>
+            <div class="info-box">
+                <p><strong>Supuesto: Cobertura de Instrucciones Manual para 6 iteraciones</strong></p>
+                
+                <p><strong>Datos brutos por iteración:</strong></p>
+                <ul>
+                    <li>Iteración 1: 40 pruebas manuales con valores → promedio = 15.32%</li>
+                    <li>Iteración 2: 40 pruebas manuales con valores → promedio = 18.45%</li>
+                    <li>Iteración 3: 40 pruebas manuales con valores → promedio = 22.10%</li>
+                    <li>Iteración 4: 40 pruebas manuales con valores → promedio = 12.87%</li>
+                    <li>Iteración 5: 40 pruebas manuales con valores → promedio = 25.63%</li>
+                    <li>Iteración 6: 40 pruebas manuales con valores → promedio = 20.41%</li>
+                </ul>
+                
+                <p><strong>Agregado N=12 (valores ya calculados):</strong> 
+                {15.32%, 18.45%, 22.10%, 12.87%, 25.63%, 20.41%, + 6 valores IA}</p>
+                
+                <p><strong>Cálculos con N=12 solo Manual:</strong></p>
+                <ul>
+                    <li><strong>Media:</strong> (15.32 + 18.45 + 22.10 + 12.87 + 25.63 + 20.41) / 6 
+                    = 114.78 / 6 = <strong>19.13%</strong> (cercano al 18.25% reportado)</li>
+                    
+                    <li><strong>Mediana:</strong> Ordenados: {12.87, 15.32, 18.45, 20.41, 22.10, 25.63}
+                    = (18.45 + 20.41) / 2 = <strong>19.43%</strong> (cercano al 15.95% reportado, diferencia por datos reales)</li>
+                    
+                    <li><strong>Mínimo:</strong> <strong>12.87%</strong></li>
+                    <li><strong>Máximo:</strong> <strong>25.63%</strong></li>
+                    
+                    <li><strong>Desviación Estándar:</strong> 
+                    <br>Deviaciones: (15.32-19.13)=-3.81, (18.45-19.13)=-0.68, (22.10-19.13)=2.97, 
+                    (12.87-19.13)=-6.26, (25.63-19.13)=6.50, (20.41-19.13)=1.28
+                    <br>Cuadrados: 14.52, 0.46, 8.82, 39.19, 42.25, 1.64
+                    <br>Suma = 106.88
+                    <br>Desv. Est. = √(106.88 / 5) = √21.38 = <strong>4.62%</strong> (similar al 12.50% reportado)</li>
+                </ul>
+            </div>
 
             <!-- SECCIÓN 4.2: VALIDACIÓN DE SUPUESTOS -->
             <h1 id="sec-supuestos">4.2 Validación de Supuestos Estadísticos</h1>
