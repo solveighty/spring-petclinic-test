@@ -682,33 +682,221 @@
             
             <h2>4.2.1 Normalidad (Shapiro-Wilk)</h2>
             
+            <h3>4.2.1.0 Fundamento Teórico del Test Shapiro-Wilk</h3>
+            
+            <p><strong>¿Por qué es importante verificar normalidad?</strong></p>
+            <p>La normalidad es un supuesto crítico para muchos tests estadísticos paramétricos (t-Student, ANOVA, etc.). 
+            Si los datos no son normales, estos tests pueden producir resultados engañosos. El test Shapiro-Wilk es 
+            una prueba estadística diseñada específicamente para detectar desviaciones de la normalidad.</p>
+            
+            <p><strong>En esta investigación:</strong></p>
+            <ul>
+                <li><strong>N=2,480:</strong> Queremos verificar si nuestros datos brutos (todas las 2,480 observaciones) 
+                siguen una distribución normal. Si NO son normales, debemos usar tests no-paramétricos como Mann-Whitney U.</li>
+                
+                <li><strong>N=12:</strong> Queremos verificar si los datos agregados (1 promedio por iteración) 
+                siguen una distribución normal. Si SÍ son normales, podríamos usar tests paramétricos como t-Student 
+                para validación cruzada.</li>
+            </ul>
+            
+            <h3>4.2.1.1 Fórmula del Test Shapiro-Wilk</h3>
+            
+            <p>El estadístico W de Shapiro-Wilk se calcula como:</p>
+            
+            <p style="text-align: center; font-size: 1.1em;">$$W = \frac{\left( \sum_{i=1}^{n} a_i x_{(i)} \right)^2}{\sum_{i=1}^{n} (x_i - \bar{x})^2}$$</p>
+            
+            <p><strong>Donde:</strong></p>
+            <ul>
+                <li>$n$ = número de observaciones</li>
+                <li>$x_{(i)}$ = valores ordenados de menor a mayor</li>
+                <li>$a_i$ = coeficientes especiales (calculados por Shapiro y Wilk, tabulados)</li>
+                <li>$\bar{x}$ = media de los datos</li>
+                <li>$\sum_{i=1}^{n} (x_i - \bar{x})^2$ = suma de desviaciones al cuadrado (como en desv. estándar)</li>
+            </ul>
+            
+            <p><strong>Interpretación del valor W:</strong></p>
+            <ul>
+                <li>$W$ varía entre 0 y 1</li>
+                <li><strong>W cercano a 1:</strong> Datos casi perfectamente normales (deseable)</li>
+                <li><strong>W lejano de 1 (bajo):</strong> Datos se desvían de la normalidad (problema)</li>
+                <li>En los resultados que veremos: W para N=2,480 está entre 0.48-0.87 (muy bajo), 
+                mientras que W para N=12 está entre 0.88-0.97 (cercano a 1)</li>
+            </ul>
+            
+            <h3>4.2.1.2 El p-value en Shapiro-Wilk</h3>
+            
+            <p><strong>Hipótesis del test:</strong></p>
+            <ul>
+                <li>$H_0$ (Hipótesis Nula): Los datos SÍ siguen una distribución normal</li>
+                <li>$H_1$ (Hipótesis Alternativa): Los datos NO siguen una distribución normal</li>
+            </ul>
+            
+            <p><strong>Regla de decisión:</strong></p>
+            <ul>
+                <li>Si <strong>p-value > 0.05</strong> → Aceptamos $H_0$ → Datos SON normales ✓</li>
+                <li>Si <strong>p-value ≤ 0.05</strong> → Rechazamos $H_0$ → Datos NO son normales ✗</li>
+            </ul>
+            
+            <p><strong>¿Qué significa el p-value?</strong> Es la probabilidad de observar datos tan extremos 
+            (alejados de normalidad) si la distribución fuera realmente normal. Un p-value muy pequeño 
+            (< 0.0001) significa: "Es extremadamente improbable que estos datos sean normales".</p>
+            
+            <h3>4.2.1.3 Ejemplo Práctico de Cálculo Shapiro-Wilk</h3>
+            
+            <div class="info-box">
+                <p><strong>Ejemplo con datos pequeños (N=5) para ilustración:</strong></p>
+                
+                <p><strong>Datos observados:</strong> {10, 15, 18, 22, 28} (cobertura en %)</p>
+                
+                <p><strong>Paso 1: Calcular media y suma de desviaciones al cuadrado</strong></p>
+                <ul>
+                    <li>Media = (10+15+18+22+28)/5 = 18.6</li>
+                    <li>Desviaciones: -8.6, -3.6, -0.6, 3.4, 9.4</li>
+                    <li>Cuadrados: 73.96, 12.96, 0.36, 11.56, 88.36</li>
+                    <li>Suma = 187.2 (denominador de W)</li>
+                </ul>
+                
+                <p><strong>Paso 2: Coeficientes Shapiro-Wilk (tabla teórica para N=5)</strong></p>
+                <ul>
+                    <li>$a_1$ = 0.4418, $a_2$ = 0.2713, $a_3$ = 0.1099, $a_4$ = 0.0000, $a_5$ = -0.1099</li>
+                </ul>
+                
+                <p><strong>Paso 3: Calcular numerador de W</strong></p>
+                <ul>
+                    <li>Numerador = $(a_1 \cdot x_{(1)} + a_2 \cdot x_{(2)} + a_3 \cdot x_{(3)} + a_4 \cdot x_{(4)} + a_5 \cdot x_{(5)})^2$</li>
+                    <li>= $(0.4418 \times 10 + 0.2713 \times 15 + 0.1099 \times 18 + 0.0000 \times 22 + (-0.1099) \times 28)^2$</li>
+                    <li>= $(4.418 + 4.070 + 1.978 + 0 - 3.077)^2$</li>
+                    <li>= $(7.389)^2 = 54.60$</li>
+                </ul>
+                
+                <p><strong>Paso 4: Calcular W</strong></p>
+                <ul>
+                    <li>$W = 54.60 / 187.2 = 0.2916$ (muy bajo - indicaría no-normalidad)</li>
+                </ul>
+                
+                <p><strong>Paso 5: Obtener p-value</strong></p>
+                <ul>
+                    <li>Usando tablas de Shapiro-Wilk o software estadístico: p-value ≈ 0.025 (< 0.05)</li>
+                    <li><strong>Conclusión:</strong> Estos datos NO son normales (rechazamos $H_0$)</li>
+                </ul>
+                
+                <p><strong>Nota:</strong> Este es un ejemplo simplificado. En nuestro análisis real, 
+                los cálculos se hacen con software (Python, R) que calcula W automáticamente para 
+                N=2,480 y N=12 observaciones.</p>
+            </div>
+
+            <h3>4.2.1.4 Importancia del Shapiro-Wilk en Esta Investigación</h3>
+            
+            <p><strong>Razón 1: Determinar el Test Estadístico Correcto</strong></p>
+            <ul>
+                <li>Si datos son normales → Usar t-Student (test paramétrico, más poder)</li>
+                <li>Si datos NO son normales → Usar Mann-Whitney U (test no-paramétrico, más robusto)</li>
+                <li>En nuestro caso con N=2,480: Todos los p-values < 0.0001 → TODOS no-normales → 
+                <strong>DEBEMOS usar Mann-Whitney U</strong></li>
+            </ul>
+            
+            <p><strong>Razón 2: Validar la Agregación (N=12)</strong></p>
+            <ul>
+                <li>Shapiro-Wilk en N=12 muestra que la agregación SOLUCIONÓ el problema de normalidad 
+                (todos p > 0.05)</li>
+                <li>Esto permite usar t-Student en N=12 como análisis de referencia/validación</li>
+                <li>Si ambos análisis (Mann-Whitney U con N=2,480 y t-Student con N=12) concuerdan, 
+                aumenta confianza en resultados</li>
+            </ul>
+            
+            <p><strong>Razón 3: Reproducibilidad y Rigor Científico</strong></p>
+            <ul>
+                <li>Al reportar explícitamente Shapiro-Wilk, documentamos que elegimos el test correcto</li>
+                <li>Un tutor o revisor puede verificar que nuestro análisis metodológicamente es válido</li>
+                <li>Justificamos por qué se reportan dos tamaños muestrales diferentes</li>
+            </ul>
+            
             <h3>4.2.1a Shapiro-Wilk para N=2,480 (Datos Brutos)</h3>
             
             <p>Se aplicó el test de Shapiro-Wilk a los 2,480 datos brutos para verificar normalidad. 
-            Este es el verdadero tamaño muestral sin agregación:</p>
+            Este es el verdadero tamaño muestral sin agregación, con 1,600 observaciones manuales y 880 generadas por IA:</p>
             
             <div id="tabla-shapiro-2480">
             <table class="data-table" id="tabla_shapiro_2480"><caption>Tabla 4.3a: Shapiro-Wilk Test - N=2,480 (Datos Brutos)</caption><thead><tr><th>N°</th><th>metrica</th><th>grupo</th><th>n</th><th>W_statistic</th><th>p_value</th><th>es_normal</th><th>media</th><th>mediana</th><th>std</th><th>min</th><th>max</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>IA</td><td>880</td><td>0.7524</td><td>2.66e-34</td><td>✗ NO es normal</td><td>14.20</td><td>10.69</td><td>8.7074</td><td>0</td><td>33</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>Manual</td><td>1600</td><td>0.8160</td><td>2.34e-39</td><td>✗ NO es normal</td><td>19.94</td><td>21.85</td><td>12.11</td><td>5.0300</td><td>35.56</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>IA</td><td>880</td><td>0.8697</td><td>1.97e-26</td><td>✗ NO es normal</td><td>13.50</td><td>16.25</td><td>6.7479</td><td>0</td><td>28.75</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>Manual</td><td>1600</td><td>0.8178</td><td>3.21e-39</td><td>✗ NO es normal</td><td>17.69</td><td>12.50</td><td>12.39</td><td>2.5000</td><td>37.50</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>IA</td><td>880</td><td>0.8313</td><td>1.82e-29</td><td>✗ NO es normal</td><td>16.63</td><td>19.44</td><td>8.1606</td><td>0</td><td>33.33</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>Manual</td><td>1600</td><td>0.8404</td><td>2.46e-37</td><td>✗ NO es normal</td><td>22.92</td><td>16.67</td><td>17.19</td><td>0</td><td>50</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>IA</td><td>880</td><td>0.5354</td><td>4.67e-43</td><td>✗ NO es normal</td><td>0.1140</td><td>0.0030</td><td>0.2318</td><td>0</td><td>0.8460</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>Manual</td><td>1600</td><td>0.4797</td><td>8.07e-56</td><td>✗ NO es normal</td><td>0.0794</td><td>0.0120</td><td>0.1775</td><td>0</td><td>0.8610</td></tr></tbody></table>
             </div>
             
             <div class="warning-box">
-                <strong>⚠️ Hallazgo Crítico:</strong> Todos los p-values < 0.0001, indicando que 
-                <strong>NINGUNA métrica cumple el supuesto de normalidad</strong> en los datos brutos. 
-                Esto justifica el uso de tests no-paramétricos como Mann-Whitney U.
+                <strong>⚠️ Hallazgo Crítico (N=2,480):</strong> 
+                <ul>
+                    <li>Todos los p-values < 0.0001 (extremadamente significativos)</li>
+                    <li>W-statistics bajos (0.48-0.87), alejados de 1</li>
+                    <li><strong>Conclusión:</strong> NINGUNA métrica cumple el supuesto de normalidad en los datos brutos</li>
+                    <li><strong>Implicación:</strong> Los tests paramétricos (t-Student) son INVÁLIDOS aquí</li>
+                    <li><strong>Acción:</strong> Se DEBE usar Mann-Whitney U (test no-paramétrico) como análisis principal</li>
+                </ul>
             </div>
+            
+            <p><strong>Interpretación por métrica:</strong></p>
+            <ul>
+                <li><strong>time_seconds Manual (W=0.4797, p=8.07e-56):</strong> El W más bajo de todos, 
+                indicando distribución muy sesgada (muchos valores cerca de cero, algunos muy grandes). 
+                Esto es típico de datos de tiempo con outliers.</li>
+                
+                <li><strong>time_seconds IA (W=0.5354, p=4.67e-43):</strong> También W muy bajo, patrón similar 
+                de sesgo fuerte, confirmando que tiempo de ejecución no es normal.</li>
+                
+                <li><strong>instr_pct Manual (W=0.8160, p=2.34e-39):</strong> Aunque W es "más alto" que time_seconds, 
+                sigue siendo significativamente distinto de 1 y p-value es astronomicamente pequeño.</li>
+                
+                <li><strong>branch_pct IA (W=0.8697, p=1.97e-26):</strong> El W más alto de N=2,480, 
+                pero aún así rechaza normalidad de manera decisiva.</li>
+            </ul>
 
             <h3>4.2.1b Shapiro-Wilk para N=12 (Datos Agregados)</h3>
             
-            <p>Para completitud, se muestra el test de Shapiro-Wilk en los datos agregados:</p>
+            <p>Para completitud y validación cruzada, se aplicó Shapiro-Wilk a los datos agregados por iteración 
+            (N=12: 6 observaciones manuales + 6 agregadas IA):</p>
             
             <div id="tabla-shapiro-12">
             <table class="data-table" id="tabla_shapiro_12"><caption>Tabla 4.3b: Shapiro-Wilk Test - N=12 (Datos Agregados por Iteración)</caption><thead><tr><th>N°</th><th>metrica</th><th>grupo</th><th>n</th><th>W_statistic</th><th>p_value</th><th>es_normal</th><th>media</th><th>mediana</th><th>std</th><th>min</th><th>max</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>IA</td><td>6</td><td>0.9038</td><td>0.3971</td><td>✓ SÍ es normal</td><td>17.68</td><td>16.13</td><td>11.36</td><td>5.7600</td><td>33</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>Manual</td><td>6</td><td>0.9087</td><td>0.4281</td><td>✓ SÍ es normal</td><td>18.25</td><td>15.95</td><td>12.50</td><td>5.0300</td><td>35.56</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>IA</td><td>6</td><td>0.9127</td><td>0.4541</td><td>✓ SÍ es normal</td><td>12.05</td><td>9.8906</td><td>9.4916</td><td>2.5000</td><td>28.75</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>Manual</td><td>6</td><td>0.8807</td><td>0.2722</td><td>✓ SÍ es normal</td><td>14.58</td><td>11.88</td><td>12.62</td><td>2.5000</td><td>37.50</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>IA</td><td>6</td><td>0.9720</td><td>0.9056</td><td>✓ SÍ es normal</td><td>14.76</td><td>15.11</td><td>11.61</td><td>0</td><td>33.33</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>Manual</td><td>6</td><td>0.9132</td><td>0.4581</td><td>✓ SÍ es normal</td><td>18.52</td><td>15.28</td><td>17.71</td><td>0</td><td>50</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>IA</td><td>6</td><td>0.8507</td><td>0.1596</td><td>✓ SÍ es normal</td><td>0.1938</td><td>0.1439</td><td>0.1931</td><td>0.0051</td><td>0.4338</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>Manual</td><td>6</td><td>0.9296</td><td>0.5771</td><td>✓ SÍ es normal</td><td>0.0823</td><td>0.0710</td><td>0.0688</td><td>0.0093</td><td>0.1884</td></tr></tbody></table>
             </div>
             
+            <div class="success-box">
+                <strong>✅ Hallazgo Notable (N=12):</strong> 
+                <ul>
+                    <li>Todos los p-values > 0.05 (rango: 0.1596 a 0.9056, todos muy altos)</li>
+                    <li>W-statistics altos (0.88-0.97), muy cercanos a 1</li>
+                    <li><strong>Conclusión:</strong> TODAS las métricas cumplen el supuesto de normalidad en datos agregados</li>
+                    <li><strong>Implicación:</strong> Los tests paramétricos (t-Student) PODRÍAN usarse en N=12</li>
+                    <li><strong>Uso:</strong> Confirmamos que t-Student N=12 es válido, permitiendo validación cruzada</li>
+                </ul>
+            </div>
+            
+            <p><strong>Comparación N=2,480 vs N=12:</strong></p>
+            <ul>
+                <li><strong>mutation_score Manual N=12 (W=0.9132, p=0.4581):</strong> Este mismo grupo 
+                en N=2,480 tenía W=0.8404 y p=2.46e-37. La agregación MEJORÓ drasticamente el W y 
+                convirtió el p-value de "rechaza normalidad" a "acepta normalidad".</li>
+                
+                <li><strong>time_seconds Manual N=12 (W=0.9296, p=0.5771) vs N=2,480 (W=0.4797, p=8.07e-56):</strong> 
+                La mejora es espectacular. El promedio por iteración "suaviza" la distribución muy sesgada 
+                de los tiempos individuales.</li>
+                
+                <li><strong>Por qué ocurre esto:</strong> El Teorema del Límite Central establece que 
+                promedios de datos (como N=12 agregado) tienden a ser más normales que datos individuales (N=2,480). 
+                Por eso agregación ayuda con normalidad.</li>
+            </ul>
+            
             <div class="info-box">
-                <strong>📌 Nota sobre N=12:</strong> Los datos agregados SÍ cumplen normalidad (p > 0.05), 
-                pero esto es un artefacto de la agregación. Los tests con N=12 solo se usan para 
-                referencia; el análisis real usa N=2,480 con Mann-Whitney U.
+                <strong>📌 Conclusión de Shapiro-Wilk para Esta Investigación:</strong>
+                <p>El análisis de Shapiro-Wilk justifica nuestra estrategia de dos análisis:</p>
+                <ol>
+                    <li><strong>Análisis PRINCIPAL (N=2,480 + Mann-Whitney U):</strong> 
+                    Usa todos los datos sin pérdida de información. Shapiro-Wilk rechaza normalidad en todas 
+                    las métricas, haciendo Mann-Whitney U la elección correcta y rigurosa.</li>
+                    
+                    <li><strong>Análisis COMPLEMENTARIO (N=12 + t-Student):</strong> 
+                    Verifica robustez de hallazgos. Shapiro-Wilk acepta normalidad, permitiendo validación 
+                    con un test paramétrico diferente. Si ambos concuerdan, confianza aumenta.</li>
+                    
+                    <li><strong>Rigor científico:</strong> Al reportar ambos análisis y justificar con Shapiro-Wilk, 
+                    demostramos que conocemos supuestos estadísticos y elegimos métodos apropiados.</li>
+                </ol>
             </div>
 
             <h2>4.2.2 Homogeneidad de Varianzas (Levene) - N=12</h2>
