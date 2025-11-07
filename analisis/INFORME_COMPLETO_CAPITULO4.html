@@ -899,53 +899,192 @@
                 </ol>
             </div>
 
-            <h2>4.2.2 Homogeneidad de Varianzas (Levene) - N=12</h2>
+            <h2>4.2.2 Homogeneidad de Varianzas (Levene Test) - N=12</h2>
             
-            <p>Aunque los datos brutos violan normalidad, se verifica homogeneidad en la submuestra N=12 
-            para documentar el comportamiento de los tests paramétricos:</p>
+            <h3>4.2.2.0 ¿Por Qué Verificar Homogeneidad ANTES de t-Student?</h3>
             
-            <div id="tabla-levene-12">
-            <table class="data-table" id="tabla_levene_12"><caption>Tabla 4.4: Levene Test - Homogeneidad de Varianzas (N=12)</caption><thead><tr><th>N°</th><th>metrica</th><th>F_statistic</th><th>p_value</th><th>es_igual</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>0.1006</td><td>0.7577</td><td>✓ Varianzas IGUALES</td></tr><tr><td class="idx">2</td><td>branch_pct</td><td>0.1262</td><td>0.7298</td><td>✓ Varianzas IGUALES</td></tr><tr><td class="idx">3</td><td>mutation_score</td><td>0.3930</td><td>0.5448</td><td>✓ Varianzas IGUALES</td></tr><tr><td class="idx">4</td><td>time_seconds</td><td>6.3679</td><td>0.0302</td><td>✗ Varianzas DESIGUALES</td></tr></tbody></table>
+            <p><strong>Contexto de Supuestos para t-Student:</strong></p>
+            <p>El test t-Student requiere dos supuestos principales:</p>
+            <ol>
+                <li><strong>Normalidad:</strong> Los datos deben seguir una distribución normal (verificado con Shapiro-Wilk)</li>
+                <li><strong>Homogeneidad de Varianzas:</strong> Las varianzas de ambos grupos deben ser iguales</li>
+            </ol>
+            
+            <p><strong>¿Por qué verificamos homogeneidad DESPUÉS de Shapiro-Wilk?</strong></p>
+            <ul>
+                <li>El flujo lógico es: Primero verifica normalidad (supuesto fundamental)</li>
+                <li>Si datos NO son normales → t-Student no es válido, Levene es moot (irrelevante)</li>
+                <li>Si datos SÍ son normales → ENTONCES verificamos si varianzas son iguales</li>
+                <li>En nuestro caso: N=2,480 NO es normal → t-Student inválido</li>
+                <li>Pero N=12 SÍ es normal → Levene es relevante para N=12</li>
+            </ul>
+            
+            <p><strong>¿Por qué importa la igualdad de varianzas?</strong></p>
+            <ul>
+                <li><strong>Si varianzas SON iguales:</strong> Usar t-Student estándar (asume varianzas homogéneas)</li>
+                <li><strong>Si varianzas NO son iguales:</strong> Usar t-Student de Welch (ajusta para varianzas desiguales)</li>
+                <li>Si ignoramos heterogeneidad, los intervalos de confianza y p-values pueden ser incorrectos</li>
+            </ul>
+            
+            <h3>4.2.2.1 Fórmula del Test de Levene</h3>
+            
+            <p>El estadístico de Levene (versión clásica) se calcula como:</p>
+            
+            <p style="text-align: center; font-size: 1.1em;">$$W = \frac{(N - k) \sum_{i=1}^{k} n_i (Z_{i.} - Z_{..})^2}{(k-1) \sum_{i=1}^{k} \sum_{j=1}^{n_i} (Z_{ij} - Z_{i.})^2}$$</p>
+            
+            <p><strong>Donde:</strong></p>
+            <ul>
+                <li>$N$ = número total de observaciones</li>
+                <li>$k$ = número de grupos (en nuestro caso, k=2: Manual vs IA)</li>
+                <li>$n_i$ = número de observaciones en grupo i</li>
+                <li>$Z_{ij}$ = desviación absoluta de cada valor respecto a la media de su grupo: $|x_{ij} - \bar{x}_i|$</li>
+                <li>$Z_{i.}$ = media de las desviaciones Z en el grupo i</li>
+                <li>$Z_{..}$ = media general de todas las desviaciones Z</li>
+            </ul>
+            
+            <p><strong>Interpretación de W (Levene):</strong></p>
+            <ul>
+                <li>W es un estadístico F (razón de varianzas)</li>
+                <li>W grandes sugieren que los grupos tienen varianzas MUY diferentes</li>
+                <li>Se compara con una distribución F teórica para obtener p-value</li>
+            </ul>
+            
+            <h3>4.2.2.2 Hipótesis e Interpretación de p-value</h3>
+            
+            <p><strong>Hipótesis del test Levene:</strong></p>
+            <ul>
+                <li>$H_0$ (Hipótesis Nula): Varianzas en TODOS los grupos son iguales</li>
+                <li>$H_1$ (Hipótesis Alternativa): Al menos un grupo tiene varianza diferente</li>
+            </ul>
+            
+            <p><strong>Regla de decisión:</strong></p>
+            <ul>
+                <li>Si <strong>p-value > 0.05</strong> → Aceptamos $H_0$ → Varianzas SON iguales ✓</li>
+                <li>Si <strong>p-value ≤ 0.05</strong> → Rechazamos $H_0$ → Varianzas NO son iguales ✗</li>
+            </ul>
+            
+            <h3>4.2.2.3 Ejemplo Práctico del Test Levene</h3>
+            
+            <div class="info-box">
+                <p><strong>Ejemplo con dos grupos pequeños:</strong></p>
+                
+                <p><strong>Grupo Manual (Cobertura de Instrucciones):</strong> {15%, 18%, 20%, 22%}</p>
+                <p><strong>Grupo IA (Cobertura de Instrucciones):</strong> {14%, 16%, 19%, 25%}</p>
+                
+                <p><strong>Paso 1: Calcular media de cada grupo</strong></p>
+                <ul>
+                    <li>Media Manual = (15+18+20+22)/4 = 18.75%</li>
+                    <li>Media IA = (14+16+19+25)/4 = 18.5%</li>
+                </ul>
+                
+                <p><strong>Paso 2: Calcular desviaciones absolutas ($Z_{ij}$) de cada valor a su media de grupo</strong></p>
+                <ul>
+                    <li><strong>Grupo Manual:</strong> |15-18.75|=3.75, |18-18.75|=0.75, |20-18.75|=1.25, |22-18.75|=3.25</li>
+                    <li>$Z$ Manual = {3.75, 0.75, 1.25, 3.25}</li>
+                    <li><strong>Grupo IA:</strong> |14-18.5|=4.5, |16-18.5|=2.5, |19-18.5|=0.5, |25-18.5|=6.5</li>
+                    <li>$Z$ IA = {4.5, 2.5, 0.5, 6.5}</li>
+                </ul>
+                
+                <p><strong>Paso 3: Calcular media de Z por grupo</strong></p>
+                <ul>
+                    <li>$Z_{Manual}$ = (3.75+0.75+1.25+3.25)/4 = 2.25</li>
+                    <li>$Z_{IA}$ = (4.5+2.5+0.5+6.5)/4 = 3.5</li>
+                    <li>$Z_{..}$ (media general) = (2.25+3.5)/2 = 2.875</li>
+                </ul>
+                
+                <p><strong>Paso 4: Calcular numerador (desviación entre medias de grupos)</strong></p>
+                <ul>
+                    <li>Numerador = $(N-k) \sum n_i (Z_{i.} - Z_{..})^2$</li>
+                    <li>= $(8-2) \times [4 \times (2.25-2.875)^2 + 4 \times (3.5-2.875)^2]$</li>
+                    <li>= $6 \times [4 \times 0.390625 + 4 \times 0.390625]$</li>
+                    <li>= $6 \times [1.5625 + 1.5625] = 6 \times 3.125 = 18.75$</li>
+                </ul>
+                
+                <p><strong>Paso 5: Calcular denominador (variación dentro de grupos)</strong></p>
+                <ul>
+                    <li>Denominador = $(k-1) \sum \sum (Z_{ij} - Z_{i.})^2$</li>
+                    <li><strong>Para Manual:</strong> $(3.75-2.25)^2 + (0.75-2.25)^2 + (1.25-2.25)^2 + (3.25-2.25)^2$</li>
+                    <li>= $2.25 + 2.25 + 1.0 + 1.0 = 6.5$</li>
+                    <li><strong>Para IA:</strong> $(4.5-3.5)^2 + (2.5-3.5)^2 + (0.5-3.5)^2 + (6.5-3.5)^2$</li>
+                    <li>= $1.0 + 1.0 + 9.0 + 9.0 = 20.0$</li>
+                    <li>Denominador = $(2-1) \times (6.5 + 20.0) = 1 \times 26.5 = 26.5$</li>
+                </ul>
+                
+                <p><strong>Paso 6: Calcular W (Levene)</strong></p>
+                <ul>
+                    <li>$W = 18.75 / 26.5 = 0.707$</li>
+                </ul>
+                
+                <p><strong>Paso 7: Obtener p-value</strong></p>
+                <ul>
+                    <li>Comparar W=0.707 con distribución F con df1=k-1=1 y df2=N-k=6</li>
+                    <li>Usando tablas F o software: p-value ≈ 0.43 (> 0.05)</li>
+                    <li><strong>Conclusión:</strong> Aceptamos $H_0$ → Varianzas SON iguales ✓</li>
+                    <li><strong>Implicación:</strong> Podemos usar t-Student estándar (no Welch)</li>
+                </ul>
+                
+                <p><strong>Nota:</strong> Este es un ejemplo simplificado con N=8. En nuestro análisis real con N=12, 
+                los cálculos se hacen automáticamente con software.</p>
             </div>
             
-            <p><strong>Interpretación:</strong></p>
+            <h3>4.2.2.4 Importancia de Levene en Esta Investigación</h3>
+            
+            <p><strong>Paso Metodológico:</strong> Levene es el SEGUNDO filtro de supuestos</p>
             <ul>
-                <li><strong>instr_pct (p=0.758):</strong> Varianzas iguales → Usar t-Student estándar</li>
-                <li><strong>branch_pct (p=0.730):</strong> Varianzas iguales → Usar t-Student estándar</li>
-                <li><strong>mutation_score (p=0.545):</strong> Varianzas iguales → Usar t-Student estándar</li>
-                <li><strong>time_seconds (p=0.030):</strong> Varianzas desiguales → Usar t-Student de Welch</li>
+                <li>Primer filtro (Shapiro-Wilk): ¿Son normales los datos?</li>
+                <li>Segundo filtro (Levene): ¿Son las varianzas iguales?</li>
+                <li>Solo si AMBOS supuestos se cumplen, t-Student es válido</li>
             </ul>
+            
+            <p><strong>En nuestro análisis N=12:</strong></p>
+            <ul>
+                <li>✅ Shapiro-Wilk: TODAS las métricas pasan (p > 0.05)</li>
+                <li>⚠️ Levene: 3 métricas pasan (varianzas iguales), 1 falla (time_seconds, varianzas desiguales)</li>
+                <li>Esto significa que t-Student estándar es válido para 3 métricas, pero para time_seconds debemos usar t-Student de Welch</li>
+            </ul>
+            
+            <p><strong>Rigor Metodológico:</strong> Al reportar Levene, documentamos</p>
+            <ul>
+                <li>Que verificamos todos los supuestos necesarios</li>
+                <li>Qué decisiones tomamos (estándar vs Welch)</li>
+                <li>Que nuestro análisis es reproducible y justificado</li>
+            </ul>
+
+            <h3>Resultados del Test de Levene - N=12</h3>
+            
+            <p>Aunque los datos brutos (N=2,480) violan normalidad y hacen t-Student inválido, presentamos 
+            resultados Levene para N=12 porque los datos agregados SÍ son normales (como mostró Shapiro-Wilk). 
+            Esto documenta qué decisiones tomaríamos si usáramos t-Student en N=12:</p>
+            
+            <div id="tabla-levene-12">
+            <table class="data-table" id="tabla_levene_12"><caption>Tabla 4.4: Levene Test - Homogeneidad de Varianzas (N=12)</caption><thead><tr><th>N°</th><th>metrica</th><th>F_statistic</th><th>p_value</th><th>es_igual</th><th>Recomendación</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>0.1006</td><td>0.7577</td><td>✓ Varianzas IGUALES</td><td>Usar t-Student estándar</td></tr><tr><td class="idx">2</td><td>branch_pct</td><td>0.1262</td><td>0.7298</td><td>✓ Varianzas IGUALES</td><td>Usar t-Student estándar</td></tr><tr><td class="idx">3</td><td>mutation_score</td><td>0.3930</td><td>0.5448</td><td>✓ Varianzas IGUALES</td><td>Usar t-Student estándar</td></tr><tr><td class="idx">4</td><td>time_seconds</td><td>6.3679</td><td>0.0302</td><td>✗ Varianzas DESIGUALES</td><td>Usar t-Student de Welch</td></tr></tbody></table>
+            </div>
+            
+            <p><strong>Interpretación de Resultados:</strong></p>
+            <ul>
+                <li><strong>instr_pct (p=0.758):</strong> p > 0.05 → Varianzas iguales 
+                → Se puede usar t-Student estándar si se necesitara</li>
+                
+                <li><strong>branch_pct (p=0.730):</strong> p > 0.05 → Varianzas iguales 
+                → Se puede usar t-Student estándar si se necesitara</li>
+                
+                <li><strong>mutation_score (p=0.545):</strong> p > 0.05 → Varianzas iguales 
+                → Se puede usar t-Student estándar si se necesitara</li>
+                
+                <li><strong>time_seconds (p=0.030):</strong> p < 0.05 → Varianzas DESIGUALES 
+                → Si usáramos t-Student, sería OBLIGATORIO usar versión de Welch (ajustada)</li>
+            </ul>
+            
+            <h3>¿Qué es t-Student de Welch?</h3>
+            <p>Es una variante de t-Student que no asume varianzas iguales. Ajusta los grados de libertad 
+            para tomar en cuenta diferencias en varianzas entre grupos. Es más conservador y produce intervalos 
+            de confianza más amplios cuando hay heterogeneidad.</p>
 
             <!-- SECCIÓN 4.3: ANÁLISIS DESCRIPTIVO GRÁFICO -->
             <h2>4.3 Análisis Descriptivo Gráfico</h2>
             
-            <h3>Figura 4.1: Histogramas - Distribuciones de Datos (N=2,480)</h3>
-            <div class="figure-container">
-                <img src="figures/Figura_1_Histogramas.png" alt="Histogramas de distribuciones">
-                <p class="figure-caption"><strong>Figura 4.1:</strong> Histogramas mostrando distribuciones para 
-                cada métrica con 2,480 observaciones. Las líneas verticales indican media (naranja) y mediana (verde).</p>
-            </div>
-            
-            <h3>Figura 4.2: Box Plots - Comparación Manual vs IA (N=2,480)</h3>
-            <div class="figure-container">
-                <img src="figures/Figura_2_BoxPlots.png" alt="Box plots comparativos">
-                <p class="figure-caption"><strong>Figura 4.2:</strong> Diagramas de caja para comparación visual 
-                entre pruebas manuales (azul) y generadas por IA (rojo).</p>
-            </div>
-            
-            <h3>Figura 4.3: Q-Q Plots - Validación de Normalidad (N=12)</h3>
-            <div class="figure-container">
-                <img src="figures/Figura_3_QQPlots.png" alt="Q-Q plots para normalidad">
-                <p class="figure-caption"><strong>Figura 4.3:</strong> Gráficos Q-Q para las 8 distribuciones 
-                (4 métricas × 2 grupos). Desviación de la línea diagonal indica violación de normalidad.</p>
-            </div>
-            
-            <h3>Figura 4.4: Levene Test - Visualización de Homogeneidad (N=12)</h3>
-            <div class="figure-container">
-                <img src="figures/Figura_4_Levene.png" alt="Resultados Levene">
-                <p class="figure-caption"><strong>Figura 4.4:</strong> Gráfico de barras mostrando p-values del 
-                test de Levene. Barras por encima de línea roja (p=0.05) indican varianzas iguales.</p>
-            </div>
+            <p><em>Esta sección contendrá figuras y gráficos descriptivos. Las imágenes serán añadidas 
+            posteriormente una vez finalizados los análisis y decisiones sobre visualizaciones.</em></p>
 
             <!-- SECCIÓN 4.4: PRUEBAS DE HIPÓTESIS -->
             <h1 id="sec-hipotesis">4.4 Pruebas de Hipótesis</h1>
@@ -986,7 +1125,7 @@
                 manuales e IA en las 4 métricas.
             </div>
 
-            <h3>Interpretación del Tamaño del Efecto (r)</h3>
+            <h2>4.4.3 Interpretación del Tamaño del Efecto (r)</h2>
             <p>El tamaño del efecto r indica la magnitud práctica de las diferencias:</p>
             <ul>
                 <li><strong>Cobertura de Instrucciones (r=0.1453):</strong> Efecto pequeño pero significativo</li>
@@ -994,30 +1133,6 @@
                 <li><strong>Puntuación de Mutación (r=0.0575):</strong> Efecto pequeño pero real</li>
                 <li><strong>Tiempo (r=0.0824):</strong> Efecto pequeño pero detectable</li>
             </ul>
-
-            <h2>4.4.3 Visualización de Resultados Principales</h2>
-            
-            <h3>Figura 4.5: Mann-Whitney U - Comparación Visual (N=2,480)</h3>
-            <div class="figure-container">
-                <img src="figures/paso3b_mannwhitney.png" alt="Mann-Whitney U resultados">
-                <p class="figure-caption"><strong>Figura 4.5 (Principal):</strong> Visualización del test 
-                Mann-Whitney U con 4 métricas. Box plots muestran distribuciones; p-values en títulos 
-                confirman significancia. Este es el resultado estadístico principal.</p>
-            </div>
-            
-            <h3>Figura 4.6: Bar Plots con IC 95% (N=12)</h3>
-            <div class="figure-container">
-                <img src="figures/Figura_6_BarplotsIC95.png" alt="Bar plots con intervalos confianza">
-                <p class="figure-caption"><strong>Figura 4.6:</strong> Gráficos de barras con intervalos 
-                de confianza del 95% para cada métrica (N=12 agregada).</p>
-            </div>
-            
-            <h3>Figura 4.7: Tamaño del Efecto - Cohen's d (N=12)</h3>
-            <div class="figure-container">
-                <img src="figures/Figura_7_CohenD.png" alt="Cohen's d tamaño efecto">
-                <p class="figure-caption"><strong>Figura 4.7:</strong> Bar plot horizontal mostrando 
-                Cohen's d para cada métrica, indicando magnitud de diferencias (negligible a mediano).</p>
-            </div>
 
             <!-- SECCIÓN 4.5: INTERPRETACIÓN Y CONCLUSIONES -->
             <h1 id="sec-interpretacion">4.5 Interpretación y Conclusiones</h1>
