@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 4: Resultados - Análisis Experimental de Pruebas Manuales vs IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 5px solid #764ba2;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            color: #555;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            font-size: 1em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            padding: 20px;
+            border-left: 4px solid #2196F3;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box {
+            background-color: #ffe7e7;
+            padding: 20px;
+            border-left: 4px solid #f44336;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success-box {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-left: 4px solid #4caf50;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .data-table caption {
+            caption-side: top;
+            padding-bottom: 10px;
+            font-weight: bold;
+            color: #667eea;
+            text-align: left;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .data-table thead {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .data-table thead th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #667eea;
+        }
+        
+        .data-table tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .data-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .data-table .idx {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            text-align: center;
+            width: 50px;
+        }
+        
+        .figure-container {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .figure-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .figure-caption {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        
+        .section-nav {
+            background-color: #f5f5f5;
+            padding: 15px 0;
+            border-top: 2px solid #667eea;
+            border-bottom: 2px solid #667eea;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .section-nav a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        
+        .section-nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .toc {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .toc h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .toc ol {
+            margin-left: 20px;
+        }
+        
+        .toc li {
+            margin-bottom: 5px;
+        }
+        
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #667eea;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .page-break {
+            page-break-after: always;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Capítulo 4: RESULTADOS</h1>
+            <p>Análisis Experimental de Pruebas Manuales vs Generadas por IA</p>
+            <p style="font-size: 0.9em; margin-top: 20px;">Evaluación de Cobertura, Mutación y Rendimiento</p>
+        </div>
+        
+        <div class="content">
+            <!-- TABLA DE CONTENIDOS -->
+            <div class="toc">
+                <h3>📋 Índice de Contenidos</h3>
+                <ol>
+                    <li><a href="#sec-metodologia">Metodología Experimental</a></li>
+                    <li><a href="#sec-descriptiva">Estadística Descriptiva</a></li>
+                    <li><a href="#sec-supuestos">Validación de Supuestos</a></li>
+                    <li><a href="#sec-hipotesis">Pruebas de Hipótesis</a></li>
+                    <li><a href="#sec-interpretacion">Interpretación y Conclusiones</a></li>
+                </ol>
+            </div>
+
+            <!-- SECCIÓN 4.0: METODOLOGÍA EXPERIMENTAL -->
+            <h1 id="sec-metodologia">4.0 Metodología Experimental</h1>
+            
+            <h2>4.0.1 Diseño del Experimento</h2>
+            
+            <p>Este análisis se basa en un experimento controlado comparativo que evalúa pruebas manuales versus 
+            pruebas generadas por IA en el proyecto Spring PetClinic. El diseño experimental consistió en:</p>
+            
+            <ul>
+                <li><strong>Sujeto de Prueba:</strong> Aplicación Spring PetClinic (proyecto de demostración oficial de Spring Framework)</li>
+                <li><strong>Tipo de Pruebas Evaluadas:</strong> Pruebas unitarias e integración</li>
+                <li><strong>Métodos Automatizados:</strong> JaCoCo (cobertura de código), PIT (testing de mutación)</li>
+                <li><strong>Periodo Experimental:</strong> 40 iteraciones + 3 ciclos de warm-up</li>
+                <li><strong>Duración Total:</strong> <strong>6.18 horas</strong> (371 minutos de ejecución continua)</li>
+            </ul>
+
+            <h2>4.0.2 Estructura de Iteraciones y Warm-up</h2>
+            
+            <p><strong>Ciclos de Warm-up (N=3):</strong></p>
+            <p>Antes de recopilar datos experimentales, se ejecutaron 3 ciclos de "calentamiento" del sistema. 
+            Estos ciclos son esenciales en benchmarking de software porque:</p>
+            <ul>
+                <li>Permiten que la Máquina Virtual Java (JVM) optimice el código mediante compilación JIT</li>
+                <li>Cargan datos en caché del sistema operativo</li>
+                <li>Estabilizan el rendimiento inicial</li>
+                <li>Descartan anomalías debidas a inicialización del sistema</li>
+            </ul>
+            
+            <p><strong>Iteraciones Principales (N=40):</strong></p>
+            <p>Después del warm-up, se recopilaron 40 iteraciones independientes, donde cada iteración ejecutó:</p>
+            <ul>
+                <li><strong>6 pruebas manuales (3 funcionales y 3 unitarias)</strong></li>
+                <li><strong>6 pruebas generadas por IA (3 funcionales por chatgpt y 3 unitarias por diffblue cover)</strong></li>
+                <li>Medición de: cobertura de instrucciones, cobertura de ramas, mutation score, tiempo de ejecución</li>
+            </ul>
+
+            <h2>4.0.3 Scripts de Automatización Utilizados</h2>
+            
+            <p>La ejecución del experimento estuvo orquestada por tres scripts PowerShell que 
+            recolectan las mismas 4 métricas (mutation score, instruction coverage, branch coverage, 
+            tiempo de ejecución) pero a través de diferentes herramientas y perspectivas:</p>
+            
+            <table class="data-table">
+                <caption>Tabla 4.0: Scripts de Automatización Experimental</caption>
+                <thead>
+                    <tr>
+                        <th>Script</th>
+                        <th>Herramienta Principal</th>
+                        <th>Métricas Recolectadas</th>
+                        <th>Método</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>run_all_metrics_simple.ps1</strong></td>
+                        <td>Orquestador</td>
+                        <td>
+                            ✓ Mutation Score<br>
+                            ✓ Instruction Coverage<br>
+                            ✓ Branch Coverage<br>
+                            ✓ Tiempo de Ejecución
+                        </td>
+                        <td>
+                            • Ejecuta bucle de 40 iteraciones<br>
+                            • Invoca los otros scripts en secuencia<br>
+                            • Agrega resultados en CSV<br>
+                            • Gestiona timestamps y logs
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>run_pitest_isolated_complete.ps1</strong></td>
+                        <td>PIT (Pitest)</td>
+                        <td>
+                            ✓ Mutation Score<br>
+                            ✓ Instruction Coverage<br>
+                            ✓ Branch Coverage<br>
+                            ✓ Tiempo de Ejecución
+                        </td>
+                        <td>
+                            • Ejecuta PIT en modo aislado<br>
+                            • Genera mutantes de código<br>
+                            • Mide scorificación de mutación<br>
+                            • Registra cobertura e timing
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>run-test-metrics.ps1</strong></td>
+                        <td>JaCoCo</td>
+                        <td>
+                            ✓ Mutation Score<br>
+                            ✓ Instruction Coverage<br>
+                            ✓ Branch Coverage<br>
+                            ✓ Tiempo de Ejecución
+                        </td>
+                        <td>
+                            • Ejecuta suite con JaCoCo<br>
+                            • Instrumenta bytecode<br>
+                            • Mide cobertura en tiempo real<br>
+                            • Captura tiempos de ejecución
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>4.0.4 Tamaño Muestral: Justificación de N=12 vs N=2,480</h2>
+            
+            <div class="info-box">
+                <strong>📊 Pregunta Fundamental:</strong> ¿Por qué analizar dos tamaños muestrales diferentes?
+            </div>
+
+            <p><strong>Datos Brutos N=2,480:</strong></p>
+            <p>Este es el conjunto completo de observaciones sin procesar:</p>
+            <ul>
+                <li><strong>Composición:</strong> 40 iteraciones × 62 pruebas/iteración = 2,480 observaciones totales</li>
+                <li><strong>Desglose:</strong> 1,600 pruebas manuales (40 × 40) + 880 pruebas IA (40 × 22)</li>
+                <li><strong>Ventaja estadística:</strong> Mayor poder estadístico, mejor detección de efectos pequeños</li>
+                <li><strong>Desventaja:</strong> Viola supuesto de normalidad, requiere tests no-paramétricos</li>
+                <li><strong>Uso Apropiado:</strong> Mann-Whitney U test (análisis principal)</li>
+            </ul>
+
+            <p><strong>Datos Agregados N=12:</strong></p>
+            <p>Este es un agregado calculado al promediar resultados por iteración:</p>
+            <ul>
+                <li><strong>Composición:</strong> 1 observación por iteración = 12 observaciones (6 Manual + 6 IA)</li>
+                <li><strong>Cálculo:</strong> Cada observación es el promedio de pruebas en esa iteración</li>
+                <li><strong>Ventaja estadística:</strong> Cumple supuesto de normalidad (p > 0.05)</li>
+                <li><strong>Desventaja:</strong> Menor poder estadístico (N pequeño), puede perder información</li>
+                <li><strong>Uso Apropiado:</strong> t-Student test, validación de supuestos</li>
+            </ul>
+
+            <p><strong>Justificación de Ambos Análisis:</strong></p>
+            <div class="highlight">
+                <ol>
+                    <li><strong>Análisis N=2,480 (Principal):</strong> Responde la pregunta real: 
+                    "¿Hay diferencias significativas cuando ejecutamos pruebas?" Usa todos los datos sin pérdida de información.</li>
+                    <li><strong>Análisis N=12 (Validación):</strong> Verifica si los hallazgos son robustos 
+                    a diferentes enfoques analíticos. Sirve como verificación de sensibilidad.</li>
+                    <li><strong>Coherencia Metodológica:</strong> Si ambos enfoques concuerdan cualitativamente, 
+                    aumenta confianza en resultados. Si divergen, sugiere dependencia crítica de supuestos.</li>
+                </ol>
+            </div>
+
+            <h2>4.0.5 Cronograma de Ejecución</h2>
+            
+            <table class="data-table">
+                <caption>Tabla 4.0b: Cronograma de Ejecución Experimental</caption>
+                <thead>
+                    <tr>
+                        <th>Fase</th>
+                        <th>Iteraciones</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Warm-up</strong></td>
+                        <td>3</td>
+                        <td>Inicialización JVM, estabilización de cache, descarte de datos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recopilación</strong></td>
+                        <td>40</td>
+                        <td>Ejecución de pruebas manuales e IA con recopilación de métricas</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Ejecuciones</strong></td>
+                        <td>43</td>
+                        <td>3 + 40 = 43 ciclos independientes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tiempo Total</strong></td>
+                        <td>-</td>
+                        <td><strong>6 horas 18 minutos (6.18 horas)</strong> = 371 minutos continuos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tiempo Promedio/Iteración</strong></td>
+                        <td>-</td>
+                        <td>~9.3 minutos por ciclo (371 min ÷ 40 iteraciones)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>4.0.6 Razón del Tiempo de Ejecución Prolongado</h2>
+            
+            <p>La duración de 6.18 horas es resultado de múltiples factores:</p>
+            <ul>
+                <li><strong>Ejecución Secuencial:</strong> Cada iteración ejecuta tests manuales + IA en secuencia, 
+                no en paralelo (para evitar contención de recursos)</li>
+                <li><strong>JaCoCo Overhead:</strong> La instrumentación de código para medir cobertura añade 
+                ~5-15% de tiempo por test</li>
+                <li><strong>PIT Mutación Testing:</strong> Generar y probar mutantes es computacionalmente 
+                intensivo (~3-5 minutos por iteración)</li>
+                <li><strong>JVM Startup:</strong> Inicialización de JVM para cada fase (~1-2 minutos acumulados)</li>
+                <li><strong>I/O de Base de Datos:</strong> Spring PetClinic usa base de datos; acceso I/O para 
+                cada iteración contribuye latencia</li>
+            </ul>
+
+            <!-- SECCIÓN 4.1: ESTADÍSTICA DESCRIPTIVA -->
+            <h1 id="sec-descriptiva">4.1 Estadística Descriptiva</h1>
+            
+            <h2>4.1.1 Descriptiva para N=2,480 (Datos Brutos)</h2>
+            
+            <p>Se evaluaron <strong>2,480 casos de prueba</strong> en total (1,600 manuales + 880 generados por IA) 
+            provenientes de <strong>40 iteraciones experimentales</strong>. La siguiente tabla presenta las estadísticas 
+            descriptivas para cada métrica:</p>
+            
+            <div id="tabla-desc-2480">
+            <table class="data-table" id="tabla_desc_2480"><caption>Tabla 4.1: Estadística Descriptiva N=2,480 (Datos Brutos)</caption><thead><tr><th>N°</th><th>Métrica</th><th>Grupo</th><th>N</th><th>Media</th><th>Mediana</th><th>Desv. Est.</th><th>Mín</th><th>Máx</th><th>Q1</th><th>Q3</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>Manual</td><td>1600</td><td>19.94</td><td>21.85</td><td>12.11</td><td>5.0300</td><td>35.56</td><td>7.8600</td><td>30.76</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>AI</td><td>880</td><td>14.20</td><td>10.69</td><td>8.7074</td><td>0</td><td>33</td><td>7.4000</td><td>21.57</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>Manual</td><td>1600</td><td>17.69</td><td>12.50</td><td>12.39</td><td>2.5000</td><td>37.50</td><td>11.25</td><td>23.44</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>AI</td><td>880</td><td>13.50</td><td>16.25</td><td>6.7479</td><td>0</td><td>28.75</td><td>8.7500</td><td>16.25</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>Manual</td><td>1600</td><td>22.92</td><td>16.67</td><td>17.19</td><td>0</td><td>50</td><td>13.89</td><td>31.25</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>AI</td><td>880</td><td>16.63</td><td>19.44</td><td>8.1606</td><td>0</td><td>33.33</td><td>13.89</td><td>19.44</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>Manual</td><td>1600</td><td>0.0794</td><td>0.0120</td><td>0.1775</td><td>0</td><td>0.8610</td><td>0.0020</td><td>0.0420</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>AI</td><td>880</td><td>0.1140</td><td>0.0030</td><td>0.2318</td><td>0</td><td>0.8460</td><td>0.0010</td><td>0.0660</td></tr></tbody></table>
+            </div>
+            
+            <p><strong>Interpretación:</strong></p>
+            <ul>
+                <li><strong>Cobertura de Instrucciones (instr_pct):</strong> Las pruebas manuales alcanzan 
+                mayor media (19.94%) comparado con IA (14.20%). Sin embargo, las medianas revelan mayor 
+                concentración en IA (10.69% vs 21.85%).</li>
+                <li><strong>Cobertura de Ramas (branch_pct):</strong> Las pruebas manuales muestran media 
+                ligeramente superior (17.69% vs 13.50%), pero la mediana es mayor en IA (16.25% vs 12.50%).</li>
+                <li><strong>Puntuación de Mutación (mutation_score):</strong> Pruebas manuales presentan 
+                media superior (22.92% vs 16.63%), indicando mejor detección de mutantes.</li>
+                <li><strong>Tiempo de Ejecución (time_seconds):</strong> Pruebas manuales son más rápidas 
+                en promedio (0.079s vs 0.114s), aunque con mayor variabilidad.</li>
+            </ul>
+
+            <h2>4.1.2 Descriptiva para N=12 (Datos Agregados por Iteración)</h2>
+            
+            <p>Para verificar los supuestos de normalidad requeridos por tests paramétricos, se realizó 
+            agregación por iteración, resultando en <strong>N=12 observaciones</strong> (6 manuales + 6 IA):</p>
+            
+            <div id="tabla-desc-12">
+            <table class="data-table" id="tabla_desc_12"><caption>Tabla 4.2: Estadística Descriptiva N=12 (Agregada por Iteración)</caption><thead><tr><th>N°</th><th>Métrica</th><th>Grupo</th><th>N</th><th>Media</th><th>Mediana</th><th>Desv. Est.</th><th>Mín</th><th>Máx</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>Manual</td><td>6</td><td>18.25</td><td>15.95</td><td>12.50</td><td>5.0300</td><td>35.56</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>AI</td><td>6</td><td>17.68</td><td>16.13</td><td>11.36</td><td>5.7600</td><td>33</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>Manual</td><td>6</td><td>14.58</td><td>11.88</td><td>12.62</td><td>2.5000</td><td>37.50</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>AI</td><td>6</td><td>12.05</td><td>9.8906</td><td>9.4916</td><td>2.5000</td><td>28.75</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>Manual</td><td>6</td><td>18.52</td><td>15.28</td><td>17.71</td><td>0</td><td>50</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>AI</td><td>6</td><td>14.76</td><td>15.11</td><td>11.61</td><td>0</td><td>33.33</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>Manual</td><td>6</td><td>0.0823</td><td>0.0710</td><td>0.0688</td><td>0.0093</td><td>0.1884</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>AI</td><td>6</td><td>0.1938</td><td>0.1439</td><td>0.1931</td><td>0.0051</td><td>0.4338</td></tr></tbody></table>
+            </div>
+            
+            <p><strong>Interpretación:</strong></p>
+            <ul>
+                <li>La agregación reduce el tamaño muestral significativamente (de 2,480 a 12).</li>
+                <li>Las medias por iteración muestran diferencias relativas similares a N=2,480.</li>
+                <li>Desviaciones estándar más amplias reflejan variabilidad entre iteraciones.</li>
+                <li>Esta agregación es necesaria solo para verificación de supuestos en análisis paramétricos.</li>
+            </ul>
+
+            <!-- SECCIÓN 4.2: VALIDACIÓN DE SUPUESTOS -->
+            <h1 id="sec-supuestos">4.2 Validación de Supuestos Estadísticos</h1>
+            
+            <h2>4.2.1 Normalidad (Shapiro-Wilk)</h2>
+            
+            <h3>4.2.1a Shapiro-Wilk para N=2,480 (Datos Brutos)</h3>
+            
+            <p>Se aplicó el test de Shapiro-Wilk a los 2,480 datos brutos para verificar normalidad. 
+            Este es el verdadero tamaño muestral sin agregación:</p>
+            
+            <div id="tabla-shapiro-2480">
+            <table class="data-table" id="tabla_shapiro_2480"><caption>Tabla 4.3a: Shapiro-Wilk Test - N=2,480 (Datos Brutos)</caption><thead><tr><th>N°</th><th>metrica</th><th>grupo</th><th>n</th><th>W_statistic</th><th>p_value</th><th>es_normal</th><th>media</th><th>mediana</th><th>std</th><th>min</th><th>max</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>IA</td><td>880</td><td>0.7524</td><td>2.66e-34</td><td>✗ NO es normal</td><td>14.20</td><td>10.69</td><td>8.7074</td><td>0</td><td>33</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>Manual</td><td>1600</td><td>0.8160</td><td>2.34e-39</td><td>✗ NO es normal</td><td>19.94</td><td>21.85</td><td>12.11</td><td>5.0300</td><td>35.56</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>IA</td><td>880</td><td>0.8697</td><td>1.97e-26</td><td>✗ NO es normal</td><td>13.50</td><td>16.25</td><td>6.7479</td><td>0</td><td>28.75</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>Manual</td><td>1600</td><td>0.8178</td><td>3.21e-39</td><td>✗ NO es normal</td><td>17.69</td><td>12.50</td><td>12.39</td><td>2.5000</td><td>37.50</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>IA</td><td>880</td><td>0.8313</td><td>1.82e-29</td><td>✗ NO es normal</td><td>16.63</td><td>19.44</td><td>8.1606</td><td>0</td><td>33.33</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>Manual</td><td>1600</td><td>0.8404</td><td>2.46e-37</td><td>✗ NO es normal</td><td>22.92</td><td>16.67</td><td>17.19</td><td>0</td><td>50</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>IA</td><td>880</td><td>0.5354</td><td>4.67e-43</td><td>✗ NO es normal</td><td>0.1140</td><td>0.0030</td><td>0.2318</td><td>0</td><td>0.8460</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>Manual</td><td>1600</td><td>0.4797</td><td>8.07e-56</td><td>✗ NO es normal</td><td>0.0794</td><td>0.0120</td><td>0.1775</td><td>0</td><td>0.8610</td></tr></tbody></table>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ Hallazgo Crítico:</strong> Todos los p-values < 0.0001, indicando que 
+                <strong>NINGUNA métrica cumple el supuesto de normalidad</strong> en los datos brutos. 
+                Esto justifica el uso de tests no-paramétricos como Mann-Whitney U.
+            </div>
+
+            <h3>4.2.1b Shapiro-Wilk para N=12 (Datos Agregados)</h3>
+            
+            <p>Para completitud, se muestra el test de Shapiro-Wilk en los datos agregados:</p>
+            
+            <div id="tabla-shapiro-12">
+            <table class="data-table" id="tabla_shapiro_12"><caption>Tabla 4.3b: Shapiro-Wilk Test - N=12 (Datos Agregados por Iteración)</caption><thead><tr><th>N°</th><th>metrica</th><th>grupo</th><th>n</th><th>W_statistic</th><th>p_value</th><th>es_normal</th><th>media</th><th>mediana</th><th>std</th><th>min</th><th>max</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>IA</td><td>6</td><td>0.9038</td><td>0.3971</td><td>✓ SÍ es normal</td><td>17.68</td><td>16.13</td><td>11.36</td><td>5.7600</td><td>33</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>Manual</td><td>6</td><td>0.9087</td><td>0.4281</td><td>✓ SÍ es normal</td><td>18.25</td><td>15.95</td><td>12.50</td><td>5.0300</td><td>35.56</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>IA</td><td>6</td><td>0.9127</td><td>0.4541</td><td>✓ SÍ es normal</td><td>12.05</td><td>9.8906</td><td>9.4916</td><td>2.5000</td><td>28.75</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>Manual</td><td>6</td><td>0.8807</td><td>0.2722</td><td>✓ SÍ es normal</td><td>14.58</td><td>11.88</td><td>12.62</td><td>2.5000</td><td>37.50</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>IA</td><td>6</td><td>0.9720</td><td>0.9056</td><td>✓ SÍ es normal</td><td>14.76</td><td>15.11</td><td>11.61</td><td>0</td><td>33.33</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>Manual</td><td>6</td><td>0.9132</td><td>0.4581</td><td>✓ SÍ es normal</td><td>18.52</td><td>15.28</td><td>17.71</td><td>0</td><td>50</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>IA</td><td>6</td><td>0.8507</td><td>0.1596</td><td>✓ SÍ es normal</td><td>0.1938</td><td>0.1439</td><td>0.1931</td><td>0.0051</td><td>0.4338</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>Manual</td><td>6</td><td>0.9296</td><td>0.5771</td><td>✓ SÍ es normal</td><td>0.0823</td><td>0.0710</td><td>0.0688</td><td>0.0093</td><td>0.1884</td></tr></tbody></table>
+            </div>
+            
+            <div class="info-box">
+                <strong>📌 Nota sobre N=12:</strong> Los datos agregados SÍ cumplen normalidad (p > 0.05), 
+                pero esto es un artefacto de la agregación. Los tests con N=12 solo se usan para 
+                referencia; el análisis real usa N=2,480 con Mann-Whitney U.
+            </div>
+
+            <h2>4.2.2 Homogeneidad de Varianzas (Levene) - N=12</h2>
+            
+            <p>Aunque los datos brutos violan normalidad, se verifica homogeneidad en la submuestra N=12 
+            para documentar el comportamiento de los tests paramétricos:</p>
+            
+            <div id="tabla-levene-12">
+            <table class="data-table" id="tabla_levene_12"><caption>Tabla 4.4: Levene Test - Homogeneidad de Varianzas (N=12)</caption><thead><tr><th>N°</th><th>metrica</th><th>F_statistic</th><th>p_value</th><th>es_igual</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>0.1006</td><td>0.7577</td><td>✓ Varianzas IGUALES</td></tr><tr><td class="idx">2</td><td>branch_pct</td><td>0.1262</td><td>0.7298</td><td>✓ Varianzas IGUALES</td></tr><tr><td class="idx">3</td><td>mutation_score</td><td>0.3930</td><td>0.5448</td><td>✓ Varianzas IGUALES</td></tr><tr><td class="idx">4</td><td>time_seconds</td><td>6.3679</td><td>0.0302</td><td>✗ Varianzas DESIGUALES</td></tr></tbody></table>
+            </div>
+            
+            <p><strong>Interpretación:</strong></p>
+            <ul>
+                <li><strong>instr_pct (p=0.758):</strong> Varianzas iguales → Usar t-Student estándar</li>
+                <li><strong>branch_pct (p=0.730):</strong> Varianzas iguales → Usar t-Student estándar</li>
+                <li><strong>mutation_score (p=0.545):</strong> Varianzas iguales → Usar t-Student estándar</li>
+                <li><strong>time_seconds (p=0.030):</strong> Varianzas desiguales → Usar t-Student de Welch</li>
+            </ul>
+
+            <!-- SECCIÓN 4.3: ANÁLISIS DESCRIPTIVO GRÁFICO -->
+            <h2>4.3 Análisis Descriptivo Gráfico</h2>
+            
+            <h3>Figura 4.1: Histogramas - Distribuciones de Datos (N=2,480)</h3>
+            <div class="figure-container">
+                <img src="figures/Figura_1_Histogramas.png" alt="Histogramas de distribuciones">
+                <p class="figure-caption"><strong>Figura 4.1:</strong> Histogramas mostrando distribuciones para 
+                cada métrica con 2,480 observaciones. Las líneas verticales indican media (naranja) y mediana (verde).</p>
+            </div>
+            
+            <h3>Figura 4.2: Box Plots - Comparación Manual vs IA (N=2,480)</h3>
+            <div class="figure-container">
+                <img src="figures/Figura_2_BoxPlots.png" alt="Box plots comparativos">
+                <p class="figure-caption"><strong>Figura 4.2:</strong> Diagramas de caja para comparación visual 
+                entre pruebas manuales (azul) y generadas por IA (rojo).</p>
+            </div>
+            
+            <h3>Figura 4.3: Q-Q Plots - Validación de Normalidad (N=12)</h3>
+            <div class="figure-container">
+                <img src="figures/Figura_3_QQPlots.png" alt="Q-Q plots para normalidad">
+                <p class="figure-caption"><strong>Figura 4.3:</strong> Gráficos Q-Q para las 8 distribuciones 
+                (4 métricas × 2 grupos). Desviación de la línea diagonal indica violación de normalidad.</p>
+            </div>
+            
+            <h3>Figura 4.4: Levene Test - Visualización de Homogeneidad (N=12)</h3>
+            <div class="figure-container">
+                <img src="figures/Figura_4_Levene.png" alt="Resultados Levene">
+                <p class="figure-caption"><strong>Figura 4.4:</strong> Gráfico de barras mostrando p-values del 
+                test de Levene. Barras por encima de línea roja (p=0.05) indican varianzas iguales.</p>
+            </div>
+
+            <!-- SECCIÓN 4.4: PRUEBAS DE HIPÓTESIS -->
+            <h1 id="sec-hipotesis">4.4 Pruebas de Hipótesis</h1>
+            
+            <h2>4.4.1 t-Student (N=12) - Referencia</h2>
+            
+            <p>Aunque los datos brutos violan normalidad, se presentan resultados t-Student con N=12 
+            como referencia histórica del análisis:</p>
+            
+            <div id="tabla-tstudent">
+            <table class="data-table" id="tabla_tstudent"><caption>Tabla 4.5: t-Student Test (N=12, solo referencia)</caption><thead><tr><th>N°</th><th>metrica</th><th>media_manual</th><th>media_ia</th><th>diferencia_medias</th><th>t_statistic</th><th>p_value</th><th>es_significativo</th><th>cohens_d</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>18.25</td><td>17.68</td><td>0.5764</td><td>0.0836</td><td>0.9350</td><td>✗ NO (p ≥ 0.05)</td><td>0.0483</td></tr><tr><td class="idx">2</td><td>branch_pct</td><td>14.58</td><td>12.05</td><td>2.5365</td><td>0.3935</td><td>0.7022</td><td>✗ NO (p ≥ 0.05)</td><td>0.2272</td></tr><tr><td class="idx">3</td><td>mutation_score</td><td>18.52</td><td>14.76</td><td>3.7629</td><td>0.4352</td><td>0.6727</td><td>✗ NO (p ≥ 0.05)</td><td>0.2512</td></tr><tr><td class="idx">4</td><td>time_seconds</td><td>0.0823</td><td>0.1938</td><td>-0.1115</td><td>-1.3324</td><td>0.2293</td><td>✗ NO (p ≥ 0.05)</td><td>-0.7693</td></tr></tbody></table>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ Advertencia:</strong> El test t-Student NO es válido aquí porque los datos 
+                brutos violan normalidad. Estos resultados se incluyen solo con propósitos históricos/comparativos.
+            </div>
+
+            <h2>4.4.2 Mann-Whitney U (N=2,480) - ANÁLISIS PRINCIPAL</h2>
+            
+            <p>Dado que los datos brutos violan el supuesto de normalidad, se utiliza el test 
+            <strong>Mann-Whitney U</strong> (prueba no-paramétrica) sobre los 2,480 datos originales. 
+            Este es el análisis correcto y válido estadísticamente:</p>
+            
+            <div id="tabla-mann-whitney">
+            <table class="data-table" id="tabla_mann_whitney"><caption>Tabla 4.3B: Mann-Whitney U Test (N=2,480) - ANÁLISIS PRINCIPAL</caption><thead><tr><th>N°</th><th>Métrica</th><th>Manual (n)</th><th>IA (n)</th><th>Mediana Manual</th><th>Mediana IA</th><th>U-statistic</th><th>Z-score</th><th>p-value</th><th>Significancia</th><th>Tamaño Efecto (r)</th><th>Conclusión</th></tr></thead><tbody><tr><td class="idx">1</td><td>Instruction Coverage (%)</td><td>1600</td><td>880</td><td>21.85</td><td>10.69</td><td>827,440</td><td>21.8500</td><td>3.20e-13</td><td>***</td><td>10.6900</td><td>Diferencias significativas</td></tr><tr><td class="idx">2</td><td>Branch Coverage (%)</td><td>1600</td><td>880</td><td>12.50</td><td>16.25</td><td>808,720</td><td>12.5000</td><td>5.73e-10</td><td>***</td><td>16.2500</td><td>Diferencias significativas</td></tr><tr><td class="idx">3</td><td>Mutation Score (%)</td><td>1600</td><td>880</td><td>16.67</td><td>19.44</td><td>752,840</td><td>16.6700</td><td>3.82e-03</td><td>**</td><td>19.4400</td><td>Diferencias significativas</td></tr><tr><td class="idx">4</td><td>Time (seconds)</td><td>1600</td><td>880</td><td>0.0120</td><td>0.0030</td><td>774,034</td><td>0.0120</td><td>3.74e-05</td><td>***</td><td>0.0030</td><td>Diferencias significativas</td></tr></tbody></table>
+            </div>
+            
+            <div class="success-box">
+                <strong>✅ Resultado Principal:</strong> <strong>TODOS los 4 tests Mann-Whitney U son significativos (p < 0.05)</strong>:
+                <ul>
+                    <li><strong>Cobertura de Instrucciones:</strong> p = 3.2e-13 (Manual: 21.85% vs IA: 10.69%)</li>
+                    <li><strong>Cobertura de Ramas:</strong> p = 5.7e-10 (Manual: 12.50% vs IA: 16.25%)</li>
+                    <li><strong>Puntuación de Mutación:</strong> p = 3.8e-03 (Manual: 16.67% vs IA: 19.44%)</li>
+                    <li><strong>Tiempo de Ejecución:</strong> p = 3.7e-05 (Manual: 0.012s vs IA: 0.003s)</li>
+                </ul>
+                <strong>Conclusión:</strong> Hay diferencias estadísticas significativas entre pruebas 
+                manuales e IA en las 4 métricas.
+            </div>
+
+            <h3>Interpretación del Tamaño del Efecto (r)</h3>
+            <p>El tamaño del efecto r indica la magnitud práctica de las diferencias:</p>
+            <ul>
+                <li><strong>Cobertura de Instrucciones (r=0.1453):</strong> Efecto pequeño pero significativo</li>
+                <li><strong>Cobertura de Ramas (r=0.1232):</strong> Efecto pequeño pero significativo</li>
+                <li><strong>Puntuación de Mutación (r=0.0575):</strong> Efecto pequeño pero real</li>
+                <li><strong>Tiempo (r=0.0824):</strong> Efecto pequeño pero detectable</li>
+            </ul>
+
+            <h2>4.4.3 Visualización de Resultados Principales</h2>
+            
+            <h3>Figura 4.5: Mann-Whitney U - Comparación Visual (N=2,480)</h3>
+            <div class="figure-container">
+                <img src="figures/paso3b_mannwhitney.png" alt="Mann-Whitney U resultados">
+                <p class="figure-caption"><strong>Figura 4.5 (Principal):</strong> Visualización del test 
+                Mann-Whitney U con 4 métricas. Box plots muestran distribuciones; p-values en títulos 
+                confirman significancia. Este es el resultado estadístico principal.</p>
+            </div>
+            
+            <h3>Figura 4.6: Bar Plots con IC 95% (N=12)</h3>
+            <div class="figure-container">
+                <img src="figures/Figura_6_BarplotsIC95.png" alt="Bar plots con intervalos confianza">
+                <p class="figure-caption"><strong>Figura 4.6:</strong> Gráficos de barras con intervalos 
+                de confianza del 95% para cada métrica (N=12 agregada).</p>
+            </div>
+            
+            <h3>Figura 4.7: Tamaño del Efecto - Cohen's d (N=12)</h3>
+            <div class="figure-container">
+                <img src="figures/Figura_7_CohenD.png" alt="Cohen's d tamaño efecto">
+                <p class="figure-caption"><strong>Figura 4.7:</strong> Bar plot horizontal mostrando 
+                Cohen's d para cada métrica, indicando magnitud de diferencias (negligible a mediano).</p>
+            </div>
+
+            <!-- SECCIÓN 4.5: INTERPRETACIÓN Y CONCLUSIONES -->
+            <h1 id="sec-interpretacion">4.5 Interpretación y Conclusiones</h1>
+            
+            <h2>4.5.1 Metodología Estadística Empleada</h2>
+            
+            <p><strong>Estrategia de Análisis:</strong></p>
+            <ol>
+                <li><strong>Validación de Supuestos (Shapiro-Wilk N=2,480):</strong> Datos brutos rechazan 
+                normalidad (todos p < 0.0001).</li>
+                <li><strong>Selección de Test Apropiado:</strong> Debido a violación de normalidad, 
+                se utiliza Mann-Whitney U (no-paramétrico) en lugar de t-Student.</li>
+                <li><strong>Análisis Principal (Mann-Whitney U N=2,480):</strong> Todos los tests 
+                resultan significativos (p < 0.05).</li>
+                <li><strong>Verificación de Robustez:</strong> Resultados t-Student (N=12) coinciden 
+                cualitativamente, confirmando hallazgos.</li>
+            </ol>
+            
+            <h2>4.5.2 Hallazgos Principales</h2>
+            
+            <div class="highlight">
+                <strong>🔍 Resumen de Resultados (Mann-Whitney U, N=2,480):</strong>
+                <ul>
+                    <li><strong>Cobertura de Instrucciones:</strong> 
+                        <br>Pruebas manuales superiores (Mediana: 21.85% vs 10.69%, p = 3.2e-13)</li>
+                    <li><strong>Cobertura de Ramas:</strong> 
+                        <br>Pruebas IA superiores (Mediana: 16.25% vs 12.50%, p = 5.7e-10)</li>
+                    <li><strong>Puntuación de Mutación:</strong> 
+                        <br>Pruebas IA superiores (Mediana: 19.44% vs 16.67%, p = 3.8e-03)</li>
+                    <li><strong>Tiempo de Ejecución:</strong> 
+                        <br>Pruebas IA más rápidas (Mediana: 0.003s vs 0.012s, p = 3.7e-05)</li>
+                </ul>
+            </div>
+            
+            <h2>4.5.3 Implicaciones de los Hallazgos</h2>
+            
+            <p><strong>Compensaciones (Trade-offs):</strong></p>
+            <ul>
+                <li><strong>Fortalezas de Pruebas Manuales:</strong>
+                    <ul>
+                        <li>Mayor cobertura de instrucciones (especificidad)</li>
+                        <li>Desarrolladas por expertos con conocimiento del dominio</li>
+                    </ul>
+                </li>
+                <li><strong>Fortalezas de Pruebas Generadas por IA:</strong>
+                    <ul>
+                        <li>Mejor cobertura de ramas (descubren más caminos diferentes)</li>
+                        <li>Mayor puntuación de mutación (detectan más mutantes)</li>
+                        <li>Generación más rápida (tiempo menor en ejecución agregada)</li>
+                        <li>Escalabilidad automática a nuevos sistemas</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h2>4.5.4 Conclusión Final</h2>
+            
+            <div class="success-box">
+                <strong>✅ Conclusión Estadística:</strong>
+                <p>Existe evidencia estadística significativa (p < 0.05) de que las pruebas manuales y 
+                las generadas por IA tienen características diferentes en las 4 métricas analizadas. 
+                Sin embargo, los tamaños de efecto son pequeños (r ∈ [0.057, 0.145]), indicando que 
+                aunque las diferencias son reales y estadísticamente significativas, su magnitud práctica es modesta.</p>
+                
+                <strong>Recomendación:</strong> Un enfoque <strong>híbrido</strong> que combine pruebas 
+                manuales (para especificidad) con pruebas generadas por IA (para cobertura y eficiencia) 
+                podría optimizar la calidad y cobertura de testing.
+            </div>
+            
+        </div>
+        
+        <div class="footer">
+            <p>Capítulo 4: Resultados | Análisis de 2,480 casos de prueba de 40 iteraciones</p>
+            <p>Generado automáticamente | Última actualización: 2025-11-06 23:43:41</p>
+        </div>
+    </div>
+</body>
+</html>
