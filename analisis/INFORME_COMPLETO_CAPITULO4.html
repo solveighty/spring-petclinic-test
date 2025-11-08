@@ -1481,6 +1481,138 @@
                     todos 4 tests significativos (conclusión válida)</li>
             </ol>
             
+            <h3>4.4.1c Cohen's d: Tamaño del Efecto en t-Student</h3>
+            
+            <p>Además del p-value (que indica si una diferencia es <strong>estadísticamente significativa</strong>), 
+            es crucial medir el <strong>tamaño del efecto</strong>: ¿qué tan grande es la diferencia prácticamente?</p>
+            
+            <p><strong>¿Qué es Cohen's d?</strong></p>
+            <p>Cohen's d es una medida estandarizada de la magnitud de la diferencia entre dos grupos, 
+            independiente del tamaño de muestra. Responde la pregunta: <em>¿de cuántas desviaciones estándar se 
+            diferencian las dos medias?</em></p>
+            
+            <h4>Fórmula de Cohen's d</h4>
+            
+            <p>$$d = \frac{\bar{x}_1 - \bar{x}_2}{s_p}$$</p>
+            
+            <p><strong>Donde:</strong></p>
+            <ul>
+                <li>$\bar{x}_1, \bar{x}_2$ = medias de los dos grupos</li>
+                <li>$s_p$ = desviación estándar combinada (pooled): $$s_p = \sqrt{\frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2}}$$</li>
+            </ul>
+            
+            <p><strong>Interpretación de Cohen's d:</strong></p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Rango de |d|</th>
+                        <th>Interpretación</th>
+                        <th>Significado Práctico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>|d| < 0.2</td>
+                        <td>Efecto <strong>negligible/trivial</strong></td>
+                        <td>Diferencia muy pequeña, prácticamente imperceptible</td>
+                    </tr>
+                    <tr style="background-color: #f9f9f9;">
+                        <td>0.2 ≤ |d| < 0.5</td>
+                        <td>Efecto <strong>pequeño</strong></td>
+                        <td>Diferencia pequeña, pero observable en datos agregados</td>
+                    </tr>
+                    <tr>
+                        <td>0.5 ≤ |d| < 0.8</td>
+                        <td>Efecto <strong>mediano</strong></td>
+                        <td>Diferencia clara y notable</td>
+                    </tr>
+                    <tr style="background-color: #f9f9f9;">
+                        <td>|d| ≥ 0.8</td>
+                        <td>Efecto <strong>grande</strong></td>
+                        <td>Diferencia muy pronunciada y prácticamente relevante</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>Ejemplo Práctico: Cálculo de Cohen's d</h4>
+            
+            <div class="info-box">
+                <strong>Datos del Ejemplo (Coverage de Instrucciones - N=12):</strong>
+                <ul>
+                    <li><strong>Manual:</strong> Media = 18.25%, Desv.Est. = 12.50%</li>
+                    <li><strong>IA:</strong> Media = 17.68%, Desv.Est. = 11.36%</li>
+                    <li>Diferencia de medias = 18.25 - 17.68 = 0.57%</li>
+                </ul>
+                
+                <p><strong>Paso 1: Calcular Desviación Estándar Combinada</strong></p>
+                <ul>
+                    <li>$s_p = \sqrt{\frac{(6-1) \times 12.50^2 + (6-1) \times 11.36^2}{6+6-2}}$</li>
+                    <li>$s_p = \sqrt{\frac{5 \times 156.25 + 5 \times 129.06}{10}}$</li>
+                    <li>$s_p = \sqrt{\frac{781.25 + 645.30}{10}} = \sqrt{\frac{1426.55}{10}} = \sqrt{142.66} = 11.94\%$</li>
+                </ul>
+                
+                <p><strong>Paso 2: Calcular Cohen's d</strong></p>
+                <ul>
+                    <li>$d = \frac{0.57}{11.94} = 0.048$</li>
+                </ul>
+                
+                <p><strong>Interpretación:</strong></p>
+                <ul>
+                    <li>$|d| = 0.048 < 0.2$ → Efecto <strong>negligible</strong></li>
+                    <li>La diferencia entre Manual e IA es solo 0.048 desviaciones estándar</li>
+                    <li>Aunque sea pequeña, en un análisis con N=2,480 (muchos datos), se puede detectar</li>
+                    <li><strong>Conclusión:</strong> No hay diferencia significativa en N=12 (p=0.935), 
+                    y además el efecto es trivial</li>
+                </ul>
+            </div>
+            
+            <h4>Cohen's d en Esta Investigación: Resultados</h4>
+            
+            <p>Los valores de Cohen's d obtenidos en el análisis t-Student (N=12) son:</p>
+            
+            <ul>
+                <li><strong>instr_pct:</strong> d = 0.0483 → Efecto <strong>negligible</strong></li>
+                <li><strong>branch_pct:</strong> d = 0.2272 → Efecto <strong>pequeño</strong></li>
+                <li><strong>mutation_score:</strong> d = 0.2512 → Efecto <strong>pequeño</strong></li>
+                <li><strong>time_seconds:</strong> d = -0.7693 → Efecto <strong>mediano</strong> (IA toma más tiempo)</li>
+            </ul>
+            
+            <h4>¿Qué Nos Dice Cohen's d en Este Caso?</h4>
+            
+            <p><strong>Importancia 1: Complementa al p-value</strong></p>
+            <p>El p-value solo dice "es significativo" o "no es significativo", pero NOT cuán grande es la diferencia. 
+            Cohen's d proporciona esa información. Ejemplos:</p>
+            <ul>
+                <li><strong>instr_pct:</strong> p = 0.935 (no significativo), d = 0.048 (negligible) 
+                    → Ambos coinciden: NO hay diferencia</li>
+                <li><strong>time_seconds:</strong> p = 0.229 (no significativo en N=12), pero d = -0.77 (mediano) 
+                    → Hay diferencia clara, pero N=12 es insuficiente para detectarla estadísticamente</li>
+            </ul>
+            
+            <p><strong>Importancia 2: Comparación entre Estudios</strong></p>
+            <p>Cohen's d es estandarizado (sin unidades), permitiendo comparar efectos entre métricas diferentes 
+            y entre estudios. Por ejemplo:</p>
+            <ul>
+                <li>Comparar efecto en "tiempo en segundos" (d = -0.77) vs "coverage en porcentaje" (d = 0.05)</li>
+                <li>Publicar resultados que otros investigadores puedan comparar con sus estudios</li>
+            </ul>
+            
+            <p><strong>Importancia 3: Tamaño de Muestra vs Efecto Real</strong></p>
+            <p>Con N=12, los tests no son poderosos para pequeños efectos. Pero Cohen's d muestra qué efectos 
+            existen realmente:</p>
+            <ul>
+                <li><strong>branch_pct (d=0.23, p=0.702):</strong> Hay efecto pequeño, pero N=12 no es suficiente 
+                    para detectarlo con significancia estadística</li>
+                <li><strong>time_seconds (d=-0.77, p=0.229):</strong> Hay efecto mediano (diferencia real), 
+                    pero N=12 es demasiado pequeño; con N=2,480, Mann-Whitney U SÍ lo detecta (p=3.7e-05)</li>
+            </ul>
+            
+            <p><strong>Conclusión sobre Cohen's d en Esta Investigación:</strong></p>
+            <p>Los valores de Cohen's d confirman que aunque N=12 no detecte significancia estadística (bajo poder), 
+            existen <strong>diferencias reales</strong> especialmente en time_seconds (d = -0.77, efecto mediano). 
+            Esto justifica plenamente el análisis con N=2,480 mediante Mann-Whitney U, que SÍ detecta estas 
+            diferencias significativamente (conclusión válida y robusta).</p>
+            
             <p><strong>Decisión Final:</strong></p>
             <p>El análisis definiti​vo utiliza <strong>Mann-Whitney U con N=2,480</strong> como prueba principal porque:</p>
             <ul>
@@ -1488,6 +1620,7 @@
                 <li>✅ Mayor poder estadístico (n=2,480 vs n=12)</li>
                 <li>✅ Resultados concordantes con Welch para time_seconds</li>
                 <li>✅ Conclusión robusta: TODAS las métricas muestran diferencias significativas entre Manual e IA</li>
+                <li>✅ Cohen's d en N=12 corrobora que las diferencias reales son detectadas por Mann-Whitney U en N=2,480</li>
             </ul>
 
             <h2>4.4.2 Mann-Whitney U (N=2,480) - ANÁLISIS PRINCIPAL</h2>
@@ -1512,14 +1645,166 @@
                 manuales e IA en las 4 métricas.
             </div>
 
-            <h2>4.4.3 Interpretación del Tamaño del Efecto (r)</h2>
-            <p>El tamaño del efecto r indica la magnitud práctica de las diferencias:</p>
+            <h2>4.4.3 Interpretación del Tamaño del Efecto (r) para Mann-Whitney U</h2>
+            
+            <p><strong>¿Qué es "r" en Mann-Whitney U?</strong></p>
+            <p>A diferencia de Cohen's d (usado para t-Student), Mann-Whitney U utiliza "r" como medida 
+            estandarizada del tamaño del efecto. Proporciona información complementaria al p-value: 
+            mientras que el p-value dice si hay significancia estadística, "r" cuantifica la 
+            <strong>magnitud práctica</strong> de la diferencia.</p>
+            
+            <h4>Fórmula de r para Mann-Whitney U</h4>
+            
+            <p>$$r = \frac{Z}{\sqrt{N}}$$</p>
+            
+            <p><strong>Donde:</strong></p>
             <ul>
-                <li><strong>Cobertura de Instrucciones (r=0.1453):</strong> Efecto pequeño pero significativo</li>
-                <li><strong>Cobertura de Ramas (r=0.1232):</strong> Efecto pequeño pero significativo</li>
-                <li><strong>Puntuación de Mutación (r=0.0575):</strong> Efecto pequeño pero real</li>
-                <li><strong>Tiempo (r=0.0824):</strong> Efecto pequeño pero detectable</li>
+                <li>$Z$ = Z-score derivado del estadístico U de Mann-Whitney</li>
+                <li>$N$ = tamaño total de la muestra (n₁ + n₂)</li>
+                <li>$r$ = correlación de rango (rango de 0 a 1, aunque teoréticamente puede ser negativo)</li>
             </ul>
+            
+            <p><strong>Interpretación de r:</strong></p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Rango de r</th>
+                        <th>Interpretación</th>
+                        <th>Significado Práctico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>r < 0.1</td>
+                        <td>Efecto <strong>negligible</strong></td>
+                        <td>Diferencia muy pequeña</td>
+                    </tr>
+                    <tr style="background-color: #f9f9f9;">
+                        <td>0.1 ≤ r < 0.3</td>
+                        <td>Efecto <strong>pequeño</strong></td>
+                        <td>Diferencia pequeña, detectable con muestra grande</td>
+                    </tr>
+                    <tr>
+                        <td>0.3 ≤ r < 0.5</td>
+                        <td>Efecto <strong>mediano</strong></td>
+                        <td>Diferencia clara y notable</td>
+                    </tr>
+                    <tr style="background-color: #f9f9f9;">
+                        <td>r ≥ 0.5</td>
+                        <td>Efecto <strong>grande</strong></td>
+                        <td>Diferencia muy pronunciada</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>Ejemplo Práctico: Cálculo de r para Mann-Whitney U</h4>
+            
+            <div class="info-box">
+                <strong>Datos del Ejemplo (Instruction Coverage - N=2,480):</strong>
+                <ul>
+                    <li><strong>Manual:</strong> n = 1,600</li>
+                    <li><strong>IA:</strong> n = 880</li>
+                    <li><strong>Total N:</strong> 2,480</li>
+                    <li><strong>U-statistic:</strong> 827,440</li>
+                </ul>
+                
+                <p><strong>Paso 1: Calcular Z-score</strong></p>
+                <p>A partir del U-statistic, se calcula:</p>
+                <ul>
+                    <li>Valor esperado: $E[U] = \frac{n_1 \times n_2}{2} = \frac{1600 \times 880}{2} = 704,000$</li>
+                    <li>Varianza: $Var[U] = \frac{n_1 \times n_2 \times (n_1 + n_2 + 1)}{12} = \frac{1600 \times 880 \times 2481}{12} = 291,120,000$</li>
+                    <li>$Z = \frac{U - E[U]}{\sqrt{Var[U]}} = \frac{827,440 - 704,000}{\sqrt{291,120,000}} = \frac{123,440}{17,063} = 7.235$</li>
+                </ul>
+                
+                <p><strong>Paso 2: Calcular r</strong></p>
+                <ul>
+                    <li>$r = \frac{|Z|}{\sqrt{N}} = \frac{7.235}{\sqrt{2480}} = \frac{7.235}{49.80} = 0.1453$</li>
+                </ul>
+                
+                <p><strong>Interpretación:</strong></p>
+                <ul>
+                    <li>$r = 0.1453$ → Efecto <strong>pequeño</strong> (0.1 ≤ r < 0.3)</li>
+                    <li>Aunque significativo (p = 3.2e-13), la magnitud práctica es pequeña</li>
+                    <li>Esto es típico en estudios con N grande: pequeñas diferencias se vuelven significativas</li>
+                </ul>
+            </div>
+            
+            <h4>Resultados de r en Todas las Métricas (N=2,480)</h4>
+            
+            <p>El tamaño del efecto r para Mann-Whitney U indica la magnitud práctica de las diferencias:</p>
+            <ul>
+                <li><strong>Cobertura de Instrucciones (r=0.1453):</strong> Efecto <strong>pequeño</strong> 
+                    → Diferencia detectable pero de magnitud modesta</li>
+                <li><strong>Cobertura de Ramas (r=0.1232):</strong> Efecto <strong>pequeño</strong> 
+                    → Similar a instrucciones, diferencia pequeña</li>
+                <li><strong>Puntuación de Mutación (r=0.0575):</strong> Efecto <strong>negligible</strong> 
+                    → Diferencia muy pequeña, apenas detectable</li>
+                <li><strong>Tiempo (r=0.0824):</strong> Efecto <strong>pequeño</strong> 
+                    → Pequeña diferencia, pero con N=2,480 es significativa</li>
+            </ul>
+            
+            <h4>¿Qué Significa Esto en Esta Investigación?</h4>
+            
+            <p><strong>Implicación 1: Significancia Estadística vs Práctica</strong></p>
+            <p>Aunque TODAS las métricas de Mann-Whitney U muestran p < 0.05 (significancia estadística), 
+            los tamaños del efecto son PEQUEÑOS (r ≤ 0.15). Esto significa:</p>
+            <ul>
+                <li>Las diferencias entre Manual e IA son <strong>reales y consistentes</strong> (detectadas con 2,480 casos)</li>
+                <li>Pero la <strong>magnitud práctica es modesta</strong>, no son diferencias enormes</li>
+                <li>Esto es realista: ambos métodos (Manual e IA) son razonablemente competitivos</li>
+            </ul>
+            
+            <p><strong>Implicación 2: Razón del Tamaño del Efecto Pequeño</strong></p>
+            <ul>
+                <li>N=2,480 es muy grande → pequeños efectos se vuelven significativos</li>
+                <li>Las métricas (coverage en %, mutation score en %) tienen variabilidad natural</li>
+                <li>Las diferencias observadas son reales pero no son transformacionales</li>
+                <li>Para aplicaciones prácticas, ambos métodos pueden ser viables según el contexto</li>
+            </ul>
+            
+            <p><strong>Comparación r (Mann-Whitney U, N=2,480) vs Cohen's d (t-Student, N=12):</strong></p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Métrica</th>
+                        <th>Cohen's d (N=12)</th>
+                        <th>r (N=2,480)</th>
+                        <th>Interpretación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>instr_pct</td>
+                        <td>0.048 (negligible)</td>
+                        <td>0.1453 (pequeño)</td>
+                        <td>N=12 muy pequeño; N=2,480 lo detecta</td>
+                    </tr>
+                    <tr style="background-color: #f9f9f9;">
+                        <td>branch_pct</td>
+                        <td>0.227 (pequeño)</td>
+                        <td>0.1232 (pequeño)</td>
+                        <td>Ambos detectan efecto pequeño similar</td>
+                    </tr>
+                    <tr>
+                        <td>mutation_score</td>
+                        <td>0.251 (pequeño)</td>
+                        <td>0.0575 (negligible)</td>
+                        <td>N=12 sobrestima; N=2,480 es más preciso</td>
+                    </tr>
+                    <tr style="background-color: #f9f9f9;">
+                        <td>time_seconds</td>
+                        <td>-0.769 (mediano)</td>
+                        <td>0.0824 (pequeño)</td>
+                        <td>N=12 muestra efecto mayor; N=2,480 normaliza</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>Conclusión sobre el Tamaño del Efecto:</strong></p>
+            <p>Los valores pequeños de r (Mann-Whitney U) confirman que aunque existen diferencias 
+            estadísticas significativas entre Manual e IA, la <strong>magnitud práctica es modesta</strong>. 
+            Esto es metodológicamente sólido: demuestra que las conclusiones son estadísticamente robustas 
+            pero sin exagerar la importancia práctica de las diferencias observadas.</p>
 
             <!-- SECCIÓN 4.5: INTERPRETACIÓN Y CONCLUSIONES -->
             <h1 id="sec-interpretacion">4.5 Interpretación y Conclusiones</h1>
