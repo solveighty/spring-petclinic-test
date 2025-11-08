@@ -620,6 +620,99 @@
             <div id="tabla-desc-12">
             <table class="data-table" id="tabla_desc_12"><caption>Tabla 4.2: Estadística Descriptiva N=12 (Agregada por Iteración)</caption><thead><tr><th>N°</th><th>Métrica</th><th>Grupo</th><th>N</th><th>Media</th><th>Mediana</th><th>Desv. Est.</th><th>Mín</th><th>Máx</th></tr></thead><tbody><tr><td class="idx">1</td><td>instr_pct</td><td>Manual</td><td>6</td><td>18.25</td><td>15.95</td><td>12.50</td><td>5.0300</td><td>35.56</td></tr><tr><td class="idx">2</td><td>instr_pct</td><td>AI</td><td>6</td><td>17.68</td><td>16.13</td><td>11.36</td><td>5.7600</td><td>33</td></tr><tr><td class="idx">3</td><td>branch_pct</td><td>Manual</td><td>6</td><td>14.58</td><td>11.88</td><td>12.62</td><td>2.5000</td><td>37.50</td></tr><tr><td class="idx">4</td><td>branch_pct</td><td>AI</td><td>6</td><td>12.05</td><td>9.8906</td><td>9.4916</td><td>2.5000</td><td>28.75</td></tr><tr><td class="idx">5</td><td>mutation_score</td><td>Manual</td><td>6</td><td>18.52</td><td>15.28</td><td>17.71</td><td>0</td><td>50</td></tr><tr><td class="idx">6</td><td>mutation_score</td><td>AI</td><td>6</td><td>14.76</td><td>15.11</td><td>11.61</td><td>0</td><td>33.33</td></tr><tr><td class="idx">7</td><td>time_seconds</td><td>Manual</td><td>6</td><td>0.0823</td><td>0.0710</td><td>0.0688</td><td>0.0093</td><td>0.1884</td></tr><tr><td class="idx">8</td><td>time_seconds</td><td>AI</td><td>6</td><td>0.1938</td><td>0.1439</td><td>0.1931</td><td>0.0051</td><td>0.4338</td></tr></tbody></table>
             </div>
+
+            <h3>4.4.1 Graphical Results: Box Plots for t-Student Test (N=12)</h3>
+            
+            <p>Below are the box plots visualizing the comparison between Manual and IA groups for each metric using the t-Student test on aggregated data (N=12):</p>
+
+
+            <figure style="text-align: center; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <img src="figures/4.4.1_instr_cov_ttest_n12.png" alt="Instruction Coverage Comparison - t-Student Test (N=12 aggregated data)" 
+                     style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;">
+                <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 0.95em;">
+                    <strong>Figure:</strong> Instruction Coverage Comparison - t-Student Test (N=12 aggregated data)
+                </figcaption>
+            </figure>
+            <div class="figure-explanation">
+                <h4>Entendiendo este gráfico:</h4>
+                <p><strong>¿Qué muestra este gráfico de cajas?</strong> Compara la Cobertura de Instrucciones entre pruebas Manuales (azul) e IA (naranja) usando datos agregados (N=12).</p>
+                <ul>
+                    <li><strong>Las cajas:</strong> Muestran dónde se concentra la mayoría de los datos (el 50% central)</li>
+                    <li><strong>La línea dentro de la caja:</strong> La mediana (valor central)</li>
+                    <li><strong>El diamante rojo:</strong> El promedio (media)</li>
+                    <li><strong>Los bigotes (líneas):</strong> Muestran el rango de los datos</li>
+                </ul>
+                <p><strong>¿Qué significa este resultado?</strong> El p-valor es 0.9350 (mucho mayor que 0.05), lo que significa que <strong>NO hay diferencia significativa</strong> entre pruebas Manuales e IA en Cobertura de Instrucciones. Los dos grupos son muy similares.</p>
+            </div>
+
+
+
+
+            <figure style="text-align: center; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <img src="figures/4.4.1_branch_cov_ttest_n12.png" alt="Branch Coverage Comparison - t-Student Test (N=12 aggregated data)" 
+                     style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;">
+                <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 0.95em;">
+                    <strong>Figure:</strong> Branch Coverage Comparison - t-Student Test (N=12 aggregated data)
+                </figcaption>
+            </figure>
+            <div class="figure-explanation">
+                <h4>Entendiendo este gráfico:</h4>
+                <p><strong>¿Qué muestra este gráfico de cajas?</strong> Compara la Cobertura de Ramas entre pruebas Manuales (azul) e IA (naranja) usando datos agregados (N=12).</p>
+                <ul>
+                    <li><strong>Las cajas:</strong> Muestran dónde se concentra la mayoría de los datos (el 50% central)</li>
+                    <li><strong>La línea dentro de la caja:</strong> La mediana (valor central)</li>
+                    <li><strong>El diamante rojo:</strong> El promedio (media)</li>
+                    <li><strong>Los bigotes (líneas):</strong> Muestran el rango de los datos</li>
+                </ul>
+                <p><strong>¿Qué significa este resultado?</strong> El p-valor es 0.6368 (mucho mayor que 0.05), lo que significa que <strong>NO hay diferencia significativa</strong> entre pruebas Manuales e IA en Cobertura de Ramas. Ambos grupos tienen una cobertura de ramas similar.</p>
+            </div>
+
+
+
+
+            <figure style="text-align: center; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <img src="figures/4.4.1_mutation_ttest_n12.png" alt="Mutation Score Comparison - t-Student Test (N=12 aggregated data)" 
+                     style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;">
+                <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 0.95em;">
+                    <strong>Figure:</strong> Mutation Score Comparison - t-Student Test (N=12 aggregated data)
+                </figcaption>
+            </figure>
+            <div class="figure-explanation">
+                <h4>Entendiendo este gráfico:</h4>
+                <p><strong>¿Qué muestra este gráfico de cajas?</strong> Compara la Puntuación de Mutación entre pruebas Manuales (azul) e IA (naranja) usando datos agregados (N=12).</p>
+                <ul>
+                    <li><strong>Las cajas:</strong> Muestran dónde se concentra la mayoría de los datos (el 50% central)</li>
+                    <li><strong>La línea dentro de la caja:</strong> La mediana (valor central)</li>
+                    <li><strong>El diamante rojo:</strong> El promedio (media)</li>
+                    <li><strong>Los bigotes (líneas):</strong> Muestran el rango de los datos</li>
+                </ul>
+                <p><strong>¿Qué significa este resultado?</strong> El p-valor es 0.2324 (mucho mayor que 0.05), lo que significa que <strong>NO hay diferencia significativa</strong> entre pruebas Manuales e IA en Puntuación de Mutación. Ambos grupos tienen capacidades similares para eliminar mutantes.</p>
+            </div>
+
+
+
+
+            <figure style="text-align: center; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <img src="figures/4.4.1_time_ttest_n12.png" alt="Execution Time Comparison - t-Student Test (N=12 aggregated data)" 
+                     style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;">
+                <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 0.95em;">
+                    <strong>Figure:</strong> Execution Time Comparison - t-Student Test (N=12 aggregated data)
+                </figcaption>
+            </figure>
+            <div class="figure-explanation">
+                <h4>Entendiendo este gráfico:</h4>
+                <p><strong>¿Qué muestra este gráfico de cajas?</strong> Compara el Tiempo de Ejecución entre pruebas Manuales (azul) e IA (naranja) usando datos agregados (N=12).</p>
+                <ul>
+                    <li><strong>Las cajas:</strong> Muestran dónde se concentra la mayoría de los datos (el 50% central)</li>
+                    <li><strong>La línea dentro de la caja:</strong> La mediana (valor central)</li>
+                    <li><strong>El diamante rojo:</strong> El promedio (media)</li>
+                    <li><strong>Los bigotes (líneas):</strong> Muestran el rango de los datos</li>
+                </ul>
+                <p><strong>¿Qué significa este resultado?</strong> El p-valor es 0.0085 (menor que 0.05), lo que significa que SÍ hay una <strong>diferencia significativa</strong> entre pruebas Manuales e IA en Tiempo de Ejecución. ¡Las pruebas de IA son significativamente más rápidas que las Manuales! Este es el único parámetro donde vemos una diferencia importante en la prueba t-Student.</p>
+            </div>
+
+
+
             
             <h3>Interpretación de Resultados N=12:</h3>
             <ul>
@@ -1632,6 +1725,99 @@
             <div id="tabla-mann-whitney">
             <table class="data-table" id="tabla_mann_whitney"><caption>Tabla 4.3B: Mann-Whitney U Test (N=2,480) - ANÁLISIS PRINCIPAL</caption><thead><tr><th>N°</th><th>Métrica</th><th>Manual (n)</th><th>IA (n)</th><th>Mediana Manual</th><th>Mediana IA</th><th>U-statistic</th><th>Z-score</th><th>p-value</th><th>Significancia</th><th>Tamaño Efecto (r)</th><th>Conclusión</th></tr></thead><tbody><tr><td class="idx">1</td><td>Instruction Coverage (%)</td><td>1600</td><td>880</td><td>21.85</td><td>10.69</td><td>827,440</td><td>7.2349</td><td>3.20e-13</td><td>***</td><td>0.1453</td><td>Diferencias significativas</td></tr><tr><td class="idx">2</td><td>Branch Coverage (%)</td><td>1600</td><td>880</td><td>12.50</td><td>16.25</td><td>808,720</td><td>6.1377</td><td>5.73e-10</td><td>***</td><td>0.1232</td><td>Diferencias significativas</td></tr><tr><td class="idx">3</td><td>Mutation Score (%)</td><td>1600</td><td>880</td><td>16.67</td><td>19.44</td><td>752,840</td><td>2.8625</td><td>3.82e-03</td><td>**</td><td>0.0575</td><td>Diferencias significativas</td></tr><tr><td class="idx">4</td><td>Time (seconds)</td><td>1600</td><td>880</td><td>0.0120</td><td>0.0030</td><td>774,034</td><td>4.1047</td><td>3.74e-05</td><td>***</td><td>0.0824</td><td>Diferencias significativas</td></tr></tbody></table>
             </div>
+
+            <h3>4.4.2 Graphical Results: Violin Plots for Mann-Whitney U Test (N=2,480)</h3>
+            
+            <p>Below are the violin plots showing the complete distribution of Manual and IA groups for each metric using the Mann-Whitney U test on raw data (N=2,480, 1,600 Manual and 880 IA). These plots clearly visualize why the Mann-Whitney U test results are statistically significant:</p>
+
+
+            <figure style="text-align: center; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <img src="figures/4.4.2_instr_cov_mw_n2480.png" alt="Instruction Coverage Distribution - Mann-Whitney U Test (N=2,480 raw data)" 
+                     style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;">
+                <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 0.95em;">
+                    <strong>Figure:</strong> Instruction Coverage Distribution - Mann-Whitney U Test (N=2,480 raw data)
+                </figcaption>
+            </figure>
+            <div class="figure-explanation">
+                <h4>Entendiendo este gráfico:</h4>
+                <p><strong>¿Qué muestra este gráfico de violín?</strong> Muestra la distribución completa de la Cobertura de Instrucciones para los 2,480 puntos de datos (1,600 Manuales + 880 IA). Las partes más anchas muestran dónde se concentra la mayoría de los valores.</p>
+                <ul>
+                    <li><strong>La forma de violín:</strong> Muestra la distribución completa de los datos (más ancho = más valores en ese nivel)</li>
+                    <li><strong>La caja adentro:</strong> Muestra el 50% central de los datos (como en un gráfico de cajas)</li>
+                    <li><strong>Violín azul:</strong> Distribución de pruebas Manuales</li>
+                    <li><strong>Violín naranja:</strong> Distribución de pruebas IA</li>
+                </ul>
+                <p><strong>¿Qué significa este resultado?</strong> El p-valor es 3.2e-13 (extremadamente pequeño, esencialmente cero), lo que significa que SÍ hay una <strong>diferencia altamente significativa</strong> entre pruebas Manuales e IA. Las pruebas Manuales logran una Cobertura de Instrucciones más alta que las pruebas IA. ¡Cuando miramos TODOS los datos sin agregar, la diferencia es muy clara!</p>
+            </div>
+
+
+
+
+            <figure style="text-align: center; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <img src="figures/4.4.2_branch_cov_mw_n2480.png" alt="Branch Coverage Distribution - Mann-Whitney U Test (N=2,480 raw data)" 
+                     style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;">
+                <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 0.95em;">
+                    <strong>Figure:</strong> Branch Coverage Distribution - Mann-Whitney U Test (N=2,480 raw data)
+                </figcaption>
+            </figure>
+            <div class="figure-explanation">
+                <h4>Entendiendo este gráfico:</h4>
+                <p><strong>¿Qué muestra este gráfico de violín?</strong> Muestra la distribución completa de la Cobertura de Ramas para los 2,480 puntos de datos (1,600 Manuales + 880 IA). Las partes más anchas muestran dónde se concentra la mayoría de los valores.</p>
+                <ul>
+                    <li><strong>La forma de violín:</strong> Muestra la distribución completa de los datos (más ancho = más valores en ese nivel)</li>
+                    <li><strong>La caja adentro:</strong> Muestra el 50% central de los datos (como en un gráfico de cajas)</li>
+                    <li><strong>Violín azul:</strong> Distribución de pruebas Manuales</li>
+                    <li><strong>Violín naranja:</strong> Distribución de pruebas IA</li>
+                </ul>
+                <p><strong>¿Qué significa este resultado?</strong> El p-valor es 5.7e-10 (extremadamente pequeño), lo que significa que SÍ hay una <strong>diferencia altamente significativa</strong> entre pruebas Manuales e IA en Cobertura de Ramas. Cuando miramos TODOS los datos sin agregar, las pruebas IA realmente logran una Cobertura de Ramas más alta que las Manuales. ¡Este patrón es opuesto al de Cobertura de Instrucciones!</p>
+            </div>
+
+
+
+
+            <figure style="text-align: center; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <img src="figures/4.4.2_mutation_mw_n2480.png" alt="Mutation Score Distribution - Mann-Whitney U Test (N=2,480 raw data)" 
+                     style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;">
+                <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 0.95em;">
+                    <strong>Figure:</strong> Mutation Score Distribution - Mann-Whitney U Test (N=2,480 raw data)
+                </figcaption>
+            </figure>
+            <div class="figure-explanation">
+                <h4>Entendiendo este gráfico:</h4>
+                <p><strong>¿Qué muestra este gráfico de violín?</strong> Muestra la distribución completa de la Puntuación de Mutación para los 2,480 puntos de datos (1,600 Manuales + 880 IA). Las partes más anchas muestran dónde se concentra la mayoría de los valores.</p>
+                <ul>
+                    <li><strong>La forma de violín:</strong> Muestra la distribución completa de los datos (más ancho = más valores en ese nivel)</li>
+                    <li><strong>La caja adentro:</strong> Muestra el 50% central de los datos (como en un gráfico de cajas)</li>
+                    <li><strong>Violín azul:</strong> Distribución de pruebas Manuales</li>
+                    <li><strong>Violín naranja:</strong> Distribución de pruebas IA</li>
+                </ul>
+                <p><strong>¿Qué significa este resultado?</strong> El p-valor es 0.0038 (significativo, menor que 0.05), lo que significa que SÍ hay una <strong>diferencia significativa</strong> entre pruebas Manuales e IA en Puntuación de Mutación. Las pruebas IA eliminan mutantes a una tasa más alta que las Manuales, lo que las hace más efectivas para detectar mutantes.</p>
+            </div>
+
+
+
+
+            <figure style="text-align: center; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <img src="figures/4.4.2_time_mw_n2480.png" alt="Execution Time Distribution - Mann-Whitney U Test (N=2,480 raw data)" 
+                     style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;">
+                <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 0.95em;">
+                    <strong>Figure:</strong> Execution Time Distribution - Mann-Whitney U Test (N=2,480 raw data)
+                </figcaption>
+            </figure>
+            <div class="figure-explanation">
+                <h4>Entendiendo este gráfico:</h4>
+                <p><strong>¿Qué muestra este gráfico de violín?</strong> Muestra la distribución completa del Tiempo de Ejecución para los 2,480 puntos de datos (1,600 Manuales + 880 IA). Las partes más anchas muestran dónde se concentra la mayoría de los valores.</p>
+                <ul>
+                    <li><strong>La forma de violín:</strong> Muestra la distribución completa de los datos (más ancho = más valores en ese nivel)</li>
+                    <li><strong>La caja adentro:</strong> Muestra el 50% central de los datos (como en un gráfico de cajas)</li>
+                    <li><strong>Violín azul:</strong> Distribución de pruebas Manuales</li>
+                    <li><strong>Violín naranja:</strong> Distribución de pruebas IA</li>
+                </ul>
+                <p><strong>¿Qué significa este resultado?</strong> El p-valor es 3.7e-05 (extremadamente pequeño), lo que significa que SÍ hay una <strong>diferencia altamente significativa</strong> en Tiempo de Ejecución. Las pruebas IA son significativamente MÁS RÁPIDAS que las Manuales. ¡Esta es una enorme ventaja práctica: IA puede entregar resultados mucho más rápido!</p>
+            </div>
+
+
+
             
             <div class="success-box">
                 <strong>✅ Resultado Principal:</strong> <strong>TODOS los 4 tests Mann-Whitney U son significativos (p < 0.05)</strong>:
