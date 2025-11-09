@@ -2126,8 +2126,9 @@
                 diferencias estadísticamente significativas (todos p > 0.05). Sin embargo, los tamaños de 
                 efecto muestran tendencias (Cohen's d ∈ [0.048, 0.769]):</p>
                 <ul style="margin: 10px 0; padding-left: 20px;">
-                    <li>3 métricas muestran efecto pequeño (0.2 < |d| < 0.5)</li>
-                    <li>1 métrica (time) muestra efecto mediano (|d| = 0.77)</li>
+                    <li>1 métrica muestra efecto negligible (|d| &lt; 0.2): Instruction Coverage (d = 0.048)</li>
+                    <li>2 métricas muestran efecto pequeño (0.2 ≤ |d| &lt; 0.5): Branch Coverage (d = 0.227) y Mutation Score (d = 0.251)</li>
+                    <li>1 métrica muestra efecto mediano (|d| = 0.769): Time (seconds)</li>
                 </ul>
                 <p>Esto sugiere que aunque las diferencias existen en los datos brutos, el análisis 
                 agregado (N=12) carece de suficiente poder estadístico para declararlas significativas.</p>
@@ -2151,6 +2152,113 @@
                 pruebas IA son superiores en amplitud (Branch Coverage), calidad (Mutation Score) y 
                 eficiencia (Time). Un enfoque <strong>híbrido</strong> que combine ambas metodologías 
                 podría optimizar la cobertura y eficiencia del testing.</p>
+            </div>
+            
+            <h2>4.5.8 Especificaciones Técnicas y Entorno de Ejecución</h2>
+            
+            <h3>4.5.8.1 Configuración del Hardware</h3>
+            
+            <p>Las pruebas fueron ejecutadas en el siguiente equipamiento:</p>
+            <table class="data-table" style="margin: 15px 0;">
+                <tbody>
+                    <tr>
+                        <td style="font-weight: bold; width: 30%;">Procesador</td>
+                        <td>Intel Core i7-12700KF (12 núcleos, 20 hilos)</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Memoria RAM</td>
+                        <td>32 GB (4 × 8 GB DDR4 3200 MHz)</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Almacenamiento</td>
+                        <td>NVMe M.2 1TB SSD 5,000 MB/s</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Tarjeta Gráfica</td>
+                        <td>NVIDIA GeForce RTX 2060 (12 GB VRAM)</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Sistema Operativo</td>
+                        <td>Windows 11 Pro 23H2 (Build 22631)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>4.5.8.2 Librerías de Python Utilizadas</h3>
+            
+            <p>El análisis estadístico fue realizado utilizando las siguientes librerías de Python:</p>
+            <table class="data-table" style="margin: 15px 0;">
+                <thead>
+                    <tr>
+                        <th>Librería</th>
+                        <th>Versión</th>
+                        <th>Función Principal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Python</strong></td>
+                        <td>3.12.6</td>
+                        <td>Lenguaje de programación base</td>
+                    </tr>
+                    <tr>
+                        <td><strong>pandas</strong></td>
+                        <td>2.3.3</td>
+                        <td>Manipulación y análisis de datos, exportación a Excel</td>
+                    </tr>
+                    <tr>
+                        <td><strong>numpy</strong></td>
+                        <td>2.3.4</td>
+                        <td>Operaciones numéricas y cálculos matemáticos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>scipy</strong></td>
+                        <td>1.16.3</td>
+                        <td>Pruebas estadísticas (Shapiro-Wilk, Levene, t-Student, Mann-Whitney U, Cohen's d)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>matplotlib</strong></td>
+                        <td>3.10.7</td>
+                        <td>Generación de gráficos (cajas y violín) en alta resolución (300 DPI)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>seaborn</strong></td>
+                        <td>0.13.2</td>
+                        <td>Visualización estadística avanzada (gráficos de violín y cajas estilizados)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>openpyxl</strong></td>
+                        <td>3.1.5</td>
+                        <td>Lectura y escritura de archivos Excel (.xlsx)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>4.5.8.3 Condiciones de Ejecución</h3>
+            
+            <p><strong>Importante:</strong> Para garantizar la máxima precisión y reproducibilidad de los resultados:</p>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li><strong>Aislamiento de procesos:</strong> Las ejecuciones se realizaron sin ningún otro programa abierto, únicamente el intérprete de Python y la consola de comando.</li>
+                <li><strong>Recursos dedicados:</strong> Todos los recursos del sistema (CPU, RAM, almacenamiento) estaban disponibles exclusivamente para la ejecución de los análisis.</li>
+                <li><strong>Sin aceleración GPU:</strong> Aunque se dispone de GPU (RTX 2060 12GB), los cálculos se ejecutaron en CPU para mayor consistencia y reproducibilidad.</li>
+                <li><strong>Reproducibilidad:</strong> Se utilizaron semillas aleatorias fijas en todos los análisis para garantizar resultados reproducibles.</li>
+            </ul>
+            
+            <h3>4.5.8.4 Pruebas Estadísticas Implementadas</h3>
+            
+            <p>Las siguientes pruebas estadísticas fueron implementadas utilizando funciones de scipy.stats:</p>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li><strong>Shapiro-Wilk (scipy.stats.shapiro):</strong> Prueba de normalidad para N=2,480 datos brutos y N=12 datos agregados. Crítico para determinar si usar pruebas paramétricas o no-paramétricas.</li>
+                <li><strong>Levene (scipy.stats.levene):</strong> Prueba de homogeneidad de varianzas para N=12 datos agregados. Determina si usar t-Student estándar o Welch.</li>
+                <li><strong>t-Student (scipy.stats.ttest_ind):</strong> Comparación de medias para N=12 datos agregados. Análisis secundario de referencia.</li>
+                <li><strong>Mann-Whitney U (scipy.stats.mannwhitneyu):</strong> Prueba no-paramétrica para N=2,480 datos brutos. Análisis principal y válido estadísticamente.</li>
+                <li><strong>Cohen's d:</strong> Cálculo de tamaño de efecto manual para interpretación de la magnitud de diferencias.</li>
+                <li><strong>Effect size r (Mann-Whitney):</strong> Tamaño de efecto calculado como r = Z / √N para Mann-Whitney U.</li>
+            </ul>
+            
+            <div class="info-box">
+                <strong>ℹ️ Nota sobre Reproducibilidad:</strong>
+                <p>Este análisis es totalmente reproducible. Con la misma configuración de hardware (o similar), las mismas versiones de librerías, y los datos de entrada originales, se obtendrán exactamente los mismos resultados numéricos. Las ligeras variaciones en tiempos de ejecución pueden ocurrir debido a cambios en la carga del sistema, pero los valores estadísticos serán idénticos.</p>
             </div>
             
         </div>
