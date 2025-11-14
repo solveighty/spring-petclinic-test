@@ -31,11 +31,12 @@ print(f"Promedios agregados: {len(df_promedios)}")
 
 print("\n[1/5] Generando ESTADISTICA_DESCRIPTIVA.xlsx...")
 
-desc_results = []
+# Estadísticas N=2,480 (datos brutos)
+desc_results_2480 = []
 for metrica, label in zip(metricas, labels):
     for grupo in ['Manual', 'IA']:
         datos = df[df['group'] == grupo][metrica].dropna()
-        desc_results.append({
+        desc_results_2480.append({
             'Metrica': label,
             'Grupo': grupo,
             'N': len(datos),
@@ -48,24 +49,67 @@ for metrica, label in zip(metricas, labels):
             'Q3': datos.quantile(0.75)
         })
 
-df_desc = pd.DataFrame(desc_results)
+# Estadísticas N=12 (datos agregados)
+desc_results_12 = []
+for metrica, label in zip(metricas, labels):
+    for grupo in ['Manual', 'IA']:
+        datos = df_promedios[df_promedios['group'] == grupo][metrica].values
+        desc_results_12.append({
+            'Metrica': label,
+            'Grupo': grupo,
+            'N': len(datos),
+            'Media': np.mean(datos),
+            'Mediana': np.median(datos),
+            'Desv_Est': np.std(datos, ddof=1),
+            'Min': np.min(datos),
+            'Max': np.max(datos),
+            'Q1': np.percentile(datos, 25),
+            'Q3': np.percentile(datos, 75)
+        })
+
+df_desc_2480 = pd.DataFrame(desc_results_2480)
+df_desc_12 = pd.DataFrame(desc_results_12)
+
 with pd.ExcelWriter(RUTA_BASE / "ESTADISTICA_DESCRIPTIVA.xlsx", engine='openpyxl') as writer:
-    df_desc.to_excel(writer, sheet_name='Descriptiva_N2480', index=False)
+    df_desc_2480.to_excel(writer, sheet_name='Descriptiva_N2480', index=False)
+    df_desc_12.to_excel(writer, sheet_name='Descriptiva_N12', index=False)
 
-print("  ✓ ESTADISTICA_DESCRIPTIVA.xlsx")
+print("  ✓ ESTADISTICA_DESCRIPTIVA.xlsx (2 hojas: N=2,480 + N=12)")
 
+# ============================================================================
+# PASO 1: SHAPIRO-WILK
+# ============================================================================
 # ============================================================================
 # PASO 1: SHAPIRO-WILK
 # ============================================================================
 
 print("\n[2/5] Generando 01_PASO1_NORMALIDAD_SHAPIRO_WILK.xlsx...")
 
-shapiro_results = []
+# Shapiro-Wilk N=2,480 (datos brutos)
+shapiro_results_2480 = []
+for metrica, label in zip(metricas, labels):
+    for grupo in ['Manual', 'IA']:
+        datos = df[df['group'] == grupo][metrica].dropna().values
+        W, p = shapiro(datos)
+        shapiro_results_2480.append({
+            'Nivel': 'N=2,480',
+            'Metrica': label,
+            'Grupo': grupo,
+            'N': len(datos),
+            'W_statistic': W,
+            'p_value': p,
+            'Es_Normal': 'SI' if p >= 0.05 else 'NO',
+            'Media': np.mean(datos),
+            'Desv_Est': np.std(datos, ddof=1)
+        })
+
+# Shapiro-Wilk N=12 (datos agregados)
+shapiro_results_12 = []
 for metrica, label in zip(metricas, labels):
     for grupo in ['Manual', 'IA']:
         datos = df_promedios[df_promedios['group'] == grupo][metrica].values
         W, p = shapiro(datos)
-        shapiro_results.append({
+        shapiro_results_12.append({
             'Nivel': 'N=12',
             'Metrica': label,
             'Grupo': grupo,
@@ -77,11 +121,14 @@ for metrica, label in zip(metricas, labels):
             'Desv_Est': np.std(datos, ddof=1)
         })
 
-df_shapiro = pd.DataFrame(shapiro_results)
-with pd.ExcelWriter(RUTA_BASE / "01_PASO1_NORMALIDAD_SHAPIRO_WILK.xlsx", engine='openpyxl') as writer:
-    df_shapiro.to_excel(writer, sheet_name='Shapiro_N12', index=False)
+df_shapiro_2480 = pd.DataFrame(shapiro_results_2480)
+df_shapiro_12 = pd.DataFrame(shapiro_results_12)
 
-print("  ✓ 01_PASO1_NORMALIDAD_SHAPIRO_WILK.xlsx")
+with pd.ExcelWriter(RUTA_BASE / "01_PASO1_NORMALIDAD_SHAPIRO_WILK.xlsx", engine='openpyxl') as writer:
+    df_shapiro_2480.to_excel(writer, sheet_name='Shapiro_N2480', index=False)
+    df_shapiro_12.to_excel(writer, sheet_name='Shapiro_N12', index=False)
+
+print("  ✓ 01_PASO1_NORMALIDAD_SHAPIRO_WILK.xlsx (2 hojas: N=2,480 + N=12)")
 
 # ============================================================================
 # PASO 2: LEVENE
