@@ -888,15 +888,15 @@
                 <p>El análisis de Shapiro-Wilk justifica nuestra estrategia de dos análisis:</p>
                 <ol>
                     <li><strong>Análisis PRINCIPAL (N=2,480 + Mann-Whitney U):</strong> 
-                    Usa todos los datos sin pérdida de información. Shapiro-Wilk rechaza normalidad en todas 
-                    las métricas, haciendo Mann-Whitney U la elección correcta y rigurosa.</li>
+                    Usa todos los datos sin pérdida de información. Mann-Whitney U proporciona máxima potencia estadística (>99%) 
+                    y es robusto sin requerir supuestos de normalidad.</li>
                     
                     <li><strong>Análisis COMPLEMENTARIO (N=12 + t-Student):</strong> 
-                    Verifica robustez de hallazgos. Shapiro-Wilk acepta normalidad, permitiendo validación 
-                    con un test paramétrico diferente. Si ambos concuerdan, confianza aumenta.</li>
+                    Verifica robustez de hallazgos. Shapiro-Wilk confirma normalidad (todos p > 0.05), validando 
+                    uso de t-Student como análisis paramétrico de referencia. Si ambos concuerdan, confianza aumenta.</li>
                     
                     <li><strong>Rigor científico:</strong> Al reportar ambos análisis y justificar con Shapiro-Wilk, 
-                    demostramos que conocemos supuestos estadísticos y elegimos métodos apropiados.</li>
+                    demostramos que conocemos supuestos estadísticos y elegimos métodos apropiados basados en potencia y robustez.</li>
                 </ol>
             </div>
 
@@ -1187,10 +1187,10 @@
             
             <p><strong>Supuestos y Limitaciones:</strong></p>
             <ul>
-                <li><strong>Normalidad:</strong> Aunque N=2,480 rechaza normalidad, N=12 está más cercano a cumplirlo (Teorema del Límite Central)</li>
-                <li><strong>Homogeneidad de Varianzas:</strong> Verificado con Levene (excepto time_seconds)</li>
+                <li><strong>Normalidad:</strong> N=12 SÍ cumple normalidad (Shapiro-Wilk: todos p > 0.05), validando uso de t-Student</li>
+                <li><strong>Homogeneidad de Varianzas:</strong> Verificado con Levene (excepto time_seconds, que usa Welch)</li>
                 <li><strong>Independencia:</strong> Las 6 iteraciones de Manual son independientes, igual para IA</li>
-                <li><strong>Limitación Crítica:</strong> Si N=12 también violara normalidad, t-Student sería inválido incluso con n pequeña</li>
+                <li><strong>Potencia Estadística:</strong> N=12 tiene baja potencia (~30-50%) para detectar efectos pequeños/medianos</li>
             </ul>
             
             <p><strong>Rol en el Análisis Completo:</strong></p>
@@ -1214,11 +1214,11 @@
                 <p>Los resultados muestran que <strong>ninguna de las 4 métricas presenta diferencia significativa</strong> 
                 en N=12 (todos p > 0.05). Sin embargo, esto <strong>NO invalida el análisis</strong> por dos razones:</p>
                 <ul>
-                    <li><strong>Razón 1 - Tamaño de Muestra:</strong> N=12 es muy pequeño; pequeñas muestras tienen bajo poder estadístico</li>
-                    <li><strong>Razón 2 - Violación de Normalidad:</strong> N=2,480 viola normalidad → t-Student es inválido incluso en N=12</li>
+                    <li><strong>Razón 1 - Baja Potencia Estadística:</strong> N=12 (~30-50% potencia) no puede detectar efectos pequeños/medianos</li>
+                    <li><strong>Razón 2 - Tamaño de Muestra:</strong> 6 observaciones por grupo es insuficiente para detectar diferencias sutiles</li>
                 </ul>
-                <p><strong>Conclusión:</strong> El test t-Student (N=12) es una referencia histórica. El análisis 
-                <strong>válido y definitivo es Mann-Whitney U (N=2,480)</strong>, que SÍ muestra diferencias significativas.</p>
+                <p><strong>Conclusión:</strong> El test t-Student (N=12) es válido pero con baja potencia. El análisis 
+                <strong>primario definitivo es Mann-Whitney U (N=2,480)</strong> con potencia >99%, que SÍ detecta diferencias significativas.</p>
             </div>
             
             <h3>4.4.1.5 t-Student con Corrección de Welch para time_seconds</h3>
@@ -1471,15 +1471,15 @@
             <p><strong>Resumen del Razonamiento Metodológico:</strong></p>
             
             <ol>
-                <li><strong>Shapiro-Wilk (Sección 4.2.1):</strong> N=2,480 viola normalidad (todos p < 0.0001) 
-                    → t-Student inválido para N=2,480</li>
+                <li><strong>Shapiro-Wilk (Sección 4.2.1):</strong> N=12 SÍ cumple normalidad (todos p > 0.05) 
+                    → t-Student válido para N=12</li>
                 <li><strong>Levene (Sección 4.2.2):</strong> N=12 tiene heterogeneidad en time_seconds 
                     → time_seconds requiere Welch en N=12</li>
-                <li><strong>t-Student (Sección 4.4.1):</strong> Con N=12 no hay potencia para detectar diferencias 
-                    (solo 6 observaciones por grupo)</li>
-                <li><strong>t-Student Welch:</strong> Solo time_seconds muestra significancia (confirmado por Mann-Whitney U)</li>
-                <li><strong>Mann-Whitney U (Sección 4.4.2):</strong> N=2,480, robusto a no-normalidad, 
-                    todos 4 tests significativos (conclusión válida)</li>
+                <li><strong>t-Student (Sección 4.4.1):</strong> Con N=12 baja potencia estadística (~30-50%) 
+                    → no detecta diferencias pequeñas/medianas (6 observaciones por grupo)</li>
+                <li><strong>Mann-Whitney U (Sección 4.4.2):</strong> N=2,480 proporciona alta potencia (>99%) 
+                    → detecta todos los efectos significativos (análisis primario válido)</li>
+                <li><strong>Conclusión:</strong> Mann-Whitney U = análisis primario por potencia; t-Student = validación secundaria</li>
             </ol>
             
             <h3>4.4.1c Cohen's d: Tamaño del Efecto en t-Student</h3>
@@ -2014,9 +2014,9 @@
                 <li><strong>Nivel 2: Análisis de Datos Brutos (N=2,480):</strong>
                     <ul>
                         <li>Datos: 1,600 pruebas Manual + 880 pruebas IA (todas las iteraciones)</li>
-                        <li>Objetivo: Análisis estadístico con máxima potencia y datos originales</li>
-                        <li>Test: Mann-Whitney U (no-paramétrico, robusto a no-normalidad)</li>
-                        <li>Justificación: N=2,480 viola normalidad (Shapiro-Wilk p < 0.0001)</li>
+                        <li>Objetivo: Análisis estadístico con máxima potencia (>99%) usando datos originales</li>
+                        <li>Test: Mann-Whitney U (no-paramétrico, robusto)</li>
+                        <li>Justificación: N=2,480 proporciona potencia estadística suficiente para detectar efectos pequeños/medianos</li>
                     </ul>
                 </li>
             </ul>
@@ -2092,10 +2092,10 @@
             </div>
             
             <div class="warning-box">
-                <strong>Factor 2: Violación de Normalidad</strong>
-                <p>N=2,480 rechaza normalidad (Shapiro-Wilk p < 0.0001), invalidando el supuesto de 
-                t-Student. Mann-Whitney U, al ser no-paramétrico, es <strong>robusto a no-normalidad</strong> 
-                y produce resultados más confiables cuando la distribución es asimétrica o tiene outliers.</p>
+                <strong>Factor 2: Ventaja de Método No-Paramétrico</strong>
+                <p>Aunque N=12 cumple normalidad (validando t-Student), Mann-Whitney U ofrece ventajas adicionales: 
+                (1) no requiere supuestos de normalidad ni varianzas iguales, (2) es robusto ante outliers, 
+                (3) analiza rangos/medianas que pueden ser más representativos de métricas de calidad con distribuciones asimétricas.</p>
             </div>
             
             <div class="warning-box">
