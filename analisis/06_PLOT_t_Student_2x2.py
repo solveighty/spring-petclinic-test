@@ -46,12 +46,12 @@ df_t_student = pd.read_excel(EXCEL_RESULTADOS, sheet_name='Hipotesis_N12')
 t_results = {}
 for _, row in df_t_student.iterrows():
     metrica = row['Metrica']
-    # Usar t_statistic_welch solo para Time, pero p_value_std para todos
-    usar_t_welch = metrica == 'Time (seconds)'
+    # Usar Welch solo para Time (seconds), estándar para otros
+    usar_welch = metrica == 'Time (seconds)'
     t_results[metrica] = {
-        'p_value': row['p_value_std'],  # Siempre usar p_value_std
+        'p_value': row['p_value_welch'] if usar_welch else row['p_value_std'],
         'cohens_d': row['Cohens_d'],
-        't_stat': row['t_statistic_welch'] if usar_t_welch else row['t_statistic_std'],
+        't_stat': row['t_statistic_welch'] if usar_welch else row['t_statistic_std'],
         'media_manual': row['Media_Manual'],
         'media_ia': row['Media_IA'],
         'std_manual': row['SD_Manual'],
