@@ -75,12 +75,12 @@ for idx, (metrica, label) in enumerate(zip(METRICAS, LABELS)):
     
     plot_data = pd.concat([
         pd.DataFrame({'Valor': datos_manual, 'Grupo': 'Manual'}),
-        pd.DataFrame({'Valor': datos_ia, 'Grupo': 'IA'})
+        pd.DataFrame({'Valor': datos_ia, 'Grupo': 'AI'})
     ])
     
     # Violin plot
     sns.violinplot(data=plot_data, x='Grupo', y='Valor', ax=ax, 
-                   palette={'Manual': COLORBLIND_BLUE, 'IA': COLORBLIND_RED},
+                   palette={'Manual': COLORBLIND_BLUE, 'AI': COLORBLIND_RED},
                    inner='box', linewidth=1.5)
     
     # Obtener resultados (buscar por label en mw_results)

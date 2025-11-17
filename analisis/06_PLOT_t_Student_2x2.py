@@ -78,12 +78,12 @@ for idx, (metrica, label) in enumerate(zip(METRICAS, LABELS)):
     
     plot_data = pd.concat([
         pd.DataFrame({'Valor': datos_manual, 'Grupo': 'Manual'}),
-        pd.DataFrame({'Valor': datos_ia, 'Grupo': 'IA'})
+        pd.DataFrame({'Valor': datos_ia, 'Grupo': 'AI'})
     ])
     
     # Box plot
     sns.boxplot(data=plot_data, x='Grupo', y='Valor', ax=ax, 
-                palette={'Manual': COLORBLIND_BLUE, 'IA': COLORBLIND_RED},
+                palette={'Manual': COLORBLIND_BLUE, 'AI': COLORBLIND_RED},
                 width=0.6)
     
     # Agregar puntos individuales (jitter)
