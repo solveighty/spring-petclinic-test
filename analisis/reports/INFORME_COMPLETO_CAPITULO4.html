@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informe de Resultados: Evaluación Comparativa de Pruebas Manuales vs IA</title>
+    <title>Results Report: Comparative Evaluation of Manual Tests vs. AI-Generated Tests</title>
     <style>
         * {
             margin: 0;
@@ -146,105 +146,105 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Evaluación Comparativa de Pruebas Manuales vs Generadas por IA</h1>
-            <p>Informe de Resultados Experimentales</p>
-            <p style="font-size: 0.9em; margin-top: 15px;">Sistema bajo Prueba: Spring PetClinic | Período: Mayo-Diciembre 2025</p>
+            <h1>Comparative Evaluation of Manual Tests vs. AI-Generated Tests</h1>
+            <p>Experimental Results Report</p>
+            <p style="font-size: 0.9em; margin-top: 15px;">System Under Test: Spring PetClinic | Period: May-December 2025</p>
         </div>
         
         <div class="content">
             
-            <h1>1. INTRODUCCIÓN</h1>
+            <h1>1. INTRODUCTION</h1>
             
-            <p>Este informe presenta los resultados de un estudio empírico comparativo realizado entre mayo y diciembre de 2025, orientado a evaluar la eficacia de los casos de prueba generados automáticamente mediante inteligencia artificial generativa frente a aquellos diseñados manualmente en entornos Java y Spring Boot. Se utilizó el proyecto Spring PetClinic como sistema bajo prueba (SUT), mediante el cual se obtuvieron 2,480 observaciones distribuidas en 40 iteraciones experimentales, combinando métricas cuantitativas objetivas con observaciones empíricas sobre comprensión funcional.</p>
+            <p>This report presents the results of an empirical comparative study conducted between May and December 2025, aimed at evaluating the effectiveness of automatically generated test cases using generative artificial intelligence compared to those designed manually in Java and Spring Boot environments. The Spring PetClinic project was used as the system under test (SUT), obtaining 2,480 observations distributed across 40 experimental iterations, combining objective quantitative metrics with empirical observations on functional understanding.</p>
             
-            <h1>2. METODOLOGÍA</h1>
+            <h1>2. METHODOLOGY</h1>
             
-            <h2>2.1 Diseño Experimental</h2>
+            <h2>2.1 Experimental Design</h2>
             
-            <p>El estudio adoptó un enfoque empírico-comparativo de diseño mixto, evaluando dos enfoques de generación de pruebas:</p>
+            <p>The study adopted a mixed empirical-comparative design approach, evaluating two test generation approaches:</p>
             <ul>
-                <li><strong>Pruebas Manuales:</strong> Diseñadas por investigador utilizando JUnit 5 y MockMvc</li>
-                <li><strong>Pruebas IA:</strong> Generadas mediante ChatGPT (GPT-5) y Diffblue Cover CLI (Teams Edition)</li>
+                <li><strong>Manual Tests:</strong> Designed by the researcher using JUnit 5 and MockMvc</li>
+                <li><strong>AI Tests:</strong> Generated using ChatGPT (GPT-5) and Diffblue Cover CLI (Teams Edition)</li>
             </ul>
             
-            <h2>2.2 Metrización y Recopilación de Datos</h2>
+            <h2>2.2 Metrics and Data Collection</h2>
             
-            <p>La recopilación de datos se realizó mediante herramientas profesionales estandarizadas:</p>
+            <p>Data collection was performed using professional standardized tools:</p>
             <ul>
-                <li><strong>JaCoCo 0.8.12:</strong> Medición de statement coverage y branch coverage</li>
-                <li><strong>PITest 1.16.0:</strong> Cálculo de mutation score</li>
-                <li><strong>Maven Surefire 3.2.5:</strong> Registro de tiempos de ejecución</li>
-                <li><strong>Python 3.12.6:</strong> Análisis estadístico (pandas, scipy, matplotlib)</li>
+                <li><strong>JaCoCo 0.8.12:</strong> Measurement of statement coverage and branch coverage</li>
+                <li><strong>PITest 1.16.0:</strong> Calculation of mutation score</li>
+                <li><strong>Maven Surefire 3.2.5:</strong> Recording of execution times</li>
+                <li><strong>Python 3.12.6:</strong> Statistical analysis (pandas, scipy, matplotlib)</li>
             </ul>
             
-            <p>Se ejecutaron 40 iteraciones por tipo de prueba, precedidas por 3 ciclos de warm-up para estabilizar la JVM, generando un conjunto de datos de 2,480 observaciones (1,600 manuales + 880 generadas por IA).</p>
+            <p>40 iterations per test type were executed, preceded by 3 warm-up cycles to stabilize the JVM, generating a dataset of 2,480 observations (1,600 manual + 880 AI-generated).</p>
             
-            <h2>2.3 Análisis Estadístico</h2>
+            <h2>2.3 Statistical Analysis</h2>
             
-            <p>Los datos fueron sometidos a verificación de supuestos estadísticos mediante el test Shapiro-Wilk (normalidad) y Levene (homogeneidad de varianzas). Dado que los datos brutos violaron el supuesto de normalidad, se utilizó la prueba no-paramétrica Mann-Whitney U como análisis principal, con t-Student como validación secundaria en datos agregados (N=12).</p>
+            <p>The data was subjected to verification of statistical assumptions using the Shapiro-Wilk test (normality) and Levene test (homogeneity of variances). Since the raw data violated the normality assumption, the non-parametric Mann-Whitney U test was used as the main analysis, with t-Student as secondary validation on aggregated data (N=12).</p>
             
-            <h1>3. RESULTADOS</h1>
+            <h1>3. RESULTS</h1>
             
-            <h2>3.1 Ejecución del Experimento y Estructura del Dataset</h2>
+            <h2>3.1 Experiment Execution and Dataset Structure</h2>
             
-            <p>La ejecución experimental se llevó a cabo mediante un proceso totalmente automatizado, diseñado para garantizar consistencia y eliminar cualquier intervención humana durante la recopilación de datos. Se realizaron 40 iteraciones por cada una de las 12 clases de prueba consideradas en el estudio (6 diseñadas manualmente y 6 generadas mediante herramientas de inteligencia artificial), obteniéndose un total de 2,480 registros brutos. El proceso completo de ejecución requirió 6.18 horas, considerando las iteraciones válidas y las ejecuciones preliminares empleadas para estabilizar la JVM.</p>
+            <p>The experimental execution was carried out through a fully automated process, designed to ensure consistency and eliminate any human intervention during data collection. 40 iterations were performed for each of the 12 test classes considered in the study (6 manually designed and 6 generated using artificial intelligence tools), obtaining a total of 2,480 raw records. The complete execution process required 6.18 hours, considering valid iterations and preliminary executions used to stabilize the JVM.</p>
             
-            <p><strong>Tabla 1:</strong> Componentes y detalles de la ejecución experimental.</p>
+            <p><strong>Table 1:</strong> Components and details of the experimental execution.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Componente</th>
-                        <th>Cantidad</th>
-                        <th>Detalle</th>
+                        <th>Component</th>
+                        <th>Quantity</th>
+                        <th>Detail</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Clases de prueba totales</strong></td>
+                        <td><strong>Total test classes</strong></td>
                         <td>12</td>
-                        <td>6 Manuales + 6 Generadas por IA</td>
+                        <td>6 Manual + 6 AI-Generated</td>
                     </tr>
                     <tr>
-                        <td><strong>Iteraciones por clase</strong></td>
+                        <td><strong>Iterations per class</strong></td>
                         <td>40</td>
-                        <td>Incluye warm-up (3 iteraciones iniciales)</td>
+                        <td>Includes warm-up (3 initial iterations)</td>
                     </tr>
                     <tr>
-                        <td><strong>Registros por iteración</strong></td>
+                        <td><strong>Records per iteration</strong></td>
                         <td>2</td>
-                        <td>Compilación y ejecución</td>
+                        <td>Compilation and execution</td>
                     </tr>
                     <tr>
-                        <td><strong>Total de registros brutos</strong></td>
+                        <td><strong>Total raw records</strong></td>
                         <td>2,480</td>
-                        <td>1,600 Manual + 880 IA</td>
+                        <td>1,600 Manual + 880 AI</td>
                     </tr>
                     <tr>
-                        <td><strong>Métricas por registro</strong></td>
+                        <td><strong>Metrics per record</strong></td>
                         <td>4</td>
                         <td>instruction%, branch%, mutation%, time(s)</td>
                     </tr>
                     <tr>
-                        <td><strong>Tiempo total ejecución</strong></td>
-                        <td>6.18 horas</td>
-                        <td>371 minutos continuos</td>
+                        <td><strong>Total execution time</strong></td>
+                        <td>6.18 hours</td>
+                        <td>371 continuous minutes</td>
                     </tr>
                 </tbody>
             </table>
             
-            <h2>3.2 Preparación del Dataset</h2>
+            <h2>3.2 Dataset Preparation</h2>
             
-            <p>Los registros brutos fueron consolidados en un único archivo maestro mediante scripts automatizados en Python. Se definieron dos niveles de agregación: el nivel completo (N=2,480) conservó todos los registros individuales, y el nivel agregado (N=12) se obtuvo mediante el promedio de las 40 iteraciones por clase de prueba.</p>
+            <p>The raw records were consolidated into a single master file using automated Python scripts. Two aggregation levels were defined: the complete level (N=2,480) preserved all individual records, and the aggregated level (N=12) was obtained by averaging the 40 iterations per test class.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Nivel de análisis</th>
-                        <th>Total de registros</th>
+                        <th>Analysis Level</th>
+                        <th>Total Records</th>
                         <th>Manual</th>
-                        <th>IA</th>
-                        <th>Descripción</th>
+                        <th>AI</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -253,36 +253,36 @@
                         <td>2,480</td>
                         <td>1,600</td>
                         <td>880</td>
-                        <td>Observaciones individuales por iteración</td>
+                        <td>Individual observations per iteration</td>
                     </tr>
                     <tr>
                         <td><strong>N = 12</strong></td>
                         <td>12</td>
                         <td>6</td>
                         <td>6</td>
-                        <td>Promedios independientes por clase de prueba</td>
+                        <td>Independent averages per test class</td>
                     </tr>
                 </tbody>
             </table>
             
-            <h2>3.3 Estadística Descriptiva (Nivel Agregado, N=12)</h2>
+            <h2>3.3 Descriptive Statistics (Aggregated Level, N=12)</h2>
             
-            <p><strong>Tabla 2:</strong> Estadística descriptiva con promedios de 40 iteraciones por clase de prueba.</p>
+            <p><strong>Table 2:</strong> Descriptive statistics with averages of 40 iterations per test class.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Métrica</th>
-                        <th>Grupo</th>
+                        <th>Metric</th>
+                        <th>Group</th>
                         <th>N</th>
-                        <th>Media</th>
-                        <th>Mediana</th>
-                        <th>Desv. Est.</th>
+                        <th>Mean</th>
+                        <th>Median</th>
+                        <th>Std. Dev.</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowspan="2"><strong>Cobertura Instrucciones (%)</strong></td>
+                        <td rowspan="2"><strong>Instruction Coverage (%)</strong></td>
                         <td>Manual</td>
                         <td>6</td>
                         <td>18.25%</td>
@@ -290,14 +290,14 @@
                         <td>12.50%</td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>6</td>
                         <td>17.67%</td>
                         <td>16.13%</td>
                         <td>11.36%</td>
                     </tr>
                     <tr>
-                        <td rowspan="2"><strong>Cobertura Ramas (%)</strong></td>
+                        <td rowspan="2"><strong>Branch Coverage (%)</strong></td>
                         <td>Manual</td>
                         <td>6</td>
                         <td>14.58%</td>
@@ -305,7 +305,7 @@
                         <td>12.62%</td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>6</td>
                         <td>12.05%</td>
                         <td>9.89%</td>
@@ -320,14 +320,14 @@
                         <td>17.71%</td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>6</td>
                         <td>14.76%</td>
                         <td>15.11%</td>
                         <td>11.61%</td>
                     </tr>
                     <tr>
-                        <td rowspan="2"><strong>Tiempo Ejecución (s)</strong></td>
+                        <td rowspan="2"><strong>Execution Time (s)</strong></td>
                         <td>Manual</td>
                         <td>6</td>
                         <td>0.082s</td>
@@ -335,7 +335,7 @@
                         <td>0.069s</td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>6</td>
                         <td>0.194s</td>
                         <td>0.144s</td>
@@ -344,25 +344,25 @@
                 </tbody>
             </table>
             
-            <h2>3.4 Estadística Descriptiva (Nivel Completo, N=2,480)</h2>
+            <h2>3.4 Descriptive Statistics (Complete Level, N=2,480)</h2>
             
-            <p><strong>Tabla 3:</strong> Registros individuales por iteración, representando el conjunto completo de datos.</p>
+            <p><strong>Table 3:</strong> Individual records per iteration, representing the complete dataset.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Métrica</th>
-                        <th>Grupo</th>
+                        <th>Metric</th>
+                        <th>Group</th>
                         <th>N</th>
-                        <th>Media</th>
-                        <th>Mediana</th>
-                        <th>Desv. Est.</th>
-                        <th>Rango</th>
+                        <th>Mean</th>
+                        <th>Median</th>
+                        <th>Std. Dev.</th>
+                        <th>Range</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowspan="2"><strong>Cobertura Instrucciones (%)</strong></td>
+                        <td rowspan="2"><strong>Instruction Coverage (%)</strong></td>
                         <td>Manual</td>
                         <td>1,600</td>
                         <td>19.94%</td>
@@ -371,7 +371,7 @@
                         <td>5.03%-35.56%</td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>880</td>
                         <td>14.20%</td>
                         <td>10.69%</td>
@@ -379,7 +379,7 @@
                         <td>0%-33%</td>
                     </tr>
                     <tr>
-                        <td rowspan="2"><strong>Cobertura Ramas (%)</strong></td>
+                        <td rowspan="2"><strong>Branch Coverage (%)</strong></td>
                         <td>Manual</td>
                         <td>1,600</td>
                         <td>17.69%</td>
@@ -388,7 +388,7 @@
                         <td>2.50%-37.50%</td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>880</td>
                         <td>13.50%</td>
                         <td>16.25%</td>
@@ -405,7 +405,7 @@
                         <td>0%-50%</td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>880</td>
                         <td>16.63%</td>
                         <td>19.44%</td>
@@ -413,7 +413,7 @@
                         <td>0%-33.33%</td>
                     </tr>
                     <tr>
-                        <td rowspan="2"><strong>Tiempo Ejecución (s)</strong></td>
+                        <td rowspan="2"><strong>Execution Time (s)</strong></td>
                         <td>Manual</td>
                         <td>1,600</td>
                         <td>0.0794s</td>
@@ -422,7 +422,7 @@
                         <td>0-0.861s</td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>880</td>
                         <td>0.1140s</td>
                         <td>0.0030s</td>
@@ -432,45 +432,45 @@
                 </tbody>
             </table>
             
-            <h2>3.5 Verificación de Supuestos Estadísticos</h2>
+            <h2>3.5 Verification of Statistical Assumptions</h2>
             
-            <h3>3.5.1 Prueba de Normalidad Shapiro-Wilk (N=2,480)</h3>
+            <h3>3.5.1 Shapiro-Wilk Normality Test (N=2,480)</h3>
             
-            <p><strong>Tabla 4:</strong> Todas las métricas presentan p &lt; 0,05, indicando ausencia de normalidad.</p>
+            <p><strong>Table 4:</strong> All metrics show p &lt; 0.05, indicating absence of normality.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Métrica</th>
-                        <th>Grupo</th>
+                        <th>Metric</th>
+                        <th>Group</th>
                         <th>W</th>
                         <th>p-value</th>
-                        <th>Normalidad</th>
+                        <th>Normality</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowspan="2">Cobertura Instrucciones</td>
+                        <td rowspan="2">Instruction Coverage</td>
                         <td>Manual</td>
                         <td>0.8160</td>
                         <td>2.34e-39</td>
                         <td><strong>No</strong></td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>0.7524</td>
                         <td>2.66e-34</td>
                         <td><strong>No</strong></td>
                     </tr>
                     <tr>
-                        <td rowspan="2">Cobertura Ramas</td>
+                        <td rowspan="2">Branch Coverage</td>
                         <td>Manual</td>
                         <td>0.8178</td>
                         <td>3.21e-39</td>
                         <td><strong>No</strong></td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>0.8697</td>
                         <td>1.96e-26</td>
                         <td><strong>No</strong></td>
@@ -483,20 +483,20 @@
                         <td><strong>No</strong></td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>0.8313</td>
                         <td>1.82e-29</td>
                         <td><strong>No</strong></td>
                     </tr>
                     <tr>
-                        <td rowspan="2">Tiempo Ejecución</td>
+                        <td rowspan="2">Execution Time</td>
                         <td>Manual</td>
                         <td>0.4797</td>
                         <td>8.07e-56</td>
                         <td><strong>No</strong></td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>0.5354</td>
                         <td>4.67e-43</td>
                         <td><strong>No</strong></td>
@@ -504,110 +504,110 @@
                 </tbody>
             </table>
             
-            <h3>3.5.2 Prueba de Normalidad Shapiro-Wilk (N=12)</h3>
+            <h3>3.5.2 Shapiro-Wilk Normality Test (N=12)</h3>
             
-            <p><strong>Tabla 5:</strong> Todas las métricas presentan p &gt; 0,05, cumpliendo el supuesto de normalidad.</p>
+            <p><strong>Table 5:</strong> All metrics show p &gt; 0.05, meeting the normality assumption.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Métrica</th>
-                        <th>Grupo</th>
+                        <th>Metric</th>
+                        <th>Group</th>
                         <th>W</th>
                         <th>p-value</th>
-                        <th>Normalidad</th>
+                        <th>Normality</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowspan="2">Cobertura Instrucciones</td>
+                        <td rowspan="2">Instruction Coverage</td>
                         <td>Manual</td>
                         <td>0.9087</td>
                         <td>0.4281</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>0.9038</td>
                         <td>0.3971</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
-                        <td rowspan="2">Cobertura Ramas</td>
+                        <td rowspan="2">Branch Coverage</td>
                         <td>Manual</td>
                         <td>0.8807</td>
                         <td>0.2722</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>0.9127</td>
                         <td>0.4541</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
                         <td rowspan="2">Mutation Score</td>
                         <td>Manual</td>
                         <td>0.9132</td>
                         <td>0.4581</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>0.9720</td>
                         <td>0.9056</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
-                        <td rowspan="2">Tiempo Ejecución</td>
+                        <td rowspan="2">Execution Time</td>
                         <td>Manual</td>
                         <td>0.9296</td>
                         <td>0.5771</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
-                        <td>IA</td>
+                        <td>AI</td>
                         <td>0.8507</td>
                         <td>0.1596</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                 </tbody>
             </table>
             
-            <h3>3.5.3 Prueba de Levene para Homogeneidad de Varianzas (N=12)</h3>
+            <h3>3.5.3 Levene's Test for Variance Homogeneity (N=12)</h3>
             
-            <p><strong>Tabla 6:</strong> Evaluación de homogeneidad de varianzas entre grupos.</p>
+            <p><strong>Table 6:</strong> Evaluation of variance homogeneity between groups.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Métrica</th>
+                        <th>Metric</th>
                         <th>F-statistic</th>
                         <th>p-value</th>
-                        <th>Homogeneidad</th>
+                        <th>Homogeneity</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Cobertura Instrucciones</td>
+                        <td>Instruction Coverage</td>
                         <td>0.1006</td>
                         <td>0.7577</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
-                        <td>Cobertura Ramas</td>
+                        <td>Branch Coverage</td>
                         <td>0.1262</td>
                         <td>0.7298</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
                         <td>Mutation Score</td>
                         <td>0.3930</td>
                         <td>0.5448</td>
-                        <td><strong>Sí</strong></td>
+                        <td><strong>Yes</strong></td>
                     </tr>
                     <tr>
-                        <td>Tiempo Ejecución</td>
+                        <td>Execution Time</td>
                         <td>6.3679</td>
                         <td>0.0302</td>
                         <td><strong>No</strong></td>
@@ -615,26 +615,26 @@
                 </tbody>
             </table>
             
-            <h2>3.6 Pruebas Paramétricas (t-Student y Welch, N=12)</h2>
+            <h2>3.6 Parametric Tests (t-Student and Welch, N=12)</h2>
             
-            <p><strong>Tabla 7:</strong> Contrastes paramétricos realizados en datos agregados. Se aplicó t-Student estándar para 3 métricas y corrección de Welch para tiempo (heterogeneidad de varianzas detectada por Levene).</p>
+            <p><strong>Table 7:</strong> Parametric contrasts performed on aggregated data. Standard t-Student was applied for 3 metrics and Welch correction for time (variance heterogeneity detected by Levene).</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Métrica</th>
-                        <th>Media Manual</th>
-                        <th>Media IA</th>
-                        <th>Test Utilizado</th>
+                        <th>Metric</th>
+                        <th>Manual Mean</th>
+                        <th>AI Mean</th>
+                        <th>Test Used</th>
                         <th>t-statistic</th>
                         <th>p-value</th>
-                        <th>Significativo</th>
+                        <th>Significant</th>
                         <th>Cohen's d</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Cobertura Instrucciones</td>
+                        <td>Instruction Coverage</td>
                         <td>18.25%</td>
                         <td>17.67%</td>
                         <td>t-Standard</td>
@@ -644,7 +644,7 @@
                         <td>0.0483</td>
                     </tr>
                     <tr>
-                        <td>Cobertura Ramas</td>
+                        <td>Branch Coverage</td>
                         <td>14.58%</td>
                         <td>12.05%</td>
                         <td>t-Standard</td>
@@ -664,7 +664,7 @@
                         <td>0.2512</td>
                     </tr>
                     <tr style="background-color: #fff0f0;">
-                        <td>Tiempo Ejecución</td>
+                        <td>Execution Time</td>
                         <td>0.0823s</td>
                         <td>0.1938s</td>
                         <td>t-Welch</td>
@@ -677,46 +677,46 @@
             </table>
             
             <div class="highlight">
-                <strong>Hallazgo Importante:</strong> El análisis paramétrico (N=12) no detecta diferencias significativas en ninguna métrica. Sin embargo, N=12 tiene baja potencia estadística (~30-50%), limitando su capacidad de detección. El análisis principal debe ser Mann-Whitney U con N=2,480.
+                <strong>Important Finding:</strong> The parametric analysis (N=12) does not detect significant differences in any metric. However, N=12 has low statistical power (~30-50%), limiting its detection capability. The main analysis should be Mann-Whitney U with N=2,480.
             </div>
             
-            <h2>3.7 Pruebas No-Paramétricas (Mann-Whitney U, N=2,480)</h2>
+            <h2>3.7 Non-Parametric Tests (Mann-Whitney U, N=2,480)</h2>
             
-            <p><strong>Tabla 8:</strong> Análisis principal con 2,480 observaciones. Mann-Whitney U fue seleccionado porque los datos brutos violaron el supuesto de normalidad (Shapiro-Wilk rechazado en todas las métricas).</p>
+            <p><strong>Table 8:</strong> Main analysis with 2,480 observations. Mann-Whitney U was selected because raw data violated the normality assumption (Shapiro-Wilk rejected in all metrics).</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Métrica</th>
-                        <th>Mediana Manual</th>
-                        <th>Mediana IA</th>
+                        <th>Metric</th>
+                        <th>Manual Median</th>
+                        <th>AI Median</th>
                         <th>U-statistic</th>
                         <th>p-value</th>
-                        <th>Significancia</th>
-                        <th>Tamaño Efecto (r)</th>
-                        <th>Conclusión</th>
+                        <th>Significance</th>
+                        <th>Effect Size (r)</th>
+                        <th>Conclusion</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Cobertura Instrucciones</strong></td>
+                        <td><strong>Instruction Coverage</strong></td>
                         <td>21.85%</td>
                         <td>10.69%</td>
                         <td>827,440</td>
                         <td>3.20e-13</td>
                         <td>***</td>
                         <td>0.1453</td>
-                        <td>Manual &gt; IA</td>
+                        <td>Manual &gt; AI</td>
                     </tr>
                     <tr>
-                        <td><strong>Cobertura Ramas</strong></td>
+                        <td><strong>Branch Coverage</strong></td>
                         <td>12.50%</td>
                         <td>16.25%</td>
                         <td>808,720</td>
                         <td>5.73e-10</td>
                         <td>***</td>
                         <td>0.1232</td>
-                        <td>IA &gt; Manual</td>
+                        <td>AI &gt; Manual</td>
                     </tr>
                     <tr>
                         <td><strong>Mutation Score</strong></td>
@@ -726,278 +726,278 @@
                         <td>3.82e-03</td>
                         <td>**</td>
                         <td>0.0575</td>
-                        <td>IA &gt; Manual</td>
+                        <td>AI &gt; Manual</td>
                     </tr>
                     <tr>
-                        <td><strong>Tiempo Ejecución</strong></td>
+                        <td><strong>Execution Time</strong></td>
                         <td>0.0120s</td>
                         <td>0.0030s</td>
                         <td>774,034</td>
                         <td>3.74e-05</td>
                         <td>***</td>
                         <td>0.0824</td>
-                        <td>IA más rápido</td>
+                        <td>AI faster</td>
                     </tr>
                 </tbody>
             </table>
             
             <div class="highlight">
-                <strong>Significancia estadística:</strong> *** p &lt; 0.001 (altamente significativo) | ** p &lt; 0.01 (significativo). Todas las métricas muestran p-value bien por debajo del umbral de 0.05, indicando diferencias estadísticamente significativas en los datos completos.
+                <strong>Statistical Significance:</strong> *** p &lt; 0.001 (highly significant) | ** p &lt; 0.01 (significant). All metrics show p-values well below the 0.05 threshold, indicating statistically significant differences in the complete data.
             </div>
             
-            <p>La prueba no-paramétrica Mann-Whitney U fue aplicada para identificar diferencias estadísticamente significativas. Los resultados demuestran diferencias significativas en todas las métricas evaluadas:</p>
+            <p>The non-parametric Mann-Whitney U test was applied to identify statistically significant differences. The results demonstrate significant differences in all evaluated metrics:</p>
             
-            <p><strong>Tabla 10:</strong> Resumen de resultados estadísticos Mann-Whitney U.</p>
+            <p><strong>Table 10:</strong> Summary of Mann-Whitney U statistical results.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Métrica</th>
+                        <th>Metric</th>
                         <th>p-value</th>
-                        <th>Significancia</th>
-                        <th>Tamaño Efecto (r)</th>
-                        <th>Conclusión</th>
+                        <th>Significance</th>
+                        <th>Effect Size (r)</th>
+                        <th>Conclusion</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Cobertura Instrucciones</strong></td>
+                        <td><strong>Instruction Coverage</strong></td>
                         <td>3.20e-13</td>
                         <td>***</td>
                         <td>0.1453</td>
-                        <td>Manual > IA significativamente</td>
+                        <td>Manual significantly > AI</td>
                     </tr>
                     <tr>
-                        <td><strong>Cobertura Ramas</strong></td>
+                        <td><strong>Branch Coverage</strong></td>
                         <td>5.73e-10</td>
                         <td>***</td>
                         <td>0.1232</td>
-                        <td>IA > Manual significativamente</td>
+                        <td>AI significantly > Manual</td>
                     </tr>
                     <tr>
                         <td><strong>Mutation Score</strong></td>
                         <td>3.82e-03</td>
                         <td>**</td>
                         <td>0.0575</td>
-                        <td>IA > Manual significativamente</td>
+                        <td>AI significantly > Manual</td>
                     </tr>
                     <tr>
-                        <td><strong>Tiempo de Ejecución</strong></td>
+                        <td><strong>Execution Time</strong></td>
                         <td>3.74e-05</td>
                         <td>***</td>
                         <td>0.0824</td>
-                        <td>IA más rápido significativamente</td>
+                        <td>AI significantly faster</td>
                     </tr>
                 </tbody>
             </table>
             
             <div class="highlight">
-                <strong>Nota sobre Significancia:</strong> *** indica p &lt; 0.001 (altamente significativo), ** indica p &lt; 0.01 (significativo). Todos los p-values están muy por debajo del umbral de 0.05.
+                <strong>Note on Significance:</strong> *** indicates p &lt; 0.001 (highly significant), ** indicates p &lt; 0.01 (significant). All p-values are well below the 0.05 threshold.
             </div>
             
-            <h2>3.9 Visualización Gráfica de Resultados</h2>
+            <h2>3.9 Graphical Visualization of Results</h2>
             
-            <p>Las siguientes figuras presentan comparaciones visuales de las métricas bajo análisis paramétrico (t-Student, N=12) y no-paramétrico (Mann-Whitney U, N=2,480). Estas visualizaciones complementan los hallazgos estadísticos reportados en las tablas anteriores.</p>
+            <p>The following figures present visual comparisons of metrics under parametric analysis (t-Student, N=12) and non-parametric (Mann-Whitney U, N=2,480). These visualizations complement the statistical findings reported in the previous tables.</p>
             
             <div class="figure">
-                <img src="../figures/06_t_Student_2x2.png" alt="Figura 3.5 - Comparación t-Student (N=12)">
-                <p class="figure-caption"><strong>Figura 3.5:</strong> Comparación Paramétrica t-Student (N=12). Diagramas de caja mostrando distribución, media (diamante rojo) y dispersión de métricas para pruebas manuales e IA. Esta visualización utiliza datos agregados por clase y presenta propósito únicamente descriptivo del comportamiento central de los datos.</p>
+                <img src="../figures/06_t_Student_2x2.png" alt="Figure 3.5 - Parametric t-Student Comparison (N=12)">
+                <p class="figure-caption"><strong>Figure 3.5:</strong> Parametric t-Student Comparison (N=12). Box plots showing distribution, mean (red diamond) and dispersion of metrics for manual and AI tests. This visualization uses aggregated data per class and presents a purely descriptive purpose of the central data behavior.</p>
             </div>
             
             <div class="figure">
-                <img src="../figures/07_Mann_Whitney_2x2.png" alt="Figura 3.6 - Comparación Mann-Whitney U (N=2,480)">
-                <p class="figure-caption"><strong>Figura 3.6:</strong> Distribución No-Paramétrica Mann-Whitney U (N=2,480). Violin plots ilustrando la forma completa y densidad de las distribuciones para el análisis principal con todas las observaciones individuales. Las áreas más anchas representan mayor concentración de valores. Esta es la visualización correspondiente al análisis estadístico definitivo.</p>
+                <img src="../figures/07_Mann_Whitney_2x2.png" alt="Figure 3.6 - Non-Parametric Mann-Whitney U Comparison (N=2,480)">
+                <p class="figure-caption"><strong>Figure 3.6:</strong> Non-Parametric Mann-Whitney U Distribution (N=2,480). Violin plots illustrating the complete shape and density of distributions for the main analysis with all individual observations. Wider areas represent greater value concentration. This is the visualization corresponding to the definitive statistical analysis.</p>
             </div>
             
-            <h1>4. DISCUSIÓN DETALLADA DE RESULTADOS</h1>
+            <h1>4. DETAILED DISCUSSION OF RESULTS</h1>
             
-            <h2>4.1 Análisis de Cobertura de Instrucciones</h2>
+            <h2>4.1 Analysis of Instruction Coverage</h2>
             
-            <p>Las pruebas manuales logran cobertura de instrucciones significativamente mayor que las generadas por IA (mediana Manual: 21.85% vs IA: 10.69%, p = 3.20e-13). Esta diferencia de aproximadamente 11 puntos porcentuales es estadísticamente significativa y tiene importancia práctica. El resultado indica que el proceso manual de diseño de pruebas, basado en inspección de código y razonamiento humano, permite una exploración más exhaustiva de instrucciones individuales. Las pruebas manuales tienden a cubrir no solo las rutas principales, sino también caminos secundarios y casos especiales.</p>
+            <p>Manual tests achieve significantly higher instruction coverage than AI-generated ones (Manual median: 21.85% vs AI: 10.69%, p = 3.20e-13). This difference of approximately 11 percentage points is statistically significant and has practical importance. The result indicates that the manual test design process, based on code inspection and human reasoning, allows for a more exhaustive exploration of individual instructions. Manual tests tend to cover not only main paths but also secondary paths and special cases.</p>
             
-            <h2>4.2 Análisis de Cobertura de Ramas</h2>
+            <h2>4.2 Analysis of Branch Coverage</h2>
             
-            <p>Contrariamente a la cobertura de instrucciones, las pruebas generadas por IA alcanzan cobertura de ramas superior a las manuales (mediana IA: 16.25% vs Manual: 12.50%, p = 5.73e-10). Este patrón inverso sugiere que la IA, mediante análisis de bytecode (especialmente Diffblue Cover), es más efectiva en explorar caminos alternativos y decisiones de bifurcación en el código. Esto puede atribuirse a que los algoritmos de generación automática sistemáticamente prueban múltiples rutas de ejecución sin la influencia de sesgos cognitivos humanos.</p>
+            <p>Contrary to instruction coverage, AI-generated tests achieve superior branch coverage compared to manual ones (AI median: 16.25% vs Manual: 12.50%, p = 5.73e-10). This inverse pattern suggests that AI, through bytecode analysis (especially Diffblue Cover), is more effective in exploring alternative paths and decision branches in the code. This can be attributed to automatic generation algorithms systematically testing multiple execution paths without the influence of human cognitive biases.</p>
             
-            <h2>4.3 Análisis de Mutation Score</h2>
+            <h2>4.3 Analysis of Mutation Score</h2>
             
-            <p>Las pruebas generadas por IA presentan mutation score estadísticamente superior (mediana IA: 19.44% vs Manual: 16.67%, p = 3.82e-03). Aunque la diferencia es estadísticamente significativa, el tamaño del efecto es pequeño (r = 0.0575), indicando que la capacidad de detección de mutantes es comparable entre ambos enfoques. Este resultado sugiere que ambas estrategias de prueba son razonablemente efectivas para identificar cambios intencionales en el código (mutaciones), aunque la IA muestra una ligera ventaja estadística.</p>
+            <p>AI-generated tests present statistically superior mutation score (AI median: 19.44% vs Manual: 16.67%, p = 3.82e-03). Although the difference is statistically significant, the effect size is small (r = 0.0575), indicating that the mutant detection capability is comparable between both approaches. This result suggests that both testing strategies are reasonably effective for identifying intentional changes in code (mutations), although AI shows a slight statistical advantage.</p>
             
-            <h2>4.4 Análisis de Tiempo de Ejecución</h2>
+            <h2>4.4 Analysis of Execution Time</h2>
             
-            <p>Las pruebas generadas por IA se ejecutan significativamente más rápido que las manuales (mediana IA: 0.003s vs Manual: 0.012s, p = 3.74e-05). Esta diferencia de 4x en velocidad de ejecución tiene implicación práctica importante en ciclos de integración continua y desarrollo ágil. La mayor rapidez de ejecución de pruebas IA puede atribuirse a su estructura más simple y enfoque directo en rutas principales, versus la mayor complejidad de pruebas manuales que incluyen validaciones exhaustivas.</p>
+            <p>AI-generated tests run significantly faster than manual ones (AI median: 0.003s vs Manual: 0.012s, p = 3.74e-05). This 4x difference in execution speed has important practical implications in continuous integration and agile development cycles. The greater execution speed of AI tests can be attributed to their simpler structure and focus on main paths, versus the greater complexity of manual tests that include exhaustive validations.</p>
             
-            <h2>4.5 Comportamiento Cualitativo Diferenciado</h2>
+            <h2>4.5 Differentiated Qualitative Behavior</h2>
             
-            <p>Más allá de las métricas cuantitativas, se observaron diferencias cualitativas significativas:</p>
+            <p>Beyond quantitative metrics, significant qualitative differences were observed:</p>
             
             <ul>
-                <li><strong>Pruebas Manuales:</strong> Reflejan comprensión profunda del dominio de negocio, identificación de escenarios límite, casos excepcionales, y comportamientos implícitos. Requieren tiempo e inversión cognitiva considerable, pero producen mayor exhaustividad funcional.</li>
-                <li><strong>Pruebas IA:</strong> Proporcionan generación rápida y sistemática. ChatGPT presenta fuerte dependencia del prompt formulation. Diffblue Cover produce pruebas consistentes basadas en análisis de bytecode, con menor dependencia del usuario pero cobertura más superficial de la lógica de negocio.</li>
+                <li><strong>Manual Tests:</strong> Reflect deep understanding of business domain, identification of edge scenarios, exceptional cases, and implicit behaviors. They require considerable time and cognitive investment, but produce greater functional exhaustiveness.</li>
+                <li><strong>AI Tests:</strong> Provide rapid and systematic generation. ChatGPT shows strong dependence on prompt formulation. Diffblue Cover produces consistent tests based on bytecode analysis, with less user dependence but more superficial coverage of business logic.</li>
             </ul>
             
-            <h2>4.6 Implicaciones del Tamaño del Efecto</h2>
+            <h2>4.6 Implications of Effect Size</h2>
             
-            <p>A pesar de que todos los tests Mann-Whitney U muestran p &lt; 0.05 (significancia estadística), los tamaños de efecto son pequeños (r = 0.0575 a 0.1453). Esto significa que aunque las diferencias son reales y detectables con N = 2,480, su magnitud práctica es modesta. En términos prácticos, ambos enfoques (Manual e IA) son competitivos en la mayoría de dimensiones, con pequeñas ventajas que varían por métrica.</p>
+            <p>Despite all Mann-Whitney U tests showing p &lt; 0.05 (statistical significance), effect sizes are small (r = 0.0575 to 0.1453). This means that although differences are real and detectable with N = 2,480, their practical magnitude is modest. In practical terms, both approaches (Manual and AI) are competitive in most dimensions, with small advantages varying by metric.</p>
             
-            <h2>4.7 Síntesis: Fortalezas y Debilidades Complementarias</h2>
+            <h2>4.7 Synthesis: Complementary Strengths and Weaknesses</h2>
             
-            <p><strong>Tabla 9:</strong> Fortalezas y debilidades complementarias de pruebas manuales vs generadas por IA.</p>
+            <p><strong>Table 9:</strong> Complementary strengths and weaknesses of manual vs AI-generated tests.</p>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Dimensión</th>
-                        <th>Pruebas Manuales</th>
-                        <th>Pruebas IA</th>
+                        <th>Dimension</th>
+                        <th>Manual Tests</th>
+                        <th>AI Tests</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Cobertura Instrucciones</strong></td>
+                        <td><strong>Instruction Coverage</strong></td>
                         <td>Superior (21.85% vs 10.69%)</td>
                         <td>Inferior</td>
                     </tr>
                     <tr>
-                        <td><strong>Cobertura Ramas</strong></td>
+                        <td><strong>Branch Coverage</strong></td>
                         <td>Inferior</td>
                         <td>Superior (16.25% vs 12.50%)</td>
                     </tr>
                     <tr>
                         <td><strong>Mutation Score</strong></td>
                         <td>Comparable</td>
-                        <td>Ligeramente Superior</td>
+                        <td>Slightly Superior</td>
                     </tr>
                     <tr>
-                        <td><strong>Velocidad</strong></td>
-                        <td>Lenta (0.012s)</td>
-                        <td>Rápida (0.003s)</td>
+                        <td><strong>Speed</strong></td>
+                        <td>Slow (0.012s)</td>
+                        <td>Fast (0.003s)</td>
                     </tr>
                     <tr>
-                        <td><strong>Comprensión Funcional</strong></td>
-                        <td>Profunda y Contextual</td>
-                        <td>Superficial, Basada en Bytecode</td>
+                        <td><strong>Functional Understanding</strong></td>
+                        <td>Deep and Contextual</td>
+                        <td>Superficial, Bytecode-Based</td>
                     </tr>
                     <tr>
-                        <td><strong>Escalabilidad</strong></td>
-                        <td>Requiere esfuerzo manual</td>
-                        <td>Altamente Escalable</td>
+                        <td><strong>Scalability</strong></td>
+                        <td>Requires manual effort</td>
+                        <td>Highly Scalable</td>
                     </tr>
                 </tbody>
             </table>
             
-            <h1>5. LIMITACIONES DEL ESTUDIO</h1>
+            <h1>5. STUDY LIMITATIONS</h1>
             
-            <h2>5.1 Limitaciones Metodológicas</h2>
+            <h2>5.1 Methodological Limitations</h2>
             
             <ul>
-                <li><strong>Unidad de Análisis Simple:</strong> El estudio utiliza un único sistema bajo prueba (Spring PetClinic). Aunque es una aplicación realista y representa un caso de uso común en testing, la generalización a otros sistemas requiere validación adicional.</li>
-                <li><strong>Muestra Pequeña Agregada (N=12):</strong> El análisis a nivel agregado se basa en 12 clases de prueba, lo que limita la potencia estadística. Aunque el análisis a N=2,480 compensa esto, las conclusiones sobre efectividad agregada deben considerarse con cautela.</li>
-                <li><strong>Contexto Parcial para IA:</strong> Los generadores IA no tenían acceso al contexto completo del sistema (arquitectura general, patrones de diseño documentados), lo que podría haber limitado su efectividad.</li>
-                <li><strong>Control de Variables Confusoras:</strong> El tiempo de día, carga del sistema, y variabilidad en ejecución podrían afectar las métricas de cobertura y tiempo de ejecución, aunque se utilizaron múltiples ejecuciones para mitigar esto.</li>
+                <li><strong>Simple Analysis Unit:</strong> The study uses a single system under test (Spring PetClinic). Although it is a realistic application and represents a common testing use case, generalization to other systems requires additional validation.</li>
+                <li><strong>Small Aggregated Sample (N=12):</strong> The aggregated level analysis is based on 12 test classes, which limits statistical power. Although the N=2,480 analysis compensates for this, conclusions about aggregated effectiveness should be considered cautiously.</li>
+                <li><strong>Partial Context for AI:</strong> AI generators did not have access to the system's complete context (general architecture, documented design patterns), which could have limited their effectiveness.</li>
+                <li><strong>Control of Confounding Variables:</strong> Time of day, system load, and execution variability could affect coverage and time metrics, although multiple executions were used to mitigate this.</li>
             </ul>
             
-            <h2>5.2 Limitaciones de Cobertura de Código</h2>
+            <h2>5.2 Code Coverage Limitations</h2>
             
             <ul>
-                <li><strong>Ausencia de Métricas de Calidad de Código:</strong> El estudio no evalúa complejidad ciclomática, mantenibilidad, o readability de las pruebas generadas versus manuales.</li>
-                <li><strong>Métricas de Cobertura Limitadas:</strong> Se utilizan instrucciones y ramas, pero no se consideran path coverage, MC/DC coverage, o otros criterios de cobertura más rigurosos.</li>
-                <li><strong>Ausencia de Pruebas End-to-End:</strong> El análisis se enfoca en pruebas unitarias. La efectividad de ambos enfoques en pruebas de integración o E2E no está evaluada.</li>
+                <li><strong>Absence of Code Quality Metrics:</strong> The study does not evaluate cyclomatic complexity, maintainability, or readability of generated vs manual tests.</li>
+                <li><strong>Limited Coverage Metrics:</strong> Instructions and branches are used, but path coverage, MC/DC coverage, or other more rigorous coverage criteria are not considered.</li>
+                <li><strong>Absence of End-to-End Tests:</strong> The analysis focuses on unit tests. The effectiveness of both approaches in integration or E2E testing is not evaluated.</li>
             </ul>
             
-            <h2>5.3 Amenazas a la Validez</h2>
+            <h2>5.3 Validity Threats</h2>
             
-            <h3>5.3.1 Validez Interna</h3>
-            <p>Amenazas relacionadas con la manipulación y medición de variables:</p>
+            <h3>5.3.1 Internal Validity</h3>
+            <p>Threats related to variable manipulation and measurement:</p>
             <ul>
-                <li>Fluctuaciones en tiempo de ejecución debido a recursos del sistema</li>
-                <li>Excepciones no manejadas que podrían afectar cobertura reportada</li>
-                <li>Diferencias en versiones de herramientas de análisis (JaCoCo, PITest)</li>
+                <li>Execution time fluctuations due to system resources</li>
+                <li>Unhandled exceptions that could affect reported coverage</li>
+                <li>Differences in analysis tool versions (JaCoCo, PITest)</li>
             </ul>
             
-            <h3>5.3.2 Validez Externa</h3>
-            <p>Amenazas relacionadas con generalización:</p>
+            <h3>5.3.2 External Validity</h3>
+            <p>Threats related to generalization:</p>
             <ul>
-                <li>Resultados específicos a Spring PetClinic; generalización a otros lenguajes/frameworks incierta</li>
-                <li>Herramientas IA específicas (ChatGPT, Diffblue); otros generadores podrían tener diferentes rendimientos</li>
-                <li>Desarrolladores humanos variables; experiencia afecta calidad de pruebas manuales</li>
+                <li>Results specific to Spring PetClinic; generalization to other languages/frameworks uncertain</li>
+                <li>Specific AI tools (ChatGPT, Diffblue); other generators might have different performances</li>
+                <li>Variable human developers; experience affects quality of manual tests</li>
             </ul>
             
-            <h3>5.3.3 Validez de Constructo</h3>
-            <p>Amenazas relacionadas con medición de conceptos:</p>
+            <h3>5.3.3 Construct Validity</h3>
+            <p>Threats related to concept measurement:</p>
             <ul>
-                <li>Cobertura de código no es proxy perfecto de calidad de pruebas</li>
-                <li>Mutation score depende fuertemente del conjunto de mutantes generados</li>
-                <li>Ausencia de validación funcional manual de comportamiento correcto</li>
+                <li>Code coverage is not a perfect proxy for test quality</li>
+                <li>Mutation score strongly depends on the set of generated mutants</li>
+                <li>Absence of manual functional validation of correct behavior</li>
             </ul>
             
-            <h3>5.3.4 Validez de Conclusión</h3>
-            <p>Amenazas relacionadas con inferencias estadísticas:</p>
+            <h3>5.3.4 Conclusion Validity</h3>
+            <p>Threats related to statistical inferences:</p>
             <ul>
-                <li>Diferencias de potencia estadística entre N=12 y N=2,480 requieren interpretación cuidadosa</li>
-                <li>Múltiples comparaciones podrían incrementar tasa de error tipo I (aunque Bonferroni no aplicado formalmente)</li>
-                <li>Asunciones de independencia entre observaciones podrían violarse (correlación temporal en ejecuciones)</li>
+                <li>Differences in statistical power between N=12 and N=2,480 require careful interpretation</li>
+                <li>Multiple comparisons could increase type I error rate (although Bonferroni not formally applied)</li>
+                <li>Independence assumptions between observations could be violated (temporal correlation in executions)</li>
             </ul>
             
-            <h1>6. TRABAJOS FUTUROS</h1>
+            <h1>6. FUTURE WORK</h1>
             
-            <h2>6.1 Extensión del Alcance</h2>
+            <h2>6.1 Scope Extension</h2>
             
             <ul>
-                <li><strong>Replicación en Múltiples Sistemas:</strong> Validar hallazgos en aplicaciones Java adicionales (Struts, Hibernate, Spring Cloud), otros lenguajes (C#, Python), y frameworks emergentes.</li>
-                <li><strong>Evaluación de Nuevas Herramientas IA:</strong> Investigar desempeño de herramientas emergentes como o1 de OpenAI, Claude 3.5, Gemini 2, y sistemas basados en agentes.</li>
-                <li><strong>Pruebas de Integración y E2E:</strong> Extender análisis a múltiples niveles de testing (integración, sistemas, aceptación).</li>
+                <li><strong>Replication in Multiple Systems:</strong> Validate findings in additional Java applications (Struts, Hibernate, Spring Cloud), other languages (C#, Python), and emerging frameworks.</li>
+                <li><strong>Evaluation of New AI Tools:</strong> Investigate performance of emerging tools like OpenAI's o1, Claude 3.5, Gemini 2, and agent-based systems.</li>
+                <li><strong>Integration and E2E Tests:</strong> Extend analysis to multiple testing levels (integration, systems, acceptance).</li>
             </ul>
             
-            <h2>6.2 Mejora de Metodología</h2>
+            <h2>6.2 Methodology Improvement</h2>
             
             <ul>
-                <li><strong>Métricas Complementarias:</strong> Incorporar code quality metrics, análisis estático, mantenibilidad de pruebas, y métricas de defectos encontrados en producción.</li>
-                <li><strong>Retroalimentación Automática:</strong> Implementar loops de retroalimentación donde resultados de pruebas (cobertura, mutantes detectados) se alimentan nuevamente a generadores IA para mejora iterativa.</li>
-                <li><strong>Análisis Cualitativo Profundo:</strong> Realizar estudios cualitativos con desarrolladores sobre usabilidad, comprensibilidad, y confianza en pruebas generadas.</li>
+                <li><strong>Complementary Metrics:</strong> Incorporate code quality metrics, static analysis, test maintainability, and production defect metrics.</li>
+                <li><strong>Automatic Feedback:</strong> Implement feedback loops where test results (coverage, detected mutants) are fed back to AI generators for iterative improvement.</li>
+                <li><strong>In-Depth Qualitative Analysis:</strong> Conduct qualitative studies with developers on usability, comprehensibility, and confidence in generated tests.</li>
             </ul>
             
-            <h2>6.3 Sistemas Basados en Agentes</h2>
+            <h2>6.3 Agent-Based Systems</h2>
             
             <ul>
-                <li><strong>Orquestación de Múltiples Modelos:</strong> Investigar sistemas donde múltiples LLMs especializados coordinan para generar pruebas (router de requests, especialista en cobertura, especialista en edge cases).</li>
-                <li><strong>Feedback Loops Agenticos:</strong> Agentes que ejecutan pruebas, analizan cobertura, identifican gaps, y regeneran automáticamente para mejorar.</li>
-                <li><strong>Integración con Herramientas de Análisis:</strong> Agentes que consulten resultados de análisis estático, recomendaciones de linters, y sugerencias de arquitectura.</li>
+                <li><strong>Orchestration of Multiple Models:</strong> Investigate systems where multiple specialized LLMs coordinate to generate tests (request router, coverage specialist, edge case specialist).</li>
+                <li><strong>Agentic Feedback Loops:</strong> Agents that execute tests, analyze coverage, identify gaps, and automatically regenerate for improvement.</li>
+                <li><strong>Integration with Analysis Tools:</strong> Agents that consult static analysis results, linter recommendations, and architecture suggestions.</li>
             </ul>
             
-            <h1>7. CONCLUSIONES GENERALES</h1>
+            <h1>7. GENERAL CONCLUSIONS</h1>
             
-            <p>Este estudio ha proporcionado un análisis exhaustivo y riguroso de la efectividad comparativa de pruebas manuales versus generadas por inteligencia artificial en el contexto de una aplicación Java/Spring Boot de complejidad realista. Los hallazgos principales revelan un panorama matizado donde ambos enfoques poseen fortalezas complementarias.</p>
+            <p>This study has provided a comprehensive and rigorous analysis of the comparative effectiveness of manual tests versus those generated by artificial intelligence in the context of a realistic complexity Java/Spring Boot application. The main findings reveal a nuanced landscape where both approaches have complementary strengths.</p>
             
-            <h2>7.1 Síntesis de Hallazgos</h2>
+            <h2>7.1 Findings Synthesis</h2>
             
             <ul>
-                <li><strong>Complementariedad de Enfoques:</strong> Las pruebas manuales e IA exhiben fortalezas en dimensiones diferentes. Mientras que las pruebas manuales alcanzan superior cobertura de instrucciones (21.85% vs 10.69%), las pruebas IA logran mayor cobertura de ramas (16.25% vs 12.50%). Ambos enfoques son estadísticamente significativos pero con pequeños tamaños de efecto (r &lt; 0.15).</li>
+                <li><strong>Complementarity of Approaches:</strong> Manual and AI tests exhibit strengths in different dimensions. While manual tests achieve superior instruction coverage (21.85% vs 10.69%), AI tests achieve higher branch coverage (16.25% vs 12.50%). Both approaches are statistically significant but with small effect sizes (r &lt; 0.15).</li>
                 
-                <li><strong>Eficiencia Operativa IA:</strong> La ventaja más clara de las pruebas generadas por IA es su velocidad de ejecución (4x más rápida: 0.003s vs 0.012s). En el contexto de integración continua y desarrollo ágil, esta ventaja tiene importancia práctica considerable.</li>
+                <li><strong>AI Operational Efficiency:</strong> The clearest advantage of AI-generated tests is their execution speed (4x faster: 0.003s vs 0.012s). In the context of continuous integration and agile development, this advantage has considerable practical importance.</li>
                 
-                <li><strong>Paradoja Estadística Resuelta:</strong> La ausencia de diferencias significativas con N=12 versus su presencia con N=2,480 ha sido explicada y validada mediante análisis de potencia estadística. El efecto real existe pero es pequeño en magnitud.</li>
+                <li><strong>Resolved Statistical Paradox:</strong> The absence of significant differences with N=12 versus their presence with N=2,480 has been explained and validated through statistical power analysis. The real effect exists but is small in magnitude.</li>
             </ul>
             
-            <h2>7.2 Recomendación Práctica: Enfoque Híbrido</h2>
+            <h2>7.2 Practical Recommendation: Hybrid Approach</h2>
             
-            <p>Basado en la evidencia empírica, se recomienda un <strong>enfoque híbrido y complementario</strong>:</p>
+            <p>Based on the empirical evidence, a <strong>hybrid and complementary approach</strong> is recommended:</p>
             
             <ul>
-                <li><strong>Fase Inicial (Cobertura Rápida):</strong> Utilizar generadores IA para obtener rápidamente cobertura básica de ramas y proporcionar suite de regresión rápida.</li>
-                <li><strong>Fase de Refinamiento (Exhaustividad):</strong> Complementar con pruebas manuales orientadas a casos límite, escenarios de negocio específicos, y validación funcional profunda.</li>
-                <li><strong>Fase de Integración Continua:</strong> Aprovechar velocidad de IA para ejecutar pruebas frecuentemente mientras se mantiene control de calidad humano.</li>
+                <li><strong>Initial Phase (Rapid Coverage):</strong> Use AI generators to quickly obtain basic branch coverage and provide a fast regression suite.</li>
+                <li><strong>Refinement Phase (Exhaustiveness):</strong> Complement with manual tests oriented towards edge cases, specific business scenarios, and deep functional validation.</li>
+                <li><strong>Continuous Integration Phase:</strong> Take advantage of AI speed to run tests frequently while maintaining human quality control.</li>
             </ul>
             
-            <h2>7.3 Implicaciones para Investigación Futura</h2>
+            <h2>7.3 Implications for Future Research</h2>
             
-            <p>Este trabajo abre múltiples direcciones de investigación: (1) evaluación de sistemas agenticos más sofisticados que coordinan múltiples LLMs, (2) investigación de loops feedback automáticos donde los resultados de pruebas mejoran iterativamente la generación, y (3) extensión a sistemas multi-lingües, multi-framework, y multi-nivel de testing. La tendencia clara es hacia automatización incrementalmente sofisticada, con humanos reteniendo control sobre decisiones de arquitectura y validación funcional crítica.</p>
+            <p>This work opens multiple research directions: (1) evaluation of more sophisticated agentic systems that coordinate multiple LLMs, (2) research on automatic feedback loops where test results iteratively improve generation, and (3) extension to multi-language, multi-framework, and multi-level testing systems. The clear trend is towards incrementally sophisticated automation, with humans retaining control over critical architectural decisions and functional validation.</p>
             
         </div>
         
         <div class="footer">
-            <p>Informe Técnico | Estudio Empírico Spring PetClinic | Período: Mayo-Diciembre 2025</p>
-            <p>Repositorio: https://github.com/solveighty/spring-petclinic-test.git</p>
+            <p>Technical Report | Empirical Study Spring PetClinic | Period: May-December 2025</p>
+            <p>Repository: https://github.com/solveighty/spring-petclinic-test.git</p>
         </div>
     </div>
 </body>
