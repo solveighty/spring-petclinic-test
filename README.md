@@ -10,6 +10,68 @@ This is a research fork of Spring PetClinic used to conduct a **comparative stud
 
 **Research Output:** Complete statistical analysis report available in `analisis/reports/INFORME_COMPLETO_CAPITULO4.html`
 
+### Directory Structure for Results and Tests
+
+```
+spring-petclinic/
+├── analisis/
+│   ├── data/                                     # Raw experimental data
+│   ├── experimental/                             # Experimental configurations and logs
+│   ├── figures/                                  # Generated plots and visualizations
+│   ├── numerical_data/                           # Processed statistical data
+│   ├── reports/
+│   │   └── INFORME_COMPLETO_CAPITULO4.html      # Main statistical report
+│   ├── scripts/                                  # Analysis and processing scripts
+│   ├── unit_tests_metrics/                        # Unit test CSV results
+│   │   ├── DiffBlue_metrics_*.csv                # IA-generated tests metrics
+│   │   └── Manual_metrics_*.csv                  # Manual tests metrics
+│   └── functional_tests_metrics/                 # Functional test CSV results
+│       ├── ChatGPT_metrics_*.csv                 # IA-generated tests metrics
+│       └── Manual_metrics_*.csv                  # Manual tests metrics
+├── coverage_reports/                             # JaCoCo coverage reports (unit tests)
+├── coverage_reports_functional/                  # JaCoCo coverage reports (functional tests)
+├── src/test/java/org/springframework/samples/petclinic/experimental/
+│   ├── ia/
+│   │   ├── unitariasDIFFBLUECOVER/               # DiffBlue IA-generated unit tests
+│   │   │   └── [Test classes covering business logic]
+│   │   └── funcionalesCHATGPT/                   # ChatGPT IA-generated functional tests
+│   │       └── [Integration and E2E test classes]
+│   └── manual/
+│       ├── unitarias/                            # Hand-written unit tests
+│       │   └── [Test classes covering business logic]
+│       └── funcionales/                          # Hand-written functional tests
+│           └── [Integration and E2E test classes]
+├── run_pitest_isolated_complete.ps1             # Unit tests execution script
+├── run-test-metrics.ps1                         # Functional tests execution script
+└── run_all_metrics_simple.ps1                   # Master orchestrator script
+```
+
+#### Test Structure Details
+
+**IA-Generated Unit Tests (DiffBlue):**
+- Location: `src/test/java/org/springframework/samples/petclinic/experimental/ia/unitariasDIFFBLUECOVER/`
+- Purpose: Automatically generated unit tests using DiffBlue Core
+- Test Coverage: Business logic, services, repositories
+- Metrics: Instruction coverage, branch coverage, mutation score
+
+**IA-Generated Functional Tests (ChatGPT):**
+- Location: `src/test/java/org/springframework/samples/petclinic/experimental/ia/funcionalesCHATGPT/`
+- Purpose: Integration and E2E tests created by ChatGPT
+- Test Coverage: API endpoints, controller interactions, user workflows
+- Metrics: Same as above plus performance metrics
+
+**Manual Unit Tests:**
+- Location: `src/test/java/org/springframework/samples/petclinic/experimental/manual/unitarias/`
+- Purpose: Hand-written unit tests following Spring best practices
+- Test Coverage: Same business logic scope as DiffBlue tests
+- Metrics: Comparable coverage and quality metrics
+
+**Manual Functional Tests:**
+- Location: `src/test/java/org/springframework/samples/petclinic/experimental/manual/funcionales/`
+- Purpose: Hand-written integration and E2E tests
+- Test Coverage: Same API/controller scope as ChatGPT tests
+- Metrics: Comparable to ChatGPT-generated tests
+
 ## Running the Comparative Study
 
 This section documents how to reproduce the IA vs Manual test comparison study.
@@ -170,68 +232,6 @@ This report contains:
 - 4 Box plots (t-Student analysis) with English explanations
 - 4 Violin plots (Mann-Whitney U analysis) with English explanations
 - Execution time comparison graphs
-
-### Directory Structure for Results and Tests
-
-```
-spring-petclinic/
-├── analisis/
-│   ├── data/                                     # Raw experimental data
-│   ├── experimental/                             # Experimental configurations and logs
-│   ├── figures/                                  # Generated plots and visualizations
-│   ├── numerical_data/                           # Processed statistical data
-│   ├── reports/
-│   │   └── INFORME_COMPLETO_CAPITULO4.html      # Main statistical report
-│   ├── scripts/                                  # Analysis and processing scripts
-│   ├── unit_tests_metrics/                        # Unit test CSV results
-│   │   ├── DiffBlue_metrics_*.csv                # IA-generated tests metrics
-│   │   └── Manual_metrics_*.csv                  # Manual tests metrics
-│   └── functional_tests_metrics/                 # Functional test CSV results
-│       ├── ChatGPT_metrics_*.csv                 # IA-generated tests metrics
-│       └── Manual_metrics_*.csv                  # Manual tests metrics
-├── coverage_reports/                             # JaCoCo coverage reports (unit tests)
-├── coverage_reports_functional/                  # JaCoCo coverage reports (functional tests)
-├── src/test/java/org/springframework/samples/petclinic/experimental/
-│   ├── ia/
-│   │   ├── unitariasDIFFBLUECOVER/               # DiffBlue IA-generated unit tests
-│   │   │   └── [Test classes covering business logic]
-│   │   └── funcionalesCHATGPT/                   # ChatGPT IA-generated functional tests
-│   │       └── [Integration and E2E test classes]
-│   └── manual/
-│       ├── unitarias/                            # Hand-written unit tests
-│       │   └── [Test classes covering business logic]
-│       └── funcionales/                          # Hand-written functional tests
-│           └── [Integration and E2E test classes]
-├── run_pitest_isolated_complete.ps1             # Unit tests execution script
-├── run-test-metrics.ps1                         # Functional tests execution script
-└── run_all_metrics_simple.ps1                   # Master orchestrator script
-```
-
-#### Test Structure Details
-
-**IA-Generated Unit Tests (DiffBlue):**
-- Location: `src/test/java/org/springframework/samples/petclinic/experimental/ia/unitariasDIFFBLUECOVER/`
-- Purpose: Automatically generated unit tests using DiffBlue Core
-- Test Coverage: Business logic, services, repositories
-- Metrics: Instruction coverage, branch coverage, mutation score
-
-**IA-Generated Functional Tests (ChatGPT):**
-- Location: `src/test/java/org/springframework/samples/petclinic/experimental/ia/funcionalesCHATGPT/`
-- Purpose: Integration and E2E tests created by ChatGPT
-- Test Coverage: API endpoints, controller interactions, user workflows
-- Metrics: Same as above plus performance metrics
-
-**Manual Unit Tests:**
-- Location: `src/test/java/org/springframework/samples/petclinic/experimental/manual/unitarias/`
-- Purpose: Hand-written unit tests following Spring best practices
-- Test Coverage: Same business logic scope as DiffBlue tests
-- Metrics: Comparable coverage and quality metrics
-
-**Manual Functional Tests:**
-- Location: `src/test/java/org/springframework/samples/petclinic/experimental/manual/funcionales/`
-- Purpose: Hand-written integration and E2E tests
-- Test Coverage: Same API/controller scope as ChatGPT tests
-- Metrics: Comparable to ChatGPT-generated tests
 
 ### Study Validity
 
