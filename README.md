@@ -210,6 +210,27 @@ The analysis includes:
    - Effect sizes and practical implications
    - Recommendations for IA test generation
 
+### Summary Metrics per Test Class
+
+Aggregated metrics (Mean / Median / Std. Dev.) per test class from the 2,480-iteration dataset (`analisis/numerical_data/2480_iterations.csv`). Consolidated CSV: `analisis/numerical_data/summary_metrics_per_class.csv`.
+
+| Test Class | Tool | N | Instr. Mean | Instr. Med | Instr. Std | Branch Mean | Branch Med | Branch Std | Mut. Mean | Mut. Med | Mut. Std | Time Mean | Time Med | Time Std |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **Manual** | | | | | | | | | | | | | | |
+| OwnerAddPetUnitManualTest | Manual | 200 | 5.03 | 5.03 | 0.00 | 5.00 | 5.00 | 0.00 | 5.56 | 5.56 | 0.00 | 0.01 | 0.00 | 0.01 |
+| OwnerGetPetUnitManualTest | Manual | 280 | 10.05 | 10.05 | 0.00 | 18.75 | 18.75 | 0.00 | 16.67 | 16.67 | 0.00 | 0.03 | 0.00 | 0.06 |
+| PetValidatorUnitManualTest | Manual | 280 | 7.86 | 7.86 | 0.00 | 12.50 | 12.50 | 0.00 | 25.00 | 25.00 | 0.00 | 0.04 | 0.00 | 0.07 |
+| ProcessCreationFormManualTest | Manual | 400 | 35.56 | 35.56 | 0.00 | 37.50 | 37.50 | 0.00 | 50.00 | 50.00 | 0.00 | 0.10 | 0.03 | 0.23 |
+| ProcessNewVisitFormManualTest | Manual | 280 | 29.16 | 29.16 | 0.00 | 11.25 | 11.25 | 0.00 | 13.89 | 13.89 | 0.00 | 0.13 | 0.02 | 0.25 |
+| ShowOwnerManualTest | Manual | 160 | 21.85 | 21.85 | 0.00 | 2.50 | 2.50 | 0.00 | 0.00 | 0.00 | 0.00 | 0.19 | 0.20 | 0.14 |
+| **IA** | | | | | | | | | | | | | | |
+| OwnerAddPetDiffblueTest | Diffblue Cover | 80 | 5.76 | 5.76 | 0.00 | 5.00 | 5.00 | 0.00 | 5.56 | 5.56 | 0.00 | 0.02 | 0.02 | 0.02 |
+| OwnerGetPetDiffblueTest | Diffblue Cover | 400 | 10.69 | 10.69 | 0.00 | 16.25 | 16.25 | 0.00 | 19.44 | 19.44 | 0.00 | 0.01 | 0.00 | 0.01 |
+| PetValidatorDiffblueTest | Diffblue Cover | 160 | 7.40 | 7.40 | 0.00 | 11.25 | 11.25 | 0.00 | 16.67 | 16.67 | 0.00 | 0.07 | 0.03 | 0.09 |
+| OwnerControllerShowOwnerTestIA | ChatGPT | 80 | 21.57 | 21.57 | 0.00 | 2.50 | 2.50 | 0.00 | 0.00 | 0.00 | 0.00 | 0.22 | 0.20 | 0.21 |
+| PetControllerProcessCreationFormTestIA | ChatGPT | 80 | 33.00 | 33.00 | 0.00 | 28.75 | 28.75 | 0.00 | 33.33 | 33.33 | 0.00 | 0.43 | 0.42 | 0.37 |
+| VisitControllerProcessNewVisitFormTestIA | ChatGPT | 80 | 27.63 | 28.34 | 4.45 | 8.53 | 8.75 | 1.37 | 13.54 | 13.89 | 2.18 | 0.41 | 0.39 | 0.35 |
+
 ### Report Generation
 
 The complete statistical report is available in HTML format:
