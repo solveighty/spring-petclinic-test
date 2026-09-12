@@ -8,7 +8,7 @@ This is a research fork of Spring PetClinic used to conduct a **comparative stud
 
 **Study Objective:** Evaluate the effectiveness of IA tools in automatically generating test cases across unit tests (Unitarias) and functional tests (Funcionales) for a real-world Spring Boot application.
 
-**Research Output:** Complete statistical analysis report available in `analisis/reports/Estudio_Comparativo_Pruebas_IA_vs_Manuales.pdf`
+**Research Output:** Complete statistical analysis report available in `analisis/reports/Comparative_Study_AI_vs_Manual_Tests.pdf`
 
 ### Directory Structure for Results and Tests
 
@@ -20,7 +20,7 @@ spring-petclinic/
 │   ├── figures/                                  # Generated plots and visualizations
 │   ├── numerical_data/                           # Processed statistical data
 │   ├── reports/
-│   │   ├── Estudio_Comparativo_Pruebas_IA_vs_Manuales.pdf  # Main statistical report
+│   │   ├── Comparative_Study_AI_vs_Manual_Tests.pdf   # Main statistical report
 │   │   └── Supplementary_Technical_Record.pdf             # Supplementary technical record
 │   ├── scripts/                                  # Analysis and processing scripts
 │   ├── unit_tests_metrics/                        # Unit test CSV results
@@ -237,7 +237,7 @@ Aggregated metrics (Mean / Median / Std. Dev.) per test class from the 2,480-ite
 The complete statistical report is available in PDF format:
 
 ```
-analisis/reports/Estudio_Comparativo_Pruebas_IA_vs_Manuales.pdf
+analisis/reports/Comparative_Study_AI_vs_Manual_Tests.pdf
 analisis/reports/Supplementary_Technical_Record.pdf
 ```
 
